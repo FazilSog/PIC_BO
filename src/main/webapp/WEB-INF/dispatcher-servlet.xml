@@ -1,0 +1,102 @@
+﻿<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+    <tx:annotation-driven/>
+    
+	<context:component-scan base-package="com.sogeti" />
+    
+   	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+       	<property name="prefix">
+           		<value>/Vues/</value>
+       	</property>
+       	<property name="suffix">
+           		<value>.jsp</value>
+       	</property>
+   	</bean>
+    
+    <!-- Declaration de la dataSource : Informations de connexion a la BDD de notre projet : -->
+	<!-- springWebbdd correspond au nom de notre BDD -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://10.226.165.156:3306/pic_bo" />
+        <property name="username" value="admin_bo" />
+        <property name="password" value="root" />
+    </bean>
+    
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+     
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+	<!-- Hibernate 4 SessionFactory Bean definition -->
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" scope="singleton">
+        <property name="dataSource" ref="dataSource" />
+        <property name="annotatedClasses">
+            <list>
+               <value>com.sogeti.dao.model.MembreDO</value>
+               <value>com.sogeti.dao.model.ClientDO</value> 
+               <value>com.sogeti.dao.model.ProjetDO</value>
+               <value>com.sogeti.dao.model.RoleDO</value> 
+               <value>com.sogeti.dao.model.RoleProjetDO</value>            	
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.connection.autocommit">true</prop>
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+            </props>
+        </property>
+    </bean>
+
+	<!-- Declaration des services  Membre-->
+	<bean class="com.sogeti.utils.HibernateSessionFactory">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+    <bean id="membreBO" class="com.sogeti.boImpl.MembreBOImpl">
+        <property name="membreDAO" ref="membreDAO"/>
+        <property name="clientDAO" ref="clientDAO"/>
+        <property name="roleDAO" ref="roleDAO"/>
+    </bean>
+    
+    <bean id="membreDAO" class="com.sogeti.daoImpl.MembreDAOImpl"/>
+    
+     <!-- Declaration des services  CLient-->
+    <bean id="clientDAO" class="com.sogeti.daoImpl.ClientDAOImpl"/>
+    
+     <!-- Declaration des services  Role-->
+    <bean id="roleDAO" class="com.sogeti.daoImpl.RoleDAOImpl"/>
+    
+     <!-- Declaration des services  RolePojet-->
+    <bean id="roleProjetDAO" class="com.sogeti.daoImpl.RoleProjetDAOImpl"/>
+    
+    <!-- Declaration des services  Projet-->
+    <bean id="projetBO" class="com.sogeti.boImpl.ProjetBOImpl">
+        <property name="membreDAO" ref="membreDAO"/>
+        <property name="projetDAO" ref="projetDAO"/>
+        <property name="roleProjetDAO" ref="roleProjetDAO"/>
+        <property name="roleDAO" ref="roleDAO"/>
+        <property name="clientDAO" ref="clientDAO"/>
+    </bean>
+    
+    <bean id="projetDAO" class="com.sogeti.daoImpl.ProjetDAOImpl"/>
+
+    
+    <bean id="membreController" class="com.sogeti.controller.MembreController"/>
+    <bean id="authentificationController" class="com.sogeti.controller.AuthentificationController"/>
+    <bean id="projetController" class="com.sogeti.controller.ProjetController"/>
+ 
+    <mvc:annotation-driven />
+</beans>
