@@ -3,7 +3,6 @@ package com.sogeti.dao;
 import java.util.List;
 
 import com.sogeti.dao.model.ClientDO;
-import com.sogeti.dao.model.MembreDO;
 import com.sogeti.dao.model.ProjetDO;
 import com.sogeti.exception.DaoException;
 
@@ -16,50 +15,28 @@ import com.sogeti.exception.DaoException;
 public interface IProjetDAO {
 	
 	/**
-	 * Elle permet de créer un projet.
+	 * Elle permet de créer un projetDO.
 	 * La méthode vérifie déjà si le projet existe dans la table, 
 	 * si oui, on leve une exception
 	 * si non, on crée le projet et on recupère son identifiant
-	 * @param pNomProjet nom du projet
-	 * @param pCredential credential du projet 
-	 * @param pFrequence frequenance du projet 
-	 * @param pBranche branche du projet
-	 * @param pDescription description du projet 
-	 * @param pStatus status du projet 
-	 * @param pActif url du projet 
-	 * @param pUrl url du projet 
-	 * @param pMembre le membre
+	 * @param pProjetDO projetDO
 	 * @return un objet de Type ProjetDO
 	 * @throws DaoException execptionDAO
 	 */
-	public ProjetDO addProjet(final String pNomProjet, final String pCredential,
-			final String pFrequence, final String pBranche, final String pDescription, final char pStatus,
-			final boolean pActif, final String pUrl, final MembreDO pMembre )throws DaoException;
+	public ProjetDO addProjet(final ProjetDO pProjetDO)throws DaoException;
 		
 	/**
 	 * Elle permet de modifier un projet.
 	 * La méthode vérifie déjà si le projet existe dans la table via son id, 
 	 * si oui, on modifie le membre
 	 * si non, on leve une exception
-	 * @param pIdProjet id du projet 
-	 * @param pNomProjet nom du projet 
-	 * @param pCredential credential du projet 
-	 * @param pFrequence frequance du projet 
-	 * @param pBranche branche du projet 
-	 * @param pDescription description du projet 
-	 * @param pStatus status du projet 
-	 * @param pActif actif du projet 
-	 * @param pUrl url du projet 
-	 * @param pClientDO le client
-	 * @return un objet de Type ProjetDO
+	 * @param pProjetDO objet projetDO
 	 * @throws DaoException execptionDAO
 	 */
-	public ProjetDO updateProjet(final int pIdProjet, final String pNomProjet, final String pCredential,
-			final String pFrequence, final String pBranche, final String pDescription, final char pStatus,
-			final boolean pActif, final String pUrl, ClientDO pClientDO) throws DaoException;
+	public void updateProjet(final ProjetDO pProjetDO) throws DaoException;
 	
 	/**
-	 * Elle permet de supprimer un projet.
+	 * Elle permet de supprimer un projet via son id
 	 * La méthode vérifie déjà si le projet existe dans la table, 
 	 * si oui, on supprime le projet
 	 * si non, on leve une exception
@@ -69,14 +46,15 @@ public interface IProjetDAO {
 	public void deleteProjet(final int pIdProjet) throws DaoException;
 	
 	/**
-	 * Elle permet de supprimer un projet.
+	 * Elle permet de supprimer un projet par objet
 	 * La méthode vérifie déjà si le projet existe dans la table, 
 	 * si oui, on supprime le projet
 	 * si non, on leve une exception
-	 * @param pProjetDO l'objet ProjetDO 
+	 * @param pIdProjet id du projet
 	 * @throws DaoException execptionDAO
 	 */
 	public void deleteProjet(final ProjetDO pProjetDO) throws DaoException;
+
 	
 	/**
 	 * Elle permet de retourner la liste des projets
@@ -92,5 +70,6 @@ public interface IProjetDAO {
 	 * @throws DaoException execptionDAO
 	 */
 	public ProjetDO findProjetById(final int pIdProjet) throws DaoException;
+
 
 }

@@ -16,11 +16,10 @@ public interface IProjetBO {
 	/**
 	 * Elle permet de créer un projet
 	 * @param pProjetDTO le projet DTO
-	 * @param pIdMembre id membre
 	 * @return projetDTO qui contient l'idProjet
 	 * @throws DaoException exception
 	 */
-	public ProjetDTO addProjet(final ProjetDTO pProjetDTO, final int pIdMembre) throws DaoException;
+	public ProjetDTO addProjet(final ProjetDTO pProjetDTO) throws DaoException;
 	
 	/**
 	 * Elle permet de modifier un projet
@@ -29,7 +28,7 @@ public interface IProjetBO {
 	 * @param pIdMembre l'id membre
 	 * @throws DaoException exception
 	 */
-	public void updateProjet(final ProjetDTO pProjetDTO, final int pIdRole, final int pIdMembre) throws DaoException;
+	public void updateProjet(final ProjetDTO pProjetDTO) throws DaoException;
 	
 	/**
 	 * Elle permet de supprimer un projet

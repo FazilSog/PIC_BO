@@ -82,10 +82,9 @@ public class ProjetController {
 				&& StringUtils.isNotBlank(lFrequence) && StringUtils.isNotBlank(lCredential) 
 				&& StringUtils.isNotBlank(String.valueOf(lStatus)) && StringUtils.isNotBlank(lDescription))
 		{
-		//TODO a verifier la regle metier et quels sont les champs obligatoire 
+			//TODO a verifier la regle metier et quels sont les champs obligatoire 
 			try {
-				// TODO id client à récuperer via le token
-				ProjetDTO lProjetDTOAdd = getProjetBO().addProjet(pProjetDTO, 1);
+				final ProjetDTO lProjetDTOAdd = getProjetBO().addProjet(pProjetDTO);
 				
 				return new ResponseEntity<Object>(lProjetDTOAdd, HttpStatus.CREATED);
 			} catch (DaoException ex) {
@@ -129,7 +128,7 @@ public class ProjetController {
 				&& StringUtils.isNotBlank(String.valueOf(lStatus)) && StringUtils.isNotBlank(lDescription))
 		{
 			try {
-				getProjetBO().updateProjet(pProjetDTO, 2, 1);
+				getProjetBO().updateProjet(pProjetDTO);
 				
 				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {

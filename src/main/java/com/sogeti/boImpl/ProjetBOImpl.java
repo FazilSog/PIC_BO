@@ -112,43 +112,80 @@ public class ProjetBOImpl implements IProjetBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public ProjetDTO addProjet(final ProjetDTO pProjetDTO, final int pIdMembre) throws DaoException{
+	public ProjetDTO addProjet(final ProjetDTO pProjetDTO) throws DaoException {
+		
+		// on instancie l'objet ProjetDTO
+		final ProjetDTO projetDTO = new ProjetDTO();
 		
 		// on recupere le membre via l'id
-		final MembreDO lMembreDO = getMembreDAO().findMembreById(pIdMembre);
-		
+		final MembreDO membreDO = getMembreDAO().findMembreById(pProjetDTO.getIdMembre());
 				
 		// on ajoute le projet dans la table
-		final ProjetDO lProjetDO = getProjetDAO().addProjet(pProjetDTO.getNomProjet(), pProjetDTO.getCredential(),
-				pProjetDTO.getFrequence(), pProjetDTO.getBranche(), pProjetDTO.getDescription(), pProjetDTO.getStatus(),
-				pProjetDTO.isActif(), pProjetDTO.getUrl(), lMembreDO);
+		final ProjetDO projetDONew = new ProjetDO();
+		
+		projetDONew.setActif(pProjetDTO.isActif());
+		projetDONew.setBranche(pProjetDTO.getBranche());
+		projetDONew.setCredential(pProjetDTO.getCredential());
+		projetDONew.setDescription(pProjetDTO.getDescription());
+		projetDONew.setFrequence(pProjetDTO.getFrequence());
+		projetDONew.setNomProjet(pProjetDTO.getNomProjet());
+		projetDONew.setStatus(pProjetDTO.getStatus());
+		projetDONew.setUrl(pProjetDTO.getUrl());
+		projetDONew.setClient(membreDO.getClient());
+		
+		// on ajoute le projet	 
+		final ProjetDO projetDO = getProjetDAO().addProjet(projetDONew);
+		
+		// on récupere l'id du projet et on passe dans l'objet projetDTO
+		projetDTO.setIdProjet(projetDO.getIdProjet());
+		
+		// on instancie l'objet RoleProjetDO
+		final RoleProjetDO roleProjetDO = new RoleProjetDO();
+		roleProjetDO.setMembre(membreDO);
+		roleProjetDO.setProjet(projetDO);
+		roleProjetDO.setRole(membreDO.getRoleMembre());
 		 
-		 pProjetDTO.setIdProjet(lProjetDO.getIdProjet());
-		 
-		 getRoleProjetDAO().addRoleProjet(lMembreDO, lMembreDO.getRoleMembre(), lProjetDO);
+		// on ajoute le roleProjetDO
+		getRoleProjetDAO().addRoleProjet(roleProjetDO);
 		 
 				
-		return pProjetDTO;
+		return projetDTO;
 	}
 	
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void updateProjet(final ProjetDTO pProjetDTO, final int pIdRole, final int pIdMembre) throws DaoException{
+	public void updateProjet(final ProjetDTO pProjetDTO) throws DaoException {
 		
-		//On recupere le membre via Son Id
-		final MembreDO lMembreDO = getMembreDAO().findMembreById(pIdMembre);
+		// on récupere le roleProjet via l'id projet
+		RoleProjetDO roleProjet = getRoleProjetDAO().findRoleProjetByIdProjet(pProjetDTO.getIdProjet());
+			
+		// on ajoute le projet dans la table
+		final ProjetDO projetDOUpdate = new ProjetDO();
 		
-		final ProjetDO lProjetDO = getProjetDAO().updateProjet(pProjetDTO.getIdProjet(), pProjetDTO.getNomProjet(), pProjetDTO.getCredential(),
-				pProjetDTO.getFrequence(), pProjetDTO.getBranche(), pProjetDTO.getDescription(), pProjetDTO.getStatus(),
-				pProjetDTO.isActif(), pProjetDTO.getUrl(), lMembreDO.getClient());
+		projetDOUpdate.setIdProjet(pProjetDTO.getIdProjet());
+		projetDOUpdate.setActif(pProjetDTO.isActif());
+		projetDOUpdate.setBranche(pProjetDTO.getBranche());
+		projetDOUpdate.setCredential(pProjetDTO.getCredential());
+		projetDOUpdate.setDescription(pProjetDTO.getDescription());
+		projetDOUpdate.setFrequence(pProjetDTO.getFrequence());
+		projetDOUpdate.setNomProjet(pProjetDTO.getNomProjet());
+		projetDOUpdate.setStatus(pProjetDTO.getStatus());
+		projetDOUpdate.setUrl(pProjetDTO.getUrl());
+		
+		final ClientDO clientDO = getClientDAO().findClientById(pProjetDTO.getIdClient());
+		projetDOUpdate.setClient(clientDO);
+		
+		// Mise à jour un projet		
+		getProjetDAO().updateProjet(projetDOUpdate);
+		
 		
 		//On recuepre le Role via son Id
-		final RoleDO lRoleDO = getRoleDAO().findRoleById(pIdRole);
+		final RoleDO roleDO = getRoleDAO().findRoleById(pProjetDTO.getIdRole());
+		roleProjet.setRole(roleDO);
 		
-		//TODO la methode update permet de mettre a jour la table projet et aussi RoleProjet
-		//On met à jour la table ROLEPROJET
-		getRoleProjetDAO().updateRoleProjet(lMembreDO, lRoleDO, lProjetDO);
+		// on met à jour le roleProjet
+		getRoleProjetDAO().updateRoleProjet(roleProjet);
 	}
 	
 	/**
@@ -168,6 +205,7 @@ public class ProjetBOImpl implements IProjetBO {
 		
 		final ClientDO lClientDO = getClientDAO().findClientById(pIdClient);
 		
+		
 		// on instance la liste des projets
 		final List<ProjetDTO> lListeProjetDTO = new ArrayList<ProjetDTO>();
 		
@@ -177,22 +215,20 @@ public class ProjetBOImpl implements IProjetBO {
 		// on convertit la liste<ProjetDO> vers la liste<ProjetDTO>
 		for(ProjetDO projetDO : listeProjetDO){
 			// on instancie le projetDTO
-			ProjetDTO lProjetDTO = new ProjetDTO();
+			final ProjetDTO projetDTO = new ProjetDTO();
 			
-			lProjetDTO.setActif(projetDO.isActif());
-			lProjetDTO.setNomProjet(projetDO.getNomProjet());
-			lProjetDTO.setBranche(projetDO.getBranche());
-			lProjetDTO.setDescription(projetDO.getDescription());
-			lProjetDTO.setCredential(projetDO.getCredential());
-			lProjetDTO.setFrequence(projetDO.getFrequence());
-			lProjetDTO.setIdProjet(projetDO.getIdProjet());
-			lProjetDTO.setStatus(projetDO.getStatus());
-			lProjetDTO.setUrl(projetDO.getUrl());
+			projetDTO.setActif(projetDO.isActif());
+			projetDTO.setNomProjet(projetDO.getNomProjet());
+			projetDTO.setBranche(projetDO.getBranche());
+			projetDTO.setDescription(projetDO.getDescription());
+			projetDTO.setCredential(projetDO.getCredential());
+			projetDTO.setFrequence(projetDO.getFrequence());
+			projetDTO.setIdProjet(projetDO.getIdProjet());
+			projetDTO.setStatus(projetDO.getStatus());
+			projetDTO.setUrl(projetDO.getUrl());
+			projetDTO.setIdClient(projetDO.getClient().getIdClient());
 			
-			//projetDTO.setClient(projetDO.getClient());
-			// on ajoute le projetDTO dans la liste<ProjetDTO>
-			
-			lListeProjetDTO.add(lProjetDTO);
+			lListeProjetDTO.add(projetDTO);
 			
 		}
 		
@@ -208,31 +244,32 @@ public class ProjetBOImpl implements IProjetBO {
 		final List<ProjetDTO> lListeProjetDTO = new ArrayList<ProjetDTO>();
 		
 		// on récupere le membre via son identifiant
-		final MembreDO lMembreDO = getMembreDAO().findMembreById(pIdMembre);
+		final MembreDO membreDO = getMembreDAO().findMembreById(pIdMembre);
 		
 		// on obtient la liste RoleProjet
-		final Set<RoleProjetDO> lRoleProjet = lMembreDO.getRoleProjet();
+		final Set<RoleProjetDO> lListeRoleProjet = membreDO.getRoleProjet();
 		
 		// on boucle sur la liste RoleProjet
-		for (RoleProjetDO roleProjetDO : lRoleProjet) {
+		for (RoleProjetDO roleProjetDO : lListeRoleProjet) {
 			// on instancie le projetDTO
-			final ProjetDTO lProjetDTO = new ProjetDTO();
+			final ProjetDTO projetDTO = new ProjetDTO();
 			
 			// on récupere l'objet ProjetDO
-			final ProjetDO lProjetDO = roleProjetDO.getProjet();
+			final ProjetDO projetDO = roleProjetDO.getProjet();
 			
-			lProjetDTO.setActif(lProjetDO.isActif());
-			lProjetDTO.setNomProjet(lProjetDO.getNomProjet());
-			lProjetDTO.setBranche(lProjetDO.getBranche());
-			lProjetDTO.setDescription(lProjetDO.getDescription());
-			lProjetDTO.setCredential(lProjetDO.getCredential());
-			lProjetDTO.setFrequence(lProjetDO.getFrequence());
-			lProjetDTO.setIdProjet(lProjetDO.getIdProjet());
-			lProjetDTO.setStatus(lProjetDO.getStatus());
-			lProjetDTO.setUrl(lProjetDO.getUrl());
+			projetDTO.setActif(projetDO.isActif());
+			projetDTO.setNomProjet(projetDO.getNomProjet());
+			projetDTO.setBranche(projetDO.getBranche());
+			projetDTO.setDescription(projetDO.getDescription());
+			projetDTO.setCredential(projetDO.getCredential());
+			projetDTO.setFrequence(projetDO.getFrequence());
+			projetDTO.setIdProjet(projetDO.getIdProjet());
+			projetDTO.setStatus(projetDO.getStatus());
+			projetDTO.setUrl(projetDO.getUrl());
+			projetDTO.setIdClient(projetDO.getClient().getIdClient());
 			
 			// on ajoute l'ojet lProjetDTO dans la liste lListeProjetDTO
-			lListeProjetDTO.add(lProjetDTO);
+			lListeProjetDTO.add(projetDTO);
 		}
 		return lListeProjetDTO;
 	}

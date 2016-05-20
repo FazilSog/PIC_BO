@@ -1,6 +1,5 @@
 package com.sogeti.dto;
 
-import com.sogeti.dao.model.ClientDO;
 
 /**
  * 
@@ -18,24 +17,66 @@ public class ProjetDTO {
 	private char status;
 	private boolean actif;
 	private String url;
-	private ClientDO client;
+	private int idClient;
+	private int idRoleProjet;
+	private int idMembre;
+	private int idRole;
+	
+	
 	
 	
 	
 	
 	
 	/**
-	 * @return the client
+	 * @return the idRole
 	 */
-	public ClientDO getClient() {
-		return client;
+	public int getIdRole() {
+		return idRole;
 	}
 	/**
-	 * @param client the client to set
+	 * @param idRole the idRole to set
 	 */
-	public void setClient(ClientDO client) {
-		this.client = client;
+	public void setIdRole(int idRole) {
+		this.idRole = idRole;
 	}
+	/**
+	 * @return the idMembre
+	 */
+	public int getIdMembre() {
+		return idMembre;
+	}
+	/**
+	 * @param idMembre the idMembre to set
+	 */
+	public void setIdMembre(int idMembre) {
+		this.idMembre = idMembre;
+	}
+	/**
+	 * @return the idRoleProjet
+	 */
+	public int getIdRoleProjet() {
+		return idRoleProjet;
+	}
+	/**
+	 * @param idRoleProjet the idRoleProjet to set
+	 */
+	public void setIdRoleProjet(int idRoleProjet) {
+		this.idRoleProjet = idRoleProjet;
+	}
+	/**
+	 * @return the idClient
+	 */
+	public int getIdClient() {
+		return idClient;
+	}
+	/**
+	 * @param idClient the idClient to set
+	 */
+	public void setIdClient(int idClient) {
+		this.idClient = idClient;
+	}
+	
 	/**
 	 * @return the url
 	 */
@@ -144,19 +185,33 @@ public class ProjetDTO {
 	public void setActif(boolean actif) {
 		this.actif = actif;
 	}
+	
+
+	/**
+	 * 
+	 */
+	public ProjetDTO() {
+	}
 	/**
 	 * @param idProjet
 	 * @param nomProjet
 	 * @param credential
-	 * @param frequance
+	 * @param frequence
 	 * @param branche
 	 * @param description
 	 * @param status
 	 * @param actif
+	 * @param url
+	 * @param idClient
+	 * @param idRoleProjet
+	 * @param idMembre
+	 * @param idRole
 	 */
 	public ProjetDTO(int idProjet, String nomProjet, String credential,
 			String frequence, String branche, String description, char status,
-			boolean actif, String url, ClientDO client) {
+			boolean actif, String url, int idClient, int idRoleProjet,
+			int idMembre, int idRole) {
+		super();
 		this.idProjet = idProjet;
 		this.nomProjet = nomProjet;
 		this.credential = credential;
@@ -166,12 +221,10 @@ public class ProjetDTO {
 		this.status = status;
 		this.actif = actif;
 		this.url = url;
-		this.client = client;
-	}
-	/**
-	 * 
-	 */
-	public ProjetDTO() {
+		this.idClient = idClient;
+		this.idRoleProjet = idRoleProjet;
+		this.idMembre = idMembre;
+		this.idRole = idRole;
 	}
 	
 	/* (non-Javadoc)
@@ -183,8 +236,13 @@ public class ProjetDTO {
 				+ ", credential=" + credential + ", frequence=" + frequence
 				+ ", branche=" + branche + ", description=" + description
 				+ ", status=" + status + ", actif=" + actif + ", url=" + url
-				+ ", client=" + client + "]";
+				+ ", idClient=" + idClient + ", idRoleProjet=" + idRoleProjet
+				+ ", idMembre=" + idMembre 
+				+ ", idRole=" + idRole + "]";
 	}
+	
+	
+
 
 	
 }

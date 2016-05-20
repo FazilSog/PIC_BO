@@ -1,8 +1,5 @@
 package com.sogeti.dao;
 
-import com.sogeti.dao.model.MembreDO;
-import com.sogeti.dao.model.ProjetDO;
-import com.sogeti.dao.model.RoleDO;
 import com.sogeti.dao.model.RoleProjetDO;
 import com.sogeti.exception.DaoException;
 
@@ -16,31 +13,18 @@ public interface IRoleProjetDAO {
 	
 	/**
 	 * Elle permet d'ajouter un role dans la table ROLEPROJET
-	 * @param pMembreDO objet MembreDO
-	 * @param pRoleDO  objet RoleDO
-	 * @param pProjetDO objet ProjetDO
+	 * @param pRoleProjetDO l'objet roleProjetDO
 	 * @throws DaoException exception
 	 */
-	public void addRoleProjet(final MembreDO pMembreDO, final RoleDO pRoleDO, final ProjetDO pProjetDO) throws DaoException;
+	public void addRoleProjet(final RoleProjetDO pRoleProjetDO) throws DaoException;
 	
 	/**
 	 * Elle permet de modifier un role dans la table ROLEPROJET
-	 *@param pMembreDO objet MembreDO
-	 *@param pRoleDO  objet RoleDO
-	 *@param pProjetDO objet ProjetDO
+	 *@param pRoleProjet objet role projet
 	 *@throws DaoException exception
 	 */
-	public void updateRoleProjet(final MembreDO pMembreDO, final RoleDO pRoleDO, final ProjetDO pProjetDO) throws DaoException;
+	public void updateRoleProjet(final RoleProjetDO pRoleProjet) throws DaoException;
 	
-	/**
-	 * 
-	 * Elle permet de supprimer un role dans la table ROLEPROJET
-	 *@param pMembreDO objet MembreDO
-	 *@param pRoleDO  objet RoleDO
-	 *@param pProjetDO objet ProjetDO
-	 *@throws DaoException exception
-	 */
-	public void deleteRoleProjet(final MembreDO pMembreDO, final RoleDO pRoleDO, final ProjetDO pProjetDO) throws DaoException;
 	
 	/**
 	 * Elle permet de supprimer une ligne dans la table RoleProjetDO
@@ -56,6 +40,14 @@ public interface IRoleProjetDAO {
 	 * @throws DaoException exception
 	 */
 	public RoleProjetDO findRoleProjetByID (final int pIdRoleProjet) throws DaoException;
+	
+	/**
+	 * Elle permet de recuperer un RoleProjet via l'id projet
+	 * @param pIdProjet id projet
+	 * @return objet de type  RoleProjetDO
+	 * @throws DaoException exception
+	 */
+	public RoleProjetDO findRoleProjetByIdProjet (final int pIdProjet) throws DaoException;
 	
 
 }

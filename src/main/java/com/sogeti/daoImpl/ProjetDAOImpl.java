@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.sogeti.dao.IProjetDAO;
 import com.sogeti.dao.model.ClientDO;
-import com.sogeti.dao.model.MembreDO;
 import com.sogeti.dao.model.ProjetDO;
 import com.sogeti.exception.DaoException;
 import com.sogeti.utils.HibernateSessionFactory;
@@ -36,22 +35,22 @@ public class ProjetDAOImpl implements IProjetDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	private ProjetDO getProjet(String nomProjet, String url, String branche) throws DaoException {
+	private ProjetDO findProjet(final String pNomProjet, final String pUrl, final String pBranche) throws DaoException {
 		
 		lLOGGER.info("Début méthode : getMembre");
 		
 		ProjetDO ProjetDO = null;
 		
-		if (nomProjet == null || url == null || branche == null) {
+		if (pNomProjet == null || pUrl == null || pBranche == null) {
 			throw new DaoException(" Valeur zéro est interdit.");
 		} else {
 
 			try {
 				// create a new criteria
-				Criteria crit = HibernateSessionFactory.getSession().createCriteria(ProjetDO.class);
-				crit.add(Restrictions.eq("nomProjet", nomProjet));
-				crit.add(Restrictions.eq("url", url));
-				crit.add(Restrictions.eq("branche", branche));
+				final Criteria crit = HibernateSessionFactory.getSession().createCriteria(ProjetDO.class);
+				crit.add(Restrictions.eq("nomProjet", pNomProjet));
+				crit.add(Restrictions.eq("url", pUrl));
+				crit.add(Restrictions.eq("branche", pBranche));
 				ProjetDO = (ProjetDO) crit.uniqueResult();
 				
 			} catch (HibernateException e) {
@@ -101,37 +100,26 @@ public class ProjetDAOImpl implements IProjetDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public ProjetDO addProjet(final String pNomProjet, final String pCredential,
-			final String pFrequence, final String pBranche, final String pDescription, final char pStatus,
-			final boolean pActif, final String pUrl, final MembreDO pMembre) throws DaoException {
+	public ProjetDO addProjet(ProjetDO pProjetDO) throws DaoException {
 		
 		//On initialise le LOGGER
 		lLOGGER.info("Début méthode : addProjet");
 		
 		//On instancie l'objet PrjetDO
-		final ProjetDO lProjetDO = new ProjetDO();
+		final ProjetDO lProjetDO = pProjetDO;
 		
 		int lIdProjet = 0;
 		
-		//TODO a verifier la regle metier
-		ProjetDO lProjetDOExiste = getProjet(pNomProjet, pUrl, pBranche);
+		// on vérifie si le projet existe
+		ProjetDO lProjetDOExiste = findProjet(pProjetDO.getNomProjet(), pProjetDO.getUrl(), pProjetDO.getBranche());
+		
 		if (lProjetDOExiste != null) {
 			
 			throw new DaoException("Création échoué : Le projet existe déjà.");
 		} else {
-			//on set les infos dans le projet qu'on n'a instancie
-			lProjetDO.setDescription(pDescription);
-			lProjetDO.setBranche(pBranche);
-			lProjetDO.setCredential(pCredential);
-			lProjetDO.setFrequence(pFrequence);
-			lProjetDO.setNomProjet(pNomProjet);
-			lProjetDO.setActif(pActif);
-			lProjetDO.setStatus(pStatus);
-			lProjetDO.setUrl(pUrl);			
-			lProjetDO.setClient(pMembre.getClient());		
 			
 			try {
-				lIdProjet = (int) HibernateSessionFactory.getSession().save(lProjetDO);
+				lIdProjet = (int) HibernateSessionFactory.getSession().save(pProjetDO);
 				//On recupere l'Id du projet
 				lProjetDO.setIdProjet(lIdProjet);
 				
@@ -151,33 +139,22 @@ public class ProjetDAOImpl implements IProjetDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public ProjetDO updateProjet(final int pIdProjet, final String pNomProjet, final String pCredential,
-			final String pFrequence, final String pBranche, final String pDescription, final char pStatus,
-			final boolean pActif, final String pUrl, final ClientDO pClientDO) throws DaoException{
+	public void updateProjet(final ProjetDO pProjetDO) throws DaoException{
 		
 		//On initialise le LOGGER
 		lLOGGER.info("Début méthode : updateProjet");
 		
 		//On recupere le Projet via son Id
-		ProjetDO lProjetDOExiste = findProjetById(pIdProjet);
+		ProjetDO lProjetDOExiste = findProjetById(pProjetDO.getIdProjet());
 		
 		if (lProjetDOExiste == null) {
 			throw new DaoException("Update échoué : Le projet n'existe pas.");
 			
 		} else {
-			lProjetDOExiste.setDescription(pDescription);
-			lProjetDOExiste.setBranche(pBranche);
-			lProjetDOExiste.setCredential(pCredential);
-			lProjetDOExiste.setFrequence(pFrequence);
-			lProjetDOExiste.setNomProjet(pNomProjet);
-			lProjetDOExiste.setActif(pActif);
-			lProjetDOExiste.setStatus(pStatus);
-			lProjetDOExiste.setUrl(pUrl);
-			lProjetDOExiste.setClient(pClientDO);
 			
 			try {
 				//On met a jour le projet
-				HibernateSessionFactory.getSession().update(lProjetDOExiste);
+				HibernateSessionFactory.getSession().update(pProjetDO);
 			
 			} catch (HibernateException ex) {
 				
@@ -188,7 +165,6 @@ public class ProjetDAOImpl implements IProjetDAO {
 			}
 		}
 		lLOGGER.info("Fin méthode : updateProjet");
-		return lProjetDOExiste;
 	}
 	
 	/**
@@ -228,21 +204,28 @@ public class ProjetDAOImpl implements IProjetDAO {
 		
 		//On initialise le LOGGER
 		lLOGGER.info("Début méthode : deleteMembre");
-
-		try {
 		
-			// la méthode delete permet de supprimer le projet dans la table
-			HibernateSessionFactory.getSession().delete(pProjetDO);
-		} catch (HibernateException ex) {
-			// Critical errors : database unreachable, etc.
-			lLOGGER.error("Exception - DataAccessException occurs : " 
-					+ ex.getMessage() + " on complete deleteMembre().");
-			throw new DaoException("Connexion échoué : Impossible de supprimer le projet");
+		//On recuepre le projet via son Id
+		final ProjetDO lProjetDO = findProjetById(pProjetDO.getIdProjet());
+		
+		// si le membre n'existe pas, on leve une exception
+		if (lProjetDO == null) {
+			throw new DaoException("Modification échoué : Le projet n'est pas connu.");
+		} else {
+			try {
+				// la méthode delete permet de supprimer le projet dans la table
+				HibernateSessionFactory.getSession().delete(pProjetDO);
+			} catch (HibernateException ex) {
+				// Critical errors : database unreachable, etc.
+				lLOGGER.error("Exception - DataAccessException occurs : " 
+						+ ex.getMessage() + " on complete deleteMembre().");
+				throw new DaoException("Connexion échoué : Impossible de supprimer le projet");
+			}
 		}
-		
 		lLOGGER.info("Fin méthode : deleteProjet");
 	}
 	
+
 	/**
 	 * {@inheritDoc}
 	 * @throws DaoException 
