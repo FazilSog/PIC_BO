@@ -8,6 +8,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * 
+ * @author moissa
+ *
+ */
 
 public class Token {
 

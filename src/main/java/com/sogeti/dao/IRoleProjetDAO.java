@@ -6,6 +6,12 @@ import com.sogeti.dao.model.RoleDO;
 import com.sogeti.dao.model.RoleProjetDO;
 import com.sogeti.exception.DaoException;
 
+/**
+ * 
+ * @author syahiaou
+ *
+ */
+
 public interface IRoleProjetDAO {
 	
 	/**

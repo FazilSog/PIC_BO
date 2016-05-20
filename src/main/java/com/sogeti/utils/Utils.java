@@ -3,6 +3,11 @@ package com.sogeti.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * 
+ * @author aayoub
+ *
+ */
 public class Utils {
 
 	

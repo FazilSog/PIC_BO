@@ -23,7 +23,11 @@ import com.sogeti.dto.MembreDTO;
 import com.sogeti.exception.DaoException;
 import com.sogeti.utils.Token;
 import com.sogeti.utils.Utils;
-
+/**
+ * 
+ * @author moissa
+ *
+ */
 @Controller
 @CrossOrigin
 @RequestMapping("PIC_BO/membre")
@@ -141,16 +145,16 @@ public class MembreController {
 	 * ou un message d'erreur avec le code status 403)
 	 */
 	@RequestMapping(value="/membre/{idMembre}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> deleteMembre( @PathVariable("idMembre")  int idMembre) 
+	public ResponseEntity<Object> deleteMembre( @PathVariable("idMembre")  int pIdMembre) 
 	{  
 		
-		lLOGGER.info("The id is : " + idMembre);
+		lLOGGER.info("The id is : " + pIdMembre);
 		
 		// on vérifie si l'id est différent de zéro
-		if (idMembre != 0 )
+		if (pIdMembre != 0 )
 		{
 			try {
-				getMembreBO().deleteMembre(idMembre);
+				getMembreBO().deleteMembre(pIdMembre);
 				
 				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
@@ -174,9 +178,9 @@ public class MembreController {
 	{  
 
 		try {
-			List<MembreDTO> listeMembres = getMembreBO().listerMembres();
+			List<MembreDTO> lListeMembres = getMembreBO().listerMembres();
 			
-			return new ResponseEntity<Object>(listeMembres, HttpStatus.CREATED);
+			return new ResponseEntity<Object>(lListeMembres, HttpStatus.CREATED);
 		} catch (DaoException ex) {
 			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 		}

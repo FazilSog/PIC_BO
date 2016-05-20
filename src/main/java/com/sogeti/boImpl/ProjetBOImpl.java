@@ -26,6 +26,7 @@ import com.sogeti.exception.DaoException;
  * @author moissa
  *
  */
+
 @Component
 public class ProjetBOImpl implements IProjetBO {
 	

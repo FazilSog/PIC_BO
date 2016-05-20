@@ -12,11 +12,13 @@ import com.sogeti.dao.IClientDAO;
 import com.sogeti.dao.model.ClientDO;
 import com.sogeti.exception.DaoException;
 import com.sogeti.utils.HibernateSessionFactory;
+
 /**
  * 
  * @author moissa
  *
  */
+
 @Service
 @Transactional
 public class ClientDAOImpl implements IClientDAO {

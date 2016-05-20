@@ -6,11 +6,13 @@ import com.sogeti.dao.model.ClientDO;
 import com.sogeti.dao.model.MembreDO;
 import com.sogeti.dao.model.ProjetDO;
 import com.sogeti.exception.DaoException;
+
 /**
  * 
  * @author moissa
  *
  */
+
 public interface IProjetDAO {
 	
 	/**

@@ -20,6 +20,12 @@ import com.sogeti.dto.MembreDTO;
 import com.sogeti.exception.DaoException;
 import com.sogeti.utils.Utils;
 
+/**
+ * 
+ * @author syahiaou
+ *
+ */
+
 @Controller
 @CrossOrigin
 @RequestMapping("PIC_BO/authentification")

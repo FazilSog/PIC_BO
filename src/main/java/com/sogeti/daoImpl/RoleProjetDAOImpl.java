@@ -23,6 +23,7 @@ import com.sogeti.utils.HibernateSessionFactory;
  * @author syahiaou
  *
  */
+
 @Service
 @Transactional
 public class RoleProjetDAOImpl implements IRoleProjetDAO {

@@ -17,6 +17,7 @@ import com.sogeti.exception.DaoException;
  * @author moissa
  *
  */
+
 @Component
 public class RoleBOImpl implements IRoleBO {
 

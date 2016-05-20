@@ -17,11 +17,13 @@ import com.sogeti.dao.model.MembreDO;
 import com.sogeti.dao.model.ProjetDO;
 import com.sogeti.exception.DaoException;
 import com.sogeti.utils.HibernateSessionFactory;
+
 /**
  * 
  * @author syahiaou
  *
  */
+
 @Service
 @Transactional
 public class ProjetDAOImpl implements IProjetDAO {

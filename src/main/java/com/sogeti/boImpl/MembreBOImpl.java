@@ -18,6 +18,12 @@ import com.sogeti.dto.MembreDTO;
 import com.sogeti.exception.DaoException;
 import com.sogeti.utils.Token;
 
+/**
+ * 
+ * @author syahiaou
+ *
+ */
+
 @Component
 public class MembreBOImpl implements IMembreBO {
 
@@ -77,68 +83,70 @@ public class MembreBOImpl implements IMembreBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public AuthentificationDTO Authentification(String username, String password) throws DaoException {
+	public AuthentificationDTO Authentification(final String pUsername, final String pPassword) throws DaoException {
 		// on instance l'objet AuthentificationDTO
-		AuthentificationDTO authentification = new AuthentificationDTO();
+		AuthentificationDTO lAuthentification = new AuthentificationDTO();
 		
 		// on interroge le service AuthentifierMembre
-		MembreDO membreDO = getMembreDAO().AuthentifierMembre(username, password);
+		MembreDO lMembreDO = getMembreDAO().AuthentifierMembre(pUsername, pPassword);
 
-		if (membreDO != null) {
+		if (lMembreDO != null) {
 		
 			// on génère le token
-			String tokenMembre = Token.generateToken(membreDO.getIdMembre(), membreDO.getClient().getIdClient());
+			String tokenMembre = Token.generateToken(lMembreDO.getIdMembre(), lMembreDO.getClient().getIdClient());
 			// on affecte la valeur du token au membre
-			authentification.setTokenMembre(tokenMembre);
-			membreDO.setToken(tokenMembre);
+			lAuthentification.setTokenMembre(tokenMembre);
+			lMembreDO.setToken(tokenMembre);
 			// on met à jour le membre
-			membreDO = getMembreDAO().setMembre(membreDO);
+			lMembreDO = getMembreDAO().setMembre(lMembreDO);
 		}
-		return authentification;
+		return lAuthentification;
 	}
 	
 	/**
 	 * {@inheritDoc} 
 	 */
-	public MembreDTO addMembre (String username, String password, boolean status, int idClient, int idRole) throws DaoException
+	public MembreDTO addMembre (final String pUsername, final String pPassword, final boolean pStatus,
+			final int pIdClient, final int pIdRole) throws DaoException
 	{
 		// on instancie l'objet MembreDTO
-		MembreDTO membreDTO = new MembreDTO();
+		MembreDTO lMembreDTO = new MembreDTO();
 		
 		// Recuperer le membre via son Id
-		ClientDO clientDO = getClientDAO().findClientById(idClient);
+		ClientDO lClientDO = getClientDAO().findClientById(pIdClient);
 		
 		// Recuperer le membre via son Id
-		RoleDO roleDO = getRoleDAO().findRoleById(idRole);
+		RoleDO lRoleDO = getRoleDAO().findRoleById(pIdRole);
 		
 		// on interroge le service addMembre
-		int idMembre = getMembreDAO().addMembre(username, password, status, clientDO, roleDO);
+		int lIdMembre = getMembreDAO().addMembre(pUsername, pPassword, pStatus, lClientDO, lRoleDO);
 		// on remonte seulement l'id
-		membreDTO.setIdMembre(idMembre);
+		lMembreDTO.setIdMembre(lIdMembre);
 		
-		return membreDTO;
+		return lMembreDTO;
 	}
 	
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void updateMembre (int idMembre, String username, String password, boolean status, int idClient, int idRole) throws DaoException
+	public void updateMembre (final int pIdMembre, final String pUsername, final String pPassword,
+			final boolean pStatus, final int pIdClient, final int pIdRole) throws DaoException
 	{
 		
-		ClientDO clientDO = getClientDAO().findClientById(idClient);
-		RoleDO roleDO = getRoleDAO().findRoleById(idRole);
+		ClientDO lClientDO = getClientDAO().findClientById(pIdClient);
+		RoleDO lRoleDO = getRoleDAO().findRoleById(pIdRole);
 		
 		// on interroge le service updateMembre
-		getMembreDAO().updateMembre(idMembre, username, password, status, clientDO, roleDO);		
+		getMembreDAO().updateMembre(pIdMembre, pUsername, pPassword, pStatus, lClientDO, lRoleDO);		
 	}
 	
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void deleteMembre (int idMembre) throws DaoException
+	public void deleteMembre (final int pIdMembre) throws DaoException
 	{
 		// on interroge le service deleteMembre
-		getMembreDAO().deleteMembre(idMembre);
+		getMembreDAO().deleteMembre(pIdMembre);
 	}
 	
 	/**
@@ -147,26 +155,26 @@ public class MembreBOImpl implements IMembreBO {
 	public List<MembreDTO> listerMembres () throws DaoException
 	{
 		// on instance la liste des membre
-		List<MembreDTO> listeMembresDTOs = new ArrayList<MembreDTO>();
+		List<MembreDTO> lListeMembresDTOs = new ArrayList<MembreDTO>();
 		
 		// on interroge le service listerMembres
-		List<MembreDO> listeMembreDOs = getMembreDAO().listerMembres();
+		List<MembreDO> lListeMembreDOs = getMembreDAO().listerMembres();
 		
 		// on convertit la liste<MembreDO> vers la liste<MembreDTO>
-		for (MembreDO membreDO : listeMembreDOs) {
+		for (MembreDO pMembreDO : lListeMembreDOs) {
 			// on instancie le membreDTO
-			MembreDTO membreDTO = new MembreDTO();
+			MembreDTO lMembreDTO = new MembreDTO();
 		
-			membreDTO.setIdMembre(membreDO.getIdMembre());
-			membreDTO.setUsername(membreDO.getUsername());
-			membreDTO.setPassword(membreDO.getPassword());
-			membreDTO.setIdRole(membreDO.getRoleMembre().getIdRole());
-			membreDTO.setStatus(membreDO.isStatus());
-			membreDTO.setIdClient(membreDO.getClient().getIdClient());
+			lMembreDTO.setIdMembre(pMembreDO.getIdMembre());
+			lMembreDTO.setUsername(pMembreDO.getUsername());
+			lMembreDTO.setPassword(pMembreDO.getPassword());
+			lMembreDTO.setIdRole(pMembreDO.getRoleMembre().getIdRole());
+			lMembreDTO.setStatus(pMembreDO.isStatus());
+			lMembreDTO.setIdClient(pMembreDO.getClient().getIdClient());
 			// on ajoute le membreDTO dans la liste<MembreDTO>
-			listeMembresDTOs.add(membreDTO);
+			lListeMembresDTOs.add(lMembreDTO);
 		}
 		
-		return listeMembresDTOs;
+		return lListeMembresDTOs;
 	}
 }

@@ -8,6 +8,7 @@ import com.sogeti.exception.DaoException;
  * @author syahiaou
  *
  */
+
 public interface IClientDAO {
 	
 	/**

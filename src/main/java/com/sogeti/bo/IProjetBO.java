@@ -10,6 +10,7 @@ import com.sogeti.exception.DaoException;
  * @author moissa
  *
  */
+
 public interface IProjetBO {
 	
 	/**

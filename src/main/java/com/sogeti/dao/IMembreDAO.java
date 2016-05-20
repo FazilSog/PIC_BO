@@ -7,6 +7,12 @@ import com.sogeti.dao.model.MembreDO;
 import com.sogeti.dao.model.RoleDO;
 import com.sogeti.exception.DaoException;
 
+/**
+ * 
+ * @author syahiaou
+ *
+ */
+
 public interface IMembreDAO {
 	
 
