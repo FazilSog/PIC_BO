@@ -199,6 +199,17 @@ public class MembreDO {
 	public MembreDO() {
 
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "MembreDO [idMembre=" + idMembre + ", username=" + username
+				+ ", password=" + password + ", status=" + status + ", token="
+				+ token + ", client=" + client + ", roleMembre=" + roleMembre
+				+ ", roleProjet=" + roleProjet + "]";
+	}
 	
 
 

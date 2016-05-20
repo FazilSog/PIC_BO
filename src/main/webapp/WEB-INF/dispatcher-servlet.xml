@@ -65,6 +65,7 @@
 	<bean class="com.sogeti.utils.HibernateSessionFactory">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
     <bean id="membreBO" class="com.sogeti.boImpl.MembreBOImpl">
         <property name="membreDAO" ref="membreDAO"/>
         <property name="clientDAO" ref="clientDAO"/>
@@ -93,6 +94,7 @@
     
     <bean id="projetDAO" class="com.sogeti.daoImpl.ProjetDAOImpl"/>
 
+	<bean id="roleBO" class="com.sogeti.boImpl.RoleBOImpl"/>
     
     <bean id="membreController" class="com.sogeti.controller.MembreController"/>
     <bean id="authentificationController" class="com.sogeti.controller.AuthentificationController"/>

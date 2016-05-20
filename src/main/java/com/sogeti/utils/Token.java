@@ -8,7 +8,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.persistence.IdClass;
 
 public class Token {
 
@@ -17,45 +16,40 @@ public class Token {
 	 * En general, le JWT contient 3 parties : Header, Payload, Signature
 	 * 
 	 */
-	public static String generateToken(int idMembre, int idClient)
-	{
+	public static String generateToken(final int idMembre, final int idClient) {
 		
-		
-		JwtBuilder jwtBuilder = Jwts.builder();
+		// on instancie le JWTBuilder
+		final JwtBuilder lJwtBuilder = Jwts.builder();
 		
 		// 1 - Partie Header
-		jwtBuilder.setHeaderParam("alg", "HS256");
-		jwtBuilder.setHeaderParam("typ", "JWT");
+		lJwtBuilder.setHeaderParam("alg", "HS256");
+		lJwtBuilder.setHeaderParam("typ", "JWT");
 		
-		
-		// TODO savoir les informations nécessaires pour les mettre dans le Claims
 		// 2 - Payload
 		// Claims
-		Claims claims = Jwts.claims();
+		final Claims lClaims = Jwts.claims();
 		// id membre et idClient
-		claims.put("id_mebmre", idMembre);
-		claims.put("idClient", idClient);
+		lClaims.put("id_membre", idMembre);
+		lClaims.put("idClient", idClient);
 		// Sujet (subject)
-		claims.put("subject", "totot");
+		lClaims.put("subject", "totot");
 		// Date de création du token
-		claims.put("iat", new Date().getTime());
+		lClaims.put("iat", new Date().getTime());
 		// Date d’expiration du token (expiration)
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		
-		long timeStamp = cal.getTime().getTime();
-		
-		claims.put("expiration", timeStamp);
+		final Calendar lCal = Calendar.getInstance();
+		lCal.setTime(new Date());		
+		long timeStamp = lCal.getTime().getTime();		
+		lClaims.put("expiration", timeStamp + 60);
 
-		jwtBuilder.setClaims(claims);
+		lJwtBuilder.setClaims(lClaims);
 
 		// 3 - Signature 
 		// TODO définir une clé (exemle : SOGETIpIC3456698)
-		jwtBuilder.signWith(SignatureAlgorithm.HS256, "SOGETIpIC3456698");
+		lJwtBuilder.signWith(SignatureAlgorithm.HS256, "SOGETIpIC3456698");
 		 
 		// La méthode compact réalise l'encodage en Base64URL et concaténer les 
 		// 3 parties du JWT (Header + Payload + Signature)
-		return jwtBuilder.compact();
+		return lJwtBuilder.compact();
 
 	}
 	
@@ -71,31 +65,41 @@ public class Token {
 		{
 			Claims claims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(jwt).getBody();
 			
-			claims.get("id_mebmre");
+			claims.get("id_membre");
 			claims.get("id_mebmre");
 			claims.get("subject");
 			claims.get("iat");
 			claims.get("expiration");
 		}
 	}
-	public static int obtenirIdClient(String jwt)
+	
+	/**
+	 * Cette méthode permet d'obtenir l'id client via le token
+	 * @param jwt le token
+	 * @return l'id client
+	 */
+	public static int obtenirIdClient(final String jwt)
 	{
-		int idClient = 0;
-		// TODO à faire et savoir les données qui nous intéressent
-				if (Jwts.parser().isSigned(jwt))
-				{
-					Claims claims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(jwt).getBody();
-					
-					claims.get("idClient");
-				}
-				return idClient;
+		int lIdClient = 0;
+		
+		// on vérifie si le token est signé
+		if (Jwts.parser().isSigned(jwt))
+		{
+			// on obtient le claims (Payload)
+			final Claims lClaims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(jwt).getBody();
+			
+			if (lClaims.containsKey("idClient")) {
+				lIdClient = Integer.parseInt(lClaims.get("idClient").toString());
+			}
+		}
+		return lIdClient;
 	}
 	
 	/**
 	 * 
 	 * @param jwt
 	 */
-/*	public static Long getTimestamp (String jwt)
+	/*	public static Long getTimestamp (String jwt)
 	{
 		// TODO à faire et savoir les données qui nous intéressent
 		Long timeStamp = Long.MAX_VALUE;

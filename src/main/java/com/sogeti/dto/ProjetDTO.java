@@ -2,6 +2,11 @@ package com.sogeti.dto;
 
 import com.sogeti.dao.model.ClientDO;
 
+/**
+ * 
+ * @author moissa
+ *
+ */
 public class ProjetDTO {
 	
 	private int idProjet;
@@ -167,6 +172,18 @@ public class ProjetDTO {
 	 * 
 	 */
 	public ProjetDTO() {
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "ProjetDTO [idProjet=" + idProjet + ", nomProjet=" + nomProjet
+				+ ", credential=" + credential + ", frequence=" + frequence
+				+ ", branche=" + branche + ", description=" + description
+				+ ", status=" + status + ", actif=" + actif + ", url=" + url
+				+ ", client=" + client + "]";
 	}
 
 	

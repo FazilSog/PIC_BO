@@ -263,4 +263,18 @@ public class ProjetDO {
 	public ProjetDO() {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "ProjetDO [idProjet=" + idProjet + ", url=" + url
+				+ ", nomProjet=" + nomProjet + ", credential=" + credential
+				+ ", frequence=" + frequence + ", branche=" + branche
+				+ ", description=" + description + ", actif=" + actif
+				+ ", status=" + status + ", client=" + client + ", roleProjet="
+				+ roleProjet + "]";
+	}
+
+	
 }

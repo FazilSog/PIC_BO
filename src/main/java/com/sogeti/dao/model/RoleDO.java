@@ -100,6 +100,15 @@ public class RoleDO {
 	 */
 	public RoleDO() {
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "RoleDO [idRole=" + idRole + ", libelleRole=" + libelleRole
+				+ ", codeRole=" + codeRole + ", lRoleProjet=" + lRoleProjet
+				+ ", lMembre=" + lMembre + "]";
+	}
 	
 }

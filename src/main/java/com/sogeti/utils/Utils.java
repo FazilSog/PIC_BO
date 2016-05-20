@@ -5,44 +5,35 @@ import java.security.NoSuchAlgorithmException;
 
 public class Utils {
 
-	public Utils() {
-		
-	}
 	
-	public static String EncryptMdp(String mdp){
+	public static String EncryptMdp(final String pMdp) throws NoSuchAlgorithmException {
 		
-        String generatedPassword = null;
+        String lGeneratedPassword = null;
+        //This bytes[] has bytes in decimal format;
+        //Convert it to hexadecimal format
+        final StringBuilder lSb = new StringBuilder();
+        
         try {
             // Create MessageDigest instance for MD5
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            MessageDigest lMd = MessageDigest.getInstance("MD5");
             //Add password bytes to digest
-            md.update(mdp.getBytes());
+            lMd.update(pMdp.getBytes());
             //Get the hash's bytes 
-            byte[] bytes = md.digest();
-            //This bytes[] has bytes in decimal format;
-            //Convert it to hexadecimal format
-            StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++)
+            byte[] lBytes = lMd.digest();
+            for(int i=0; i< lBytes.length ;i++)
             {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+                lSb.append(Integer.toString((lBytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             //Get complete hashed password in hex format
-            generatedPassword = sb.toString();
+            lGeneratedPassword = lSb.toString();
             
         } 
         catch (NoSuchAlgorithmException e) 
         {
-            e.printStackTrace();
+            throw new NoSuchAlgorithmException("Impossible de crypter le password !");
         }
-        System.out.println(generatedPassword);
         
-        return mdp;
+        return lGeneratedPassword;
 	}
 	
-	 public static void main(String[] args) 
-	    {
-		 EncryptMdp("password");
-	    }
-
-
 }

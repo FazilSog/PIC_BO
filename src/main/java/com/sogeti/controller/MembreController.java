@@ -1,5 +1,6 @@
 package com.sogeti.controller;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,19 +13,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sogeti.bo.IMembreBO;
+import com.sogeti.dto.AuthentificationDTO;
 import com.sogeti.dto.MembreDTO;
 import com.sogeti.exception.DaoException;
+import com.sogeti.utils.Token;
+import com.sogeti.utils.Utils;
 
 @Controller
 @CrossOrigin
 @RequestMapping("PIC_BO/membre")
 public class MembreController {
 	
-	private Logger LOGGER = Logger.getLogger(MembreController.class);
+	private Logger lLOGGER = Logger.getLogger(MembreController.class);
 	
 	@Autowired
 	private IMembreBO membreBO;
@@ -49,31 +54,39 @@ public class MembreController {
 	 
 	/**
 	 * Elle permet de créer le membre
-	 * @param membreDTO l'objet membreDTO json envoyé par le front
+	 * @param pMembreDTO l'objet membreDTO json envoyé par le front
 	 * @return un responseEntity qui contient (soit un objet MembreDTO (avec id seulement) avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
 	@RequestMapping(value="/membre", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> addMembre( @RequestBody MembreDTO membreDTO) 
+	public ResponseEntity<Object> addMembre( @RequestBody MembreDTO pMembreDTO, @RequestHeader AuthentificationDTO pAuthen) 
 	{  
 
-		String username = membreDTO.getUsername();
-		String password = membreDTO.getPassword();
-		int idClient = 1;
-		int idRole = 1;
+		final String lUsername = pMembreDTO.getUsername();
+		final String lToken = pAuthen.getTokenMembre();
+		int lIdRole = pMembreDTO.getIdRole();
+		// Décrypter le token pour obtenir l'id Client
+		int lIdClient = Token.obtenirIdClient(lToken);
+		boolean lStatus = true; 
 		
-		boolean status = true; 
+		String lPassword = "";
+		try {
+			lPassword = Utils.EncryptMdp(pMembreDTO.getPassword());
+		} catch (NoSuchAlgorithmException ex) {
+			lLOGGER.warn(ex.getMessage());
+			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
+		}
 		
-		LOGGER.info("The username is : " + username + " , The password is : " + password 
-				+ " , The Status is : " + status);
+		lLOGGER.info("The username is : " + lUsername + " , The password is : " + lPassword 
+				+ " , The Status is : " + lStatus);
 		
 		// on vérifie si le username, le password et le role sont différents de null ou vide
-		if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password))
+		if (StringUtils.isNotBlank(lUsername) && StringUtils.isNotBlank(lPassword))
 		{
 			try {
-				MembreDTO membreDTOAdd = getMembreBO().addMembre(username, password, status, idClient, idRole);
+				MembreDTO lMembreDTOAdd = getMembreBO().addMembre(lUsername, lPassword, lStatus, lIdClient, lIdRole);
 				
-				return new ResponseEntity<Object>(membreDTOAdd, HttpStatus.CREATED);
+				return new ResponseEntity<Object>(lMembreDTOAdd, HttpStatus.CREATED);
 			} catch (DaoException ex) {
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
@@ -86,31 +99,31 @@ public class MembreController {
 	
 	/**
 	 * Elle permet de modifier le membre
-	 * @param membreDTO l'objet membreDTO json envoyé par le front
+	 * @param pMembreDTO l'objet membreDTO json envoyé par le front
 	 * @return un responseEntity qui contient (soit un objet null avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
 	@RequestMapping(value="/Membre", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> updateMembre( @RequestBody MembreDTO membreDTO) 
+	public ResponseEntity<Object> updateMembre( @RequestBody MembreDTO pMembreDTO) 
 	{  
 
-		int idMembre = membreDTO.getIdMembre();
-		String username = membreDTO.getUsername();
-		String password = membreDTO.getPassword();
-		int idClient = membreDTO.getIdClient();
-		int idRole = membreDTO.getIdRole();
-		boolean status = true; 
+		int lIdMembre = pMembreDTO.getIdMembre();
+		String lUsername = pMembreDTO.getUsername();
+		String lPassword = pMembreDTO.getPassword();
+		int lIdClient = pMembreDTO.getIdClient();
+		int lIdRole = pMembreDTO.getIdRole();
+		boolean lStatus = true; 
 		
-		LOGGER.info("The username is : " + username + " , The password is : " + password 
-				+ " ,  The Status is : " + status + " , The id is : " + idMembre);
+		lLOGGER.info("The username is : " + lUsername + " , The password is : " + lPassword 
+				+ " ,  The Status is : " + lStatus + " , The id is : " + lIdMembre);
 		
 		// on vérifie si le username, le password, role et le status sont différents de null ou vide
-		if (idMembre != 0 && StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password))
+		if (lIdMembre != 0 && StringUtils.isNotBlank(lUsername) && StringUtils.isNotBlank(lPassword))
 		{
 			try {
-				getMembreBO().updateMembre(idMembre, username, password, status, idClient, idRole);
+				getMembreBO().updateMembre(lIdMembre, lUsername, lPassword, lStatus, lIdClient, lIdRole);
 				
-				return new ResponseEntity<Object>(null, HttpStatus.CREATED);
+				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
@@ -131,7 +144,7 @@ public class MembreController {
 	public ResponseEntity<Object> deleteMembre( @PathVariable("idMembre")  int idMembre) 
 	{  
 		
-		LOGGER.info("The id is : " + idMembre);
+		lLOGGER.info("The id is : " + idMembre);
 		
 		// on vérifie si l'id est différent de zéro
 		if (idMembre != 0 )
@@ -139,7 +152,7 @@ public class MembreController {
 			try {
 				getMembreBO().deleteMembre(idMembre);
 				
-				return new ResponseEntity<Object>(null, HttpStatus.CREATED);
+				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}

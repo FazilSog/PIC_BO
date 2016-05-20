@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/bienvenu")
 
 public class BienvenuController {
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String afficherBienvenu(ModelMap map){
-	map.addAttribute("personne","Toto");
-	return "bienvenue";
+		map.addAttribute("personne","Toto");
+		return "bienvenue";
 	}
 
 	public static void main(String[] args) {

@@ -2,6 +2,7 @@ package com.sogeti.boImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,11 +17,17 @@ import com.sogeti.dao.model.ClientDO;
 import com.sogeti.dao.model.MembreDO;
 import com.sogeti.dao.model.ProjetDO;
 import com.sogeti.dao.model.RoleDO;
+import com.sogeti.dao.model.RoleProjetDO;
 import com.sogeti.dto.ProjetDTO;
 import com.sogeti.exception.DaoException;
 
+/**
+ * 
+ * @author moissa
+ *
+ */
 @Component
-public class ProjetBOImpl implements IProjetBO{
+public class ProjetBOImpl implements IProjetBO {
 	
 	@Autowired
 	private IRoleDAO roleDAO;
@@ -104,90 +111,129 @@ public class ProjetBOImpl implements IProjetBO{
 	/**
 	 * {@inheritDoc} 
 	 */
-	public ProjetDTO addProjet(ProjetDTO projetDTO, int idMembre) throws DaoException{
+	public ProjetDTO addProjet(final ProjetDTO pProjetDTO, final int pIdMembre) throws DaoException{
 		
 		// on recupere le membre via l'id
-		MembreDO membreDO = getMembreDAO().findMembreById(idMembre);
+		final MembreDO lMembreDO = getMembreDAO().findMembreById(pIdMembre);
 		
 				
 		// on ajoute le projet dans la table
-		ProjetDO projetDO = getProjetDAO().addProjet(projetDTO.getNomProjet(), projetDTO.getCredential(),
-				projetDTO.getFrequence(), projetDTO.getBranche(), projetDTO.getDescription(), projetDTO.getStatus(),
-				projetDTO.isActif(), projetDTO.getUrl(), membreDO);
+		final ProjetDO lProjetDO = getProjetDAO().addProjet(pProjetDTO.getNomProjet(), pProjetDTO.getCredential(),
+				pProjetDTO.getFrequence(), pProjetDTO.getBranche(), pProjetDTO.getDescription(), pProjetDTO.getStatus(),
+				pProjetDTO.isActif(), pProjetDTO.getUrl(), lMembreDO);
 		 
-		 projetDTO.setIdProjet(projetDO.getIdProjet());
+		 pProjetDTO.setIdProjet(lProjetDO.getIdProjet());
 		 
-		 getRoleProjetDAO().addRoleProjet(membreDO, membreDO.getRoleMembre(), projetDO);
+		 getRoleProjetDAO().addRoleProjet(lMembreDO, lMembreDO.getRoleMembre(), lProjetDO);
 		 
 				
-		return projetDTO;
+		return pProjetDTO;
 	}
 	
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void updateProjet(ProjetDTO projetDTO, int idRole, int idMembre) throws DaoException{
+	public void updateProjet(final ProjetDTO pProjetDTO, final int pIdRole, final int pIdMembre) throws DaoException{
 		
 		//On recupere le membre via Son Id
-		MembreDO membreDO = getMembreDAO().findMembreById(idMembre);
+		final MembreDO lMembreDO = getMembreDAO().findMembreById(pIdMembre);
 		
-		ProjetDO projetDO = getProjetDAO().updateProjet(projetDTO.getIdProjet(), projetDTO.getNomProjet(), projetDTO.getCredential(),
-				projetDTO.getFrequence(), projetDTO.getBranche(), projetDTO.getDescription(), projetDTO.getStatus(),
-				projetDTO.isActif(), projetDTO.getUrl(), membreDO.getClient());
+		final ProjetDO lProjetDO = getProjetDAO().updateProjet(pProjetDTO.getIdProjet(), pProjetDTO.getNomProjet(), pProjetDTO.getCredential(),
+				pProjetDTO.getFrequence(), pProjetDTO.getBranche(), pProjetDTO.getDescription(), pProjetDTO.getStatus(),
+				pProjetDTO.isActif(), pProjetDTO.getUrl(), lMembreDO.getClient());
 		
 		//On recuepre le Role via son Id
-		RoleDO roleDO = getRoleDAO().findRoleById(idRole);
+		final RoleDO lRoleDO = getRoleDAO().findRoleById(pIdRole);
 		
 		//TODO la methode update permet de mettre a jour la table projet et aussi RoleProjet
 		//On met à jour la table ROLEPROJET
-		getRoleProjetDAO().updateRoleProjet(membreDO, roleDO, projetDO);
+		getRoleProjetDAO().updateRoleProjet(lMembreDO, lRoleDO, lProjetDO);
 	}
 	
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void deleteProjet(int idProjet) throws DaoException {
+	public void deleteProjet(final int pIdProjet) throws DaoException {
 		
-			//On interoge le service deleteProjet
-			getProjetDAO().deleteProjet(idProjet);
-		
+		//On interoge le service deleteProjet
+		getProjetDAO().deleteProjet(pIdProjet);
 			
-		}
+	}
 	
 	/**
 	 * {@inheritDoc} 
 	 */
-	public List<ProjetDTO> listerProjets(int idClient) throws DaoException {
+	public List<ProjetDTO> listerProjets(final int pIdClient) throws DaoException {
 		
-		ClientDO clientDO = getClientDAO().findClientById(idClient);
+		final ClientDO lClientDO = getClientDAO().findClientById(pIdClient);
 		
-		// on instance la liste des projet
-		List<ProjetDTO> listeProjetDTO = new ArrayList<ProjetDTO>();
+		// on instance la liste des projets
+		final List<ProjetDTO> lListeProjetDTO = new ArrayList<ProjetDTO>();
 		
 		// on interroge le service listerProjet
-		List<ProjetDO> listeProjetDO = getProjetDAO().listerProjets(clientDO);
+		final List<ProjetDO> listeProjetDO = getProjetDAO().listerProjets(lClientDO);
 		
 		// on convertit la liste<ProjetDO> vers la liste<ProjetDTO>
 		for(ProjetDO projetDO : listeProjetDO){
 			// on instancie le projetDTO
-			ProjetDTO projetDTO = new ProjetDTO();
+			ProjetDTO lProjetDTO = new ProjetDTO();
 			
-			projetDTO.setActif(projetDO.isActif());
-			projetDTO.setNomProjet(projetDO.getNomProjet());
-			projetDTO.setBranche(projetDO.getBranche());
-			projetDTO.setDescription(projetDO.getDescription());
-			projetDTO.setCredential(projetDO.getCredential());
-			projetDTO.setFrequence(projetDO.getFrequence());
-			projetDTO.setIdProjet(projetDO.getIdProjet());
-			projetDTO.setStatus(projetDO.getStatus());
-			projetDTO.setUrl(projetDO.getUrl());
+			lProjetDTO.setActif(projetDO.isActif());
+			lProjetDTO.setNomProjet(projetDO.getNomProjet());
+			lProjetDTO.setBranche(projetDO.getBranche());
+			lProjetDTO.setDescription(projetDO.getDescription());
+			lProjetDTO.setCredential(projetDO.getCredential());
+			lProjetDTO.setFrequence(projetDO.getFrequence());
+			lProjetDTO.setIdProjet(projetDO.getIdProjet());
+			lProjetDTO.setStatus(projetDO.getStatus());
+			lProjetDTO.setUrl(projetDO.getUrl());
+			
 			//projetDTO.setClient(projetDO.getClient());
 			// on ajoute le projetDTO dans la liste<ProjetDTO>
-			listeProjetDTO.add(projetDTO);
+			
+			lListeProjetDTO.add(lProjetDTO);
 			
 		}
 		
-		return listeProjetDTO;
+		return lListeProjetDTO;
+	}
+	
+	/**
+	 * {@inheritDoc} 
+	 */
+	public List<ProjetDTO> listerProjetsByMembre(int pIdMembre) throws DaoException {
+		
+		// on instance la liste des projets
+		final List<ProjetDTO> lListeProjetDTO = new ArrayList<ProjetDTO>();
+		
+		// on récupere le membre via son identifiant
+		final MembreDO lMembreDO = getMembreDAO().findMembreById(pIdMembre);
+		
+		// on obtient la liste RoleProjet
+		final Set<RoleProjetDO> lRoleProjet = lMembreDO.getRoleProjet();
+		
+		// on boucle sur la liste RoleProjet
+		for (RoleProjetDO roleProjetDO : lRoleProjet) {
+			// on instancie le projetDTO
+			final ProjetDTO lProjetDTO = new ProjetDTO();
+			
+			// on récupere l'objet ProjetDO
+			final ProjetDO lProjetDO = roleProjetDO.getProjet();
+			
+			lProjetDTO.setActif(lProjetDO.isActif());
+			lProjetDTO.setNomProjet(lProjetDO.getNomProjet());
+			lProjetDTO.setBranche(lProjetDO.getBranche());
+			lProjetDTO.setDescription(lProjetDO.getDescription());
+			lProjetDTO.setCredential(lProjetDO.getCredential());
+			lProjetDTO.setFrequence(lProjetDO.getFrequence());
+			lProjetDTO.setIdProjet(lProjetDO.getIdProjet());
+			lProjetDTO.setStatus(lProjetDO.getStatus());
+			lProjetDTO.setUrl(lProjetDO.getUrl());
+			
+			// on ajoute l'ojet lProjetDTO dans la liste lListeProjetDTO
+			lListeProjetDTO.add(lProjetDTO);
+		}
+		return lListeProjetDTO;
 	}
 
 }

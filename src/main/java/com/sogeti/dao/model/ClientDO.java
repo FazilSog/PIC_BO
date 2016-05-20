@@ -123,9 +123,12 @@ public class ClientDO {
 		this.membres = membres;
 	}
 
-	
-
-	
-
-
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "ClientDO [idClient=" + idClient + ", nomClient=" + nomClient
+				+ ", membres=" + membres + ", projets=" + projets + "]";
+	}
 }

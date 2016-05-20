@@ -118,4 +118,13 @@ public class RoleProjetDO {
 		this.role = role;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "RoleProjetDO [idRoleProjet=" + idRoleProjet + ", membre="
+				+ membre + ", projet=" + projet + ", role=" + role + "]";
+	}
+	
 }

@@ -1,5 +1,7 @@
 package com.sogeti.controller;
 
+import java.security.NoSuchAlgorithmException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +18,14 @@ import com.sogeti.bo.IMembreBO;
 import com.sogeti.dto.AuthentificationDTO;
 import com.sogeti.dto.MembreDTO;
 import com.sogeti.exception.DaoException;
+import com.sogeti.utils.Utils;
 
 @Controller
 @CrossOrigin
 @RequestMapping("PIC_BO/authentification")
 public class AuthentificationController {
 	
-	private Logger LOGGER = Logger.getLogger(AuthentificationController.class);
+	private Logger lLOGGER = Logger.getLogger(AuthentificationController.class);
 	
 	@Autowired
 	private IMembreBO membreBO;
@@ -46,19 +49,26 @@ public class AuthentificationController {
 	}
 	 
 	@RequestMapping(value="/auth", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> authentifier( @RequestBody MembreDTO membreDTO) {  
+	public ResponseEntity<Object> authentifier( @RequestBody MembreDTO pMembreDTO) {  
 
-		String username = membreDTO.getUsername();
-		String password = membreDTO.getPassword();
+		String lUsername = pMembreDTO.getUsername();
+		String lPassword = "";
+		try {
+			lPassword = Utils.EncryptMdp(pMembreDTO.getPassword());
+		} catch (NoSuchAlgorithmException ex) {
+			lLOGGER.warn(ex.getMessage());
+			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
+		}
 		
-		LOGGER.info("The username is: " + username + ", The password is: " + password);
+		
+		lLOGGER.info("The username is: " + lUsername + ", The password is: " + lPassword);
 		
 		// on vérifie si le username et le password sont différents de null ou vide
-		if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password))
+		if (StringUtils.isNotBlank(lUsername) && StringUtils.isNotBlank(lPassword))
 		{
 			try {
-				AuthentificationDTO authentifier = getMembreBO().Authentification(username, password);
-				return new ResponseEntity<Object>(authentifier, HttpStatus.CREATED);
+				AuthentificationDTO lAuthentifier = getMembreBO().Authentification(lUsername, lPassword);
+				return new ResponseEntity<Object>(lAuthentifier, HttpStatus.CREATED);
 			} catch (DaoException ex) {
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}

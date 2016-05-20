@@ -1,5 +1,8 @@
 package com.sogeti.daoImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
@@ -12,9 +15,10 @@ import com.sogeti.dao.IRoleDAO;
 import com.sogeti.dao.model.RoleDO;
 import com.sogeti.exception.DaoException;
 import com.sogeti.utils.HibernateSessionFactory;
+
 /**
  * 
- * @author moissa
+ * @author syahiaou
  *
  */
 
@@ -41,17 +45,21 @@ public class RoleDAOImpl implements IRoleDAO {
 		} else {
 			try {
 				//on cree la session 
-				final Criteria lCriteria = HibernateSessionFactory.getSession().createCriteria(RoleDO.class);
+				final Criteria lCriteria = HibernateSessionFactory.getSession().createCriteria(RoleDO.class);				
 				//On verifie l'egalité du role recu avec clui qu'on n'a en base
 				lCriteria.add(Restrictions.eq("idRole",pIdRole));
-				 lRoleDO = (RoleDO) lCriteria.uniqueResult();
+				
+				lRoleDO = (RoleDO) lCriteria.uniqueResult();
+				
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
 				lLOGGER.error("Exception - DataAccessException occurs : " 
 				+ ex.getMessage() + " on complete getProjet().");
-				throw new DaoException("Connexion échoué : Identifiant inconnu");
+				// TODO
+				throw new DaoException("Connexion échoué : XXXXXXX");
 			}
 		}
+		
 		lLOGGER.info("Fin méthode : findRoleById");
 		return lRoleDO;
 	}
@@ -60,7 +68,7 @@ public class RoleDAOImpl implements IRoleDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public RoleDO findRoleByCodeRole(String pCodeRole) throws DaoException {
+	public RoleDO findRoleByCodeRole(final String pCodeRole) throws DaoException {
 		
 		//On initialise le LOGGER
 		lLOGGER.info("Début méthode : findRoleByCodeRole");
@@ -74,18 +82,48 @@ public class RoleDAOImpl implements IRoleDAO {
 				//On verifie l'egalité du role recu avec clui qu'on n'a en base
 				final Criteria lCriteria = HibernateSessionFactory.getSession().createCriteria(RoleDO.class);
 				lCriteria.add(Restrictions.eq("codeRole",pCodeRole));
-				 lRoleDO = (RoleDO) lCriteria.uniqueResult();
+				
+				lRoleDO = (RoleDO) lCriteria.uniqueResult();
 				 
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
 				lLOGGER.error("Exception - DataAccessException occurs : " 
 				+ ex.getMessage() + " on complete getProjet().");
-				throw new DaoException("Connexion échoué : Identifiant inconnu");
+				// TODO
+				throw new DaoException("Connexion échoué : XXXX");
 			}
 		}
+		
 		lLOGGER.info("Fin méthode : findRoleByCodeRole");
 		return lRoleDO;
 			
+	}
+	
+	
+	/**
+	 * {@inheritDoc}
+	 * @throws DaoException 
+	 */
+	@SuppressWarnings("unchecked")
+	public List<RoleDO> listerRoles() throws DaoException {
+		
+		lLOGGER.info("Début méthode : listerRoles");
+		
+		List<RoleDO> lListeRoles = new ArrayList<RoleDO>();
+		
+		try {
+			final Criteria lCriteria = HibernateSessionFactory.getSession().createCriteria(RoleDO.class);
+			lListeRoles = lCriteria.list();
+		} catch (HibernateException ex) {
+			// Critical errors : database unreachable, etc.
+			lLOGGER.error("Exception - DataAccessException occurs : " 
+			+ ex.getMessage() + " on complete listerRoles().");
+			// TODO
+			throw new DaoException("Connexion échoué : XXXXXXX");
+		}
+		
+		lLOGGER.info("Fin méthode : listerRoles");
+		return lListeRoles;
 	}
 		
 }

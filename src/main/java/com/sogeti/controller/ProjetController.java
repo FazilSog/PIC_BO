@@ -26,7 +26,7 @@ import com.sogeti.exception.DaoException;
 public class ProjetController {
 	
 	//Initialisation du logger
-	private Logger LOGGER = Logger.getLogger(ProjetController.class);
+	private Logger lLOGGER = Logger.getLogger(ProjetController.class);
 	
 	@Autowired
 	private IProjetBO projetBO;
@@ -68,7 +68,7 @@ public class ProjetController {
 		String description = projetDTO.getDescription();
 		String url = projetDTO.getUrl();
 		
-		LOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
+		lLOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
 				+ " , The frequance is : " + frequence + " , The Status is : " + status + " , The nomProjet is : " + nomProjet
 				+ " , The credentiel is : " + credential + " , The actif is : " + actif + " , The description is : " + description
 				+ " , The url is : " + url);
@@ -113,7 +113,7 @@ public class ProjetController {
 		String description = projetDTO.getDescription();
 		String url = projetDTO.getUrl();
 		
-		LOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
+		lLOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
 				+ " , The frequance is : " + frequence + " , The Status is : " + status + " , The nomProjet is : " + nomProjet
 				+ " , The credentiel is : " + credential + " , The actif is : " + actif + " , The description is : " + description
 				+ " , The url is : " + url);
@@ -127,7 +127,7 @@ public class ProjetController {
 			try {
 				getProjetBO().updateProjet(projetDTO, 2, 1);
 				
-				return new ResponseEntity<Object>(null, HttpStatus.CREATED);
+				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
@@ -147,7 +147,7 @@ public class ProjetController {
 	public ResponseEntity<Object> deleteProjet( @PathVariable("idProjet")  int idProjet) 
 	{  
 		
-		LOGGER.info("The id is : " + idProjet);
+		lLOGGER.info("The id is : " + idProjet);
 		
 		// on vérifie si l'id est différent de zéro
 		if (idProjet != 0 )
@@ -155,7 +155,7 @@ public class ProjetController {
 			try {
 				getProjetBO().deleteProjet(idProjet);
 				
-				return new ResponseEntity<Object>(null, HttpStatus.CREATED);
+				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
@@ -166,7 +166,7 @@ public class ProjetController {
 	}
 	
 	/**
-	 * Elle permet de récuperer la liste des Membres
+	 * Elle permet de récuperer la liste des projets
 	 * 
 	 * @return un responseEntity qui contient (soit liste des membres avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
@@ -175,7 +175,27 @@ public class ProjetController {
 	public ResponseEntity<Object> listeProjets() 
 	{  
 		try {
+			// TODO à récuper l'id client via le token
 			List<ProjetDTO> listeprojets = getProjetBO().listerProjets(1);
+			
+			return new ResponseEntity<Object>(listeprojets, HttpStatus.CREATED);
+		} catch (DaoException ex) {
+			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
+		}
+	}
+	
+	/**
+	 * Elle permet de récuperer la liste des Membres
+	 * 
+	 * @return un responseEntity qui contient (soit liste des membres avec le code status 201,
+	 * ou un message d'erreur avec le code status 403)
+	 */
+	@RequestMapping(value="/projetsMembre", method = RequestMethod.GET)
+	public ResponseEntity<Object> listeProjetsByMembre() 
+	{  
+		try {
+			// TODO à récuper l'id Membre via le token
+			List<ProjetDTO> listeprojets = getProjetBO().listerProjetsByMembre(1);
 			
 			return new ResponseEntity<Object>(listeprojets, HttpStatus.CREATED);
 		} catch (DaoException ex) {

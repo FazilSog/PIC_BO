@@ -5,37 +5,53 @@ import java.util.List;
 import com.sogeti.dto.ProjetDTO;
 import com.sogeti.exception.DaoException;
 
+/**
+ * 
+ * @author moissa
+ *
+ */
 public interface IProjetBO {
 	
 	/**
 	 * Elle permet de créer un projet
-	 * @param projetDTO le projet DTO
-	 * @param idMembre id membre
+	 * @param pProjetDTO le projet DTO
+	 * @param pIdMembre id membre
 	 * @return projetDTO qui contient l'idProjet
 	 * @throws DaoException exception
 	 */
-	public ProjetDTO addProjet(ProjetDTO projetDTO, int idMembre) throws DaoException;
+	public ProjetDTO addProjet(final ProjetDTO pProjetDTO, final int pIdMembre) throws DaoException;
 	
 	/**
 	 * Elle permet de modifier un projet
-	 * @param projetDTO
+	 * @param pProjetDTO le projet DTO
+	 * @param pIdRole l'id role
+	 * @param pIdMembre l'id membre
 	 * @throws DaoException exception
 	 */
-	public void updateProjet(ProjetDTO projetDTO, int idRole, int idMembre) throws DaoException;
+	public void updateProjet(final ProjetDTO pProjetDTO, final int pIdRole, final int pIdMembre) throws DaoException;
 	
 	/**
 	 * Elle permet de supprimer un projet
-	 * @param idProjet
-	 * @throws DaoException
+	 * @param pIdProjet l'id projet
+	 * @throws DaoException exception
 	 */
-	public void deleteProjet(int idProjet) throws DaoException;
+	public void deleteProjet(final int pIdProjet) throws DaoException;
 	
 	/**
 	 * Elle permet de retourner la liste des projets
-	 * @return
-	 * @throws DaoException
+	 * @param pIdClient l'id client
+	 * @return la liste des projets 
+	 * @throws DaoException exception
 	 */
-	public List<ProjetDTO> listerProjets(int idClient) throws DaoException;
+	public List<ProjetDTO> listerProjets(final int pIdClient) throws DaoException;
+	
+	/**
+	 * Elle permet de retourner la liste des projets d'un membre
+	 * @param pIdMembre l'id membre
+	 * @return la liste des projets 
+	 * @throws DaoException exception
+	 */
+	public List<ProjetDTO> listerProjetsByMembre(final int pIdMembre) throws DaoException;
 	
 
 }

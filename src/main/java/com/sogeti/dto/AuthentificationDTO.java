@@ -1,5 +1,10 @@
 package com.sogeti.dto;
 
+/**
+ * 
+ * @author moissa
+ *
+ */
 public class AuthentificationDTO {
 	
 
