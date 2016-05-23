@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import com.sogeti.dao.IRoleProjetDAO;
+import com.sogeti.dao.model.ProjetDO;
 import com.sogeti.dao.model.RoleProjetDO;
 import com.sogeti.exception.DaoException;
 import com.sogeti.utils.HibernateSessionFactory;
@@ -58,7 +59,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 		lLOGGER.info("Début méthode : updateRoleProjet");
 		
 		try {
-				HibernateSessionFactory.getSession().update(pRoleProjet);
+			HibernateSessionFactory.getSession().update(pRoleProjet);
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
 			lLOGGER.error("Exception - DataAccessException occurs : " 
@@ -77,13 +78,13 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 		//On initialise le LOGGER
 		lLOGGER.info("Début méthode : findClientById");
 		
-		RoleProjetDO lRoleProjet = null;
+		RoleProjetDO roleProjet = null;
 				
 		try {
 			//On verifie l'egalité du role recu avec clui qu'on n'a en base
-			final Criteria lCriteria = HibernateSessionFactory.getSession().createCriteria(RoleProjetDO.class);
-			lCriteria.add(Restrictions.eq("idRoleProjet",pIdRoleProjet));
-			lRoleProjet = (RoleProjetDO) lCriteria.uniqueResult();
+			final Criteria criteria = HibernateSessionFactory.getSession().createCriteria(RoleProjetDO.class);
+			criteria.add(Restrictions.eq("idRoleProjet",pIdRoleProjet));
+			roleProjet = (RoleProjetDO) criteria.uniqueResult();
 			
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
@@ -93,30 +94,30 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 		}
 		lLOGGER.info("Fin méthode : findClientById");
 		
-		if (lRoleProjet != null)
+		if (roleProjet != null)
 		{
 			throw new DaoException("Connexion échoué : Le role projet n'est pas connu!");
 		}
 		
-		return lRoleProjet;
+		return roleProjet;
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public RoleProjetDO findRoleProjetByIdProjet (final int pIdProjet) throws DaoException
+	public RoleProjetDO findRoleProjet (final ProjetDO pProjetDO) throws DaoException
 	{
 		//On initialise le LOGGER
 		lLOGGER.info("Début méthode : findRoleProjetByIdProjet");
 		
-		RoleProjetDO lRoleProjet = null;
+		RoleProjetDO roleProjet = null;
 				
 		try {
 			//On verifie l'egalité du role recu avec clui qu'on n'a en base
-			final Criteria lCriteria = HibernateSessionFactory.getSession().createCriteria(RoleProjetDO.class);
-			lCriteria.add(Restrictions.eq("idprojet", pIdProjet));
-			lRoleProjet = (RoleProjetDO) lCriteria.uniqueResult();
+			final Criteria criteria = HibernateSessionFactory.getSession().createCriteria(RoleProjetDO.class);
+			criteria.add(Restrictions.eq("projet", pProjetDO));
+			roleProjet = (RoleProjetDO) criteria.uniqueResult();
 			
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
@@ -126,11 +127,11 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 		}
 		lLOGGER.info("Fin méthode : findRoleProjetByIdProjet");
 		
-		if (lRoleProjet != null)
+		if (roleProjet == null)
 		{
-			throw new DaoException("Connexion échoué : Le role projet n'est pas connu!");
+			throw new DaoException("Le role projet n'est pas connu !");
 		}
-		return lRoleProjet;
+		return roleProjet;
 	}
 	
 	

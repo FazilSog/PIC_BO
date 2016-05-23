@@ -38,18 +38,18 @@ public class RoleDAOImpl implements IRoleDAO {
 		//On initialise le LOGGER
 		lLOGGER.info("Début méthode : findRoleById");
 		
-		RoleDO lRoleDO = null;
+		RoleDO roleDO = null;
 		
 		if (pIdRole == 0) {
 			throw new DaoException("idRole obligatoire.La valeur NULL est interdite.");
 		} else {
 			try {
 				//on cree la session 
-				final Criteria lCriteria = HibernateSessionFactory.getSession().createCriteria(RoleDO.class);				
+				final Criteria criteria = HibernateSessionFactory.getSession().createCriteria(RoleDO.class);				
 				//On verifie l'egalité du role recu avec clui qu'on n'a en base
-				lCriteria.add(Restrictions.eq("idRole",pIdRole));
+				criteria.add(Restrictions.eq("idRole", pIdRole));
 				
-				lRoleDO = (RoleDO) lCriteria.uniqueResult();
+				roleDO = (RoleDO) criteria.uniqueResult();
 				
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
@@ -61,7 +61,7 @@ public class RoleDAOImpl implements IRoleDAO {
 		}
 		
 		lLOGGER.info("Fin méthode : findRoleById");
-		return lRoleDO;
+		return roleDO;
 	}
 	
 	/**
@@ -73,17 +73,17 @@ public class RoleDAOImpl implements IRoleDAO {
 		//On initialise le LOGGER
 		lLOGGER.info("Début méthode : findRoleByCodeRole");
 		
-		RoleDO lRoleDO = null;
+		RoleDO roleDO = null;
 		
 		if (pCodeRole == null) {
 			throw new DaoException("idRole obligatoire.La valeur NULL est interdite.");
 		} else {
 			try {
 				//On verifie l'egalité du role recu avec clui qu'on n'a en base
-				final Criteria lCriteria = HibernateSessionFactory.getSession().createCriteria(RoleDO.class);
-				lCriteria.add(Restrictions.eq("codeRole",pCodeRole));
+				final Criteria criteria = HibernateSessionFactory.getSession().createCriteria(RoleDO.class);
+				criteria.add(Restrictions.eq("codeRole", pCodeRole));
 				
-				lRoleDO = (RoleDO) lCriteria.uniqueResult();
+				roleDO = (RoleDO) criteria.uniqueResult();
 				 
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
@@ -95,7 +95,7 @@ public class RoleDAOImpl implements IRoleDAO {
 		}
 		
 		lLOGGER.info("Fin méthode : findRoleByCodeRole");
-		return lRoleDO;
+		return roleDO;
 			
 	}
 	
@@ -112,8 +112,8 @@ public class RoleDAOImpl implements IRoleDAO {
 		List<RoleDO> lListeRoles = new ArrayList<RoleDO>();
 		
 		try {
-			final Criteria lCriteria = HibernateSessionFactory.getSession().createCriteria(RoleDO.class);
-			lListeRoles = lCriteria.list();
+			final Criteria criteria = HibernateSessionFactory.getSession().createCriteria(RoleDO.class);
+			lListeRoles = criteria.list();
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
 			lLOGGER.error("Exception - DataAccessException occurs : " 

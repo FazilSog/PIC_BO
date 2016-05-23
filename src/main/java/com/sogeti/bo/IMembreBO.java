@@ -15,35 +15,27 @@ public interface IMembreBO {
 	
 	/**
 	 * Elle permet de vérifier si le membre existe et générer le token
-	 * @param PUsername le username d'un membre
+	 * @param pUsername le username d'un membre
 	 * @param pPassword le password d'un membre
 	 * @return l'objet AuthentificationDTO
 	 * @throws DaoException exception
 	 */
-	public AuthentificationDTO Authentification(final String PUsername, final String pPassword) throws DaoException;
+	public AuthentificationDTO Authentification(final String pUsername, final String pPassword) throws DaoException;
 	
 	/**
 	 * Elle permet de créer un membre.
-	 * @param pUsername le username d'un membre
-	 * @param pPassword le password d'un memebre
-	 * @param pStatus le status d'un membre
-	 * @return le membreDTO
+	 * @param pMembreDTO le membreDTO
+	 * @return le membreDTO créer avec l'id
 	 * @throws DaoException exception
 	 */
-	public MembreDTO addMembre (final String pUsername, final String pPassword, final boolean pStatus, final int pIdClient,
-			final int pIdRole) throws DaoException;
+	public MembreDTO addMembre (final MembreDTO pMembreDTO) throws DaoException;
 	
 	/**
 	 * Elle permet de modifier un membre.
-	 * @param pIdMembre l'identifiant d'un membre
-	 * @param pUsername le username d'un membre
-	 * @param pPassword le password d'un membre
-	 * @param role le role d'un membre
-	 * @param pStatus le status d'un membre
+	 * @param pMembreDTO le membre DTO
 	 * @throws DaoException exception
 	 */
-	public void updateMembre (final int pIdMembre, final String pUsername, final String pPassword, final boolean pStatus, 
-			final int pIdClient, final int pIdRole) throws DaoException;
+	public void updateMembre (final MembreDTO pMembreDTO) throws DaoException;
 	
 	
 	/**

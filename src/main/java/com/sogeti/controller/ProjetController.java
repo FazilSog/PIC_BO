@@ -25,7 +25,6 @@ import com.sogeti.exception.DaoException;
  */
 
 @Controller
-@CrossOrigin
 @RequestMapping("PIC_BO/projet")
 public class ProjetController {
 	
@@ -59,28 +58,29 @@ public class ProjetController {
 	 * @return un responseEntity qui contient (soit un objet projetDTO (avec id seulement) avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
+	@CrossOrigin(origins="*",methods = RequestMethod.POST)
 	@RequestMapping(value="/projet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> addProjet( @RequestBody ProjetDTO pProjetDTO) 
 	{   
-		String lBranche = pProjetDTO.getBranche();
-		int lIdProjet = pProjetDTO.getIdProjet();
-		String lFrequence = pProjetDTO.getFrequence();
-		char lStatus = pProjetDTO.getStatus();
-		String lNomProjet = pProjetDTO.getNomProjet();
-		String lCredential = pProjetDTO.getCredential();
-		boolean lActif = true;
-		String lDescription = pProjetDTO.getDescription();
-		String lUrl = pProjetDTO.getUrl();
+		String branche = pProjetDTO.getBranche();
+		int idProjet = pProjetDTO.getIdProjet();
+		String frequence = pProjetDTO.getFrequence();
+		char status = pProjetDTO.getStatus();
+		String nomProjet = pProjetDTO.getNomProjet();
+		String credential = pProjetDTO.getCredential();
+		boolean actif = true;
+		String description = pProjetDTO.getDescription();
+		String url = pProjetDTO.getUrl();
 		
-		lLOGGER.info("The idProjet is : " + lIdProjet + " , The branche is : " + lBranche 
-				+ " , The frequance is : " + lFrequence + " , The Status is : " + lStatus + " , The nomProjet is : " + lNomProjet
-				+ " , The credentiel is : " + lCredential + " , The actif is : " + lActif + " , The description is : " + lDescription
-				+ " , The url is : " + lUrl);
+		lLOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
+				+ " , The frequance is : " + frequence + " , The Status is : " + status + " , The nomProjet is : " + nomProjet
+				+ " , The credentiel is : " + credential + " , The actif is : " + actif + " , The description is : " + description
+				+ " , The url is : " + url);
 		
 		// on vérifie si le username, le password et le role sont différents de null ou vide
-		if (StringUtils.isNotBlank(lBranche) && StringUtils.isNotBlank(lUrl) && StringUtils.isNotBlank(lNomProjet) 
-				&& StringUtils.isNotBlank(lFrequence) && StringUtils.isNotBlank(lCredential) 
-				&& StringUtils.isNotBlank(String.valueOf(lStatus)) && StringUtils.isNotBlank(lDescription))
+		if (StringUtils.isNotBlank(branche) && StringUtils.isNotBlank(url) && StringUtils.isNotBlank(nomProjet) 
+				&& StringUtils.isNotBlank(frequence) && StringUtils.isNotBlank(credential) 
+				&& StringUtils.isNotBlank(String.valueOf(status)) && StringUtils.isNotBlank(description))
 		{
 			//TODO a verifier la regle metier et quels sont les champs obligatoire 
 			try {
@@ -102,30 +102,31 @@ public class ProjetController {
 	 * @return un responseEntity qui contient (soit un objet null avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
+	@CrossOrigin(origins="*",methods = RequestMethod.PUT)
 	@RequestMapping(value="/updateprojet", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> updateProjet( @RequestBody ProjetDTO pProjetDTO) 
 	{  
 
-		String lBranche = pProjetDTO.getBranche();
-		int lIdProjet = pProjetDTO.getIdProjet();
-		String lFrequence = pProjetDTO.getFrequence();
-		char lStatus = pProjetDTO.getStatus();
-		String lNomProjet = pProjetDTO.getNomProjet();
-		String lCredential = pProjetDTO.getCredential();
-		boolean lActif = true;
-		String lDescription = pProjetDTO.getDescription();
+		String branche = pProjetDTO.getBranche();
+		int idProjet = pProjetDTO.getIdProjet();
+		String frequence = pProjetDTO.getFrequence();
+		char status = pProjetDTO.getStatus();
+		String nomProjet = pProjetDTO.getNomProjet();
+		String credential = pProjetDTO.getCredential();
+		boolean actif = true;
+		String description = pProjetDTO.getDescription();
 		String url = pProjetDTO.getUrl();
 		
-		lLOGGER.info("The idProjet is : " + lIdProjet + " , The branche is : " + lBranche 
-				+ " , The frequance is : " + lFrequence + " , The Status is : " + lStatus + " , The nomProjet is : " + lNomProjet
-				+ " , The credentiel is : " + lCredential + " , The actif is : " + lActif + " , The description is : " + lDescription
+		lLOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
+				+ " , The frequance is : " + frequence + " , The Status is : " + status + " , The nomProjet is : " + nomProjet
+				+ " , The credentiel is : " + credential + " , The actif is : " + actif + " , The description is : " + description
 				+ " , The url is : " + url);
 		
 		// on vérifie si le username, le password et le role sont différents de null ou vide
-		if (StringUtils.isNotBlank(lBranche) && StringUtils.isNotBlank(url) && StringUtils.isNotBlank(lNomProjet) 
-				&& StringUtils.isNotBlank(String.valueOf(lIdProjet)) 
-				&& StringUtils.isNotBlank(lFrequence) && StringUtils.isNotBlank(lCredential) 
-				&& StringUtils.isNotBlank(String.valueOf(lStatus)) && StringUtils.isNotBlank(lDescription))
+		if (StringUtils.isNotBlank(branche) && StringUtils.isNotBlank(url) && StringUtils.isNotBlank(nomProjet) 
+				&& StringUtils.isNotBlank(String.valueOf(idProjet)) 
+				&& StringUtils.isNotBlank(frequence) && StringUtils.isNotBlank(credential) 
+				&& StringUtils.isNotBlank(String.valueOf(status)) && StringUtils.isNotBlank(description))
 		{
 			try {
 				getProjetBO().updateProjet(pProjetDTO);
@@ -146,17 +147,18 @@ public class ProjetController {
 	 * @return un responseEntity qui contient (soit un objet null avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
+	@CrossOrigin(origins="*",methods = RequestMethod.DELETE)
 	@RequestMapping(value="/projet/{idProjet}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> deleteProjet( @PathVariable("idProjet")  int lIdProjet) 
+	public ResponseEntity<Object> deleteProjet( @PathVariable("idProjet")  int pIdProjet) 
 	{  
 		
-		lLOGGER.info("The id is : " + lIdProjet);
+		lLOGGER.info("The id is : " + pIdProjet);
 		
 		// on vérifie si l'id est différent de zéro
-		if (lIdProjet != 0 )
+		if (pIdProjet != 0 )
 		{
 			try {
-				getProjetBO().deleteProjet(lIdProjet);
+				getProjetBO().deleteProjet(pIdProjet);
 				
 				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
@@ -174,6 +176,7 @@ public class ProjetController {
 	 * @return un responseEntity qui contient (soit liste des membres avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
+	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/projets", method = RequestMethod.GET)
 	public ResponseEntity<Object> listeProjets() 
 	{  
@@ -193,6 +196,7 @@ public class ProjetController {
 	 * @return un responseEntity qui contient (soit liste des membres avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
+	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/projetsMembre", method = RequestMethod.GET)
 	public ResponseEntity<Object> listeProjetsByMembre() 
 	{  

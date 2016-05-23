@@ -71,7 +71,7 @@ public class Token {
 			Claims claims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(jwt).getBody();
 			
 			claims.get("id_membre");
-			claims.get("id_mebmre");
+			claims.get("id_membre");
 			claims.get("subject");
 			claims.get("iat");
 			claims.get("expiration");

@@ -16,7 +16,6 @@ import com.sogeti.dao.IRoleProjetDAO;
 import com.sogeti.dao.model.ClientDO;
 import com.sogeti.dao.model.MembreDO;
 import com.sogeti.dao.model.ProjetDO;
-import com.sogeti.dao.model.RoleDO;
 import com.sogeti.dao.model.RoleProjetDO;
 import com.sogeti.dto.ProjetDTO;
 import com.sogeti.exception.DaoException;
@@ -156,36 +155,27 @@ public class ProjetBOImpl implements IProjetBO {
 	 * {@inheritDoc} 
 	 */
 	public void updateProjet(final ProjetDTO pProjetDTO) throws DaoException {
-		
-		// on récupere le roleProjet via l'id projet
-		RoleProjetDO roleProjet = getRoleProjetDAO().findRoleProjetByIdProjet(pProjetDTO.getIdProjet());
 			
-		// on ajoute le projet dans la table
-		final ProjetDO projetDOUpdate = new ProjetDO();
+		// on récupere le projet via son id pour vérifie s'il existe
+		final ProjetDO projetDO = getProjetDAO().findProjetById(pProjetDTO.getIdProjet());
 		
-		projetDOUpdate.setIdProjet(pProjetDTO.getIdProjet());
-		projetDOUpdate.setActif(pProjetDTO.isActif());
-		projetDOUpdate.setBranche(pProjetDTO.getBranche());
-		projetDOUpdate.setCredential(pProjetDTO.getCredential());
-		projetDOUpdate.setDescription(pProjetDTO.getDescription());
-		projetDOUpdate.setFrequence(pProjetDTO.getFrequence());
-		projetDOUpdate.setNomProjet(pProjetDTO.getNomProjet());
-		projetDOUpdate.setStatus(pProjetDTO.getStatus());
-		projetDOUpdate.setUrl(pProjetDTO.getUrl());
+				
+		projetDO.setIdProjet(pProjetDTO.getIdProjet());
+		projetDO.setActif(pProjetDTO.isActif());
+		projetDO.setBranche(pProjetDTO.getBranche());
+		projetDO.setCredential(pProjetDTO.getCredential());
+		projetDO.setDescription(pProjetDTO.getDescription());
+		projetDO.setFrequence(pProjetDTO.getFrequence());
+		projetDO.setNomProjet(pProjetDTO.getNomProjet());
+		projetDO.setStatus(pProjetDTO.getStatus());
+		projetDO.setUrl(pProjetDTO.getUrl());
 		
 		final ClientDO clientDO = getClientDAO().findClientById(pProjetDTO.getIdClient());
-		projetDOUpdate.setClient(clientDO);
+		projetDO.setClient(clientDO);
 		
 		// Mise à jour un projet		
-		getProjetDAO().updateProjet(projetDOUpdate);
+		getProjetDAO().updateProjet(projetDO);
 		
-		
-		//On recuepre le Role via son Id
-		final RoleDO roleDO = getRoleDAO().findRoleById(pProjetDTO.getIdRole());
-		roleProjet.setRole(roleDO);
-		
-		// on met à jour le roleProjet
-		getRoleProjetDAO().updateRoleProjet(roleProjet);
 	}
 	
 	/**
@@ -193,8 +183,11 @@ public class ProjetBOImpl implements IProjetBO {
 	 */
 	public void deleteProjet(final int pIdProjet) throws DaoException {
 		
+		// on récupere le projet via son id pour vérifie s'il existe
+		final ProjetDO projetDO = getProjetDAO().findProjetById(pIdProjet);
+		
 		//On interoge le service deleteProjet
-		getProjetDAO().deleteProjet(pIdProjet);
+		getProjetDAO().deleteProjet(projetDO);
 			
 	}
 	
@@ -267,6 +260,7 @@ public class ProjetBOImpl implements IProjetBO {
 			projetDTO.setStatus(projetDO.getStatus());
 			projetDTO.setUrl(projetDO.getUrl());
 			projetDTO.setIdClient(projetDO.getClient().getIdClient());
+			projetDTO.setIdMembre(pIdMembre);
 			
 			// on ajoute l'ojet lProjetDTO dans la liste lListeProjetDTO
 			lListeProjetDTO.add(projetDTO);

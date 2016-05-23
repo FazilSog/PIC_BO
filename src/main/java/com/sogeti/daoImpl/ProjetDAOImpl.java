@@ -42,7 +42,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 		ProjetDO ProjetDO = null;
 		
 		if (pNomProjet == null || pUrl == null || pBranche == null) {
-			throw new DaoException(" Valeur zéro est interdit.");
+			throw new DaoException(" Valeur vide et/ou zéro est interdit.");
 		} else {
 
 			try {
@@ -73,7 +73,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 		//initialaisation du logger
 		lLOGGER.info("Début méthode : getProjet");
 		
-		ProjetDO lProjetDO = null;
+		ProjetDO projetDO = null;
 		
 		if (pIdProjet == 0) {
 			throw new DaoException("L'identifiant est obligatoire. Valeur zéro est interdit.");
@@ -82,9 +82,9 @@ public class ProjetDAOImpl implements IProjetDAO {
 				lLOGGER.info("On recupére le projet à partie de son Id: " + pIdProjet);
 				
 				// create a new criteria
-				final Criteria lCriteria = HibernateSessionFactory.getSession().createCriteria(ProjetDO.class);
-				lCriteria.add(Restrictions.eq("idProjet", pIdProjet));
-				lProjetDO = (ProjetDO) lCriteria.uniqueResult();
+				final Criteria criteria = HibernateSessionFactory.getSession().createCriteria(ProjetDO.class);
+				criteria.add(Restrictions.eq("idProjet", pIdProjet));
+				projetDO = (ProjetDO) criteria.uniqueResult();
 				
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
@@ -92,36 +92,40 @@ public class ProjetDAOImpl implements IProjetDAO {
 				throw new DaoException("Connexion échoué : Identifiant inconnu");
 			}
 		}
+		// on vérifie si le projetDO existe ou pas.
+		if (projetDO == null) {
+			throw new DaoException("Le projet n'existe pas.");
+		} 
 		lLOGGER.info("Fin méthode : getMembre");
-		return lProjetDO;
+		return projetDO;
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public ProjetDO addProjet(ProjetDO pProjetDO) throws DaoException {
+	public ProjetDO addProjet(final ProjetDO pProjetDO) throws DaoException {
 		
 		//On initialise le LOGGER
 		lLOGGER.info("Début méthode : addProjet");
 		
 		//On instancie l'objet PrjetDO
-		final ProjetDO lProjetDO = pProjetDO;
+		final ProjetDO projetDO = pProjetDO;
 		
-		int lIdProjet = 0;
+		int idProjet = 0;
 		
 		// on vérifie si le projet existe
-		ProjetDO lProjetDOExiste = findProjet(pProjetDO.getNomProjet(), pProjetDO.getUrl(), pProjetDO.getBranche());
+		final ProjetDO projetDOExiste = findProjet(pProjetDO.getNomProjet(), pProjetDO.getUrl(), pProjetDO.getBranche());
 		
-		if (lProjetDOExiste != null) {
+		if (projetDOExiste != null) {
 			
 			throw new DaoException("Création échoué : Le projet existe déjà.");
 		} else {
 			
 			try {
-				lIdProjet = (int) HibernateSessionFactory.getSession().save(pProjetDO);
+				idProjet = (int) HibernateSessionFactory.getSession().save(pProjetDO);
 				//On recupere l'Id du projet
-				lProjetDO.setIdProjet(lIdProjet);
+				projetDO.setIdProjet(idProjet);
 				
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
@@ -131,7 +135,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 
 			}
 			lLOGGER.info("Fin méthode : addProjet");
-			return lProjetDO;
+			return projetDO;
 		}
 	}
 
@@ -143,27 +147,19 @@ public class ProjetDAOImpl implements IProjetDAO {
 		
 		//On initialise le LOGGER
 		lLOGGER.info("Début méthode : updateProjet");
+			
+		try {
+			//On met a jour le projet
+			HibernateSessionFactory.getSession().update(pProjetDO);
 		
-		//On recupere le Projet via son Id
-		ProjetDO lProjetDOExiste = findProjetById(pProjetDO.getIdProjet());
-		
-		if (lProjetDOExiste == null) {
-			throw new DaoException("Update échoué : Le projet n'existe pas.");
+		} catch (HibernateException ex) {
 			
-		} else {
-			
-			try {
-				//On met a jour le projet
-				HibernateSessionFactory.getSession().update(pProjetDO);
-			
-			} catch (HibernateException ex) {
-				
-				// Critical errors : database unreachable, etc.
-				lLOGGER.error("Exception - DataAccessException occurs : " 
-						+ ex.getMessage() + " on complete updateProjet().");
-				throw new DaoException("connexion échoué : Impossible de mettre à jour le projet");
-			}
+			// Critical errors : database unreachable, etc.
+			lLOGGER.error("Exception - DataAccessException occurs : " 
+					+ ex.getMessage() + " on complete updateProjet().");
+			throw new DaoException("connexion échoué : Impossible de mettre à jour le projet");
 		}
+			
 		lLOGGER.info("Fin méthode : updateProjet");
 	}
 	
@@ -177,22 +173,18 @@ public class ProjetDAOImpl implements IProjetDAO {
 		lLOGGER.info("Début méthode : deleteMembre");
 		
 		//On recuepre le projet via son Id
-		final ProjetDO lProjetDO = findProjetById(pIdProjet);
-		
-		// si le membre n'existe pas, on leve une exception
-		if (lProjetDO == null) {
-			throw new DaoException("Modification échoué : Le projet n'est pas connu.");
-		} else {
-			try {
-				// la méthode delete permet de supprimer le projet dans la table
-				HibernateSessionFactory.getSession().delete(lProjetDO);
-			} catch (HibernateException ex) {
-				// Critical errors : database unreachable, etc.
-				lLOGGER.error("Exception - DataAccessException occurs : " 
-						+ ex.getMessage() + " on complete deleteMembre().");
-				throw new DaoException("Connexion échoué : Impossible de supprimer le projet");
-			}
+		final ProjetDO projetDO = findProjetById(pIdProjet);
+
+		try {
+			// la méthode delete permet de supprimer le projet dans la table
+			HibernateSessionFactory.getSession().delete(projetDO);
+		} catch (HibernateException ex) {
+			// Critical errors : database unreachable, etc.
+			lLOGGER.error("Exception - DataAccessException occurs : " 
+					+ ex.getMessage() + " on complete deleteMembre().");
+			throw new DaoException("Connexion échoué : Impossible de supprimer le projet");
 		}
+		
 		lLOGGER.info("Fin méthode : deleteProjet");
 	}
 	
@@ -205,23 +197,16 @@ public class ProjetDAOImpl implements IProjetDAO {
 		//On initialise le LOGGER
 		lLOGGER.info("Début méthode : deleteMembre");
 		
-		//On recuepre le projet via son Id
-		final ProjetDO lProjetDO = findProjetById(pProjetDO.getIdProjet());
-		
-		// si le membre n'existe pas, on leve une exception
-		if (lProjetDO == null) {
-			throw new DaoException("Modification échoué : Le projet n'est pas connu.");
-		} else {
-			try {
-				// la méthode delete permet de supprimer le projet dans la table
-				HibernateSessionFactory.getSession().delete(pProjetDO);
-			} catch (HibernateException ex) {
-				// Critical errors : database unreachable, etc.
-				lLOGGER.error("Exception - DataAccessException occurs : " 
-						+ ex.getMessage() + " on complete deleteMembre().");
-				throw new DaoException("Connexion échoué : Impossible de supprimer le projet");
-			}
+		try {
+			// la méthode delete permet de supprimer le projet dans la table
+			HibernateSessionFactory.getSession().delete(pProjetDO);
+		} catch (HibernateException ex) {
+			// Critical errors : database unreachable, etc.
+			lLOGGER.error("Exception - DataAccessException occurs : " 
+					+ ex.getMessage() + " on complete deleteMembre().");
+			throw new DaoException("Connexion échoué : Impossible de supprimer le projet");
 		}
+		
 		lLOGGER.info("Fin méthode : deleteProjet");
 	}
 	

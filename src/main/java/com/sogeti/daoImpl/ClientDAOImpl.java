@@ -33,7 +33,7 @@ public class ClientDAOImpl implements IClientDAO {
 	public ClientDO findClientById(final int pIdClient) throws DaoException {
 		
 		//on initilalise le clientDO a null
-		ClientDO lClientDO = null;
+		ClientDO clientDO = null;
 	
 		//On initialise le LOGGER
 		lLOGGER.info("Début méthode : findClientById");
@@ -43,10 +43,10 @@ public class ClientDAOImpl implements IClientDAO {
 		} else {
 			try {
 				//On verifie l'egalité du role recu avec clui qu'on n'a en base
-				final Criteria lCriteria = HibernateSessionFactory.getSession()
+				final Criteria criteria = HibernateSessionFactory.getSession()
 						.createCriteria(ClientDO.class);
-				lCriteria.add(Restrictions.eq("idClient", pIdClient));
-				lClientDO = (ClientDO) lCriteria.uniqueResult();
+				criteria.add(Restrictions.eq("idClient", pIdClient));
+				clientDO = (ClientDO) criteria.uniqueResult();
 				
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
@@ -56,6 +56,6 @@ public class ClientDAOImpl implements IClientDAO {
 			}
 		}
 		lLOGGER.info("Fin méthode : findClientById");
-		return lClientDO;
+		return clientDO;
 	}
 }

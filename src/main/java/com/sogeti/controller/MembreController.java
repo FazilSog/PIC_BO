@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sogeti.bo.IMembreBO;
-import com.sogeti.dto.AuthentificationDTO;
 import com.sogeti.dto.MembreDTO;
 import com.sogeti.exception.DaoException;
 import com.sogeti.utils.Token;
@@ -29,7 +28,6 @@ import com.sogeti.utils.Utils;
  *
  */
 @Controller
-@CrossOrigin
 @RequestMapping("PIC_BO/membre")
 public class MembreController {
 	
@@ -62,35 +60,45 @@ public class MembreController {
 	 * @return un responseEntity qui contient (soit un objet MembreDTO (avec id seulement) avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
+	@CrossOrigin(origins="*",methods = RequestMethod.POST)
 	@RequestMapping(value="/membre", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> addMembre( @RequestBody MembreDTO pMembreDTO, @RequestHeader AuthentificationDTO pAuthen) 
+	public ResponseEntity<Object> addMembre( @RequestBody MembreDTO pMembreDTO, 
+			@RequestHeader(value="Authorization") String pToken) 
 	{  
 
-		final String lUsername = pMembreDTO.getUsername();
-		final String lToken = pAuthen.getTokenMembre();
-		int lIdRole = pMembreDTO.getIdRole();
+		/*for (String header : headers.keySet()) {
+			System.out.println("elem = " + headers.get(header));
+		}*/
+		final MembreDTO membreDTO = pMembreDTO;
+		
+		final String username = membreDTO.getUsername();
+		String password = membreDTO.getPassword();
+		int idRole = membreDTO.getIdRole();
+		boolean status = true; 
 		// Décrypter le token pour obtenir l'id Client
-		int lIdClient = Token.obtenirIdClient(lToken);
-		boolean lStatus = true; 
+		int idClient = Token.obtenirIdClient(pToken);
 		
-		String lPassword = "";
-		try {
-			lPassword = Utils.EncryptMdp(pMembreDTO.getPassword());
-		} catch (NoSuchAlgorithmException ex) {
-			lLOGGER.warn(ex.getMessage());
-			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
-		}
-		
-		lLOGGER.info("The username is : " + lUsername + " , The password is : " + lPassword 
-				+ " , The Status is : " + lStatus);
-		
-		// on vérifie si le username, le password et le role sont différents de null ou vide
-		if (StringUtils.isNotBlank(lUsername) && StringUtils.isNotBlank(lPassword))
+		// on vérifie si le username, le password sont différents de null ou vide et id role, id client sont différents de zéro
+		if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) && idClient != 0 && idRole != 0)
 		{
+			// on set l'id client et le status
+			membreDTO.setIdClient(idClient);
+			membreDTO.setStatus(status);
+			
+			// on crypte le mot de pass
 			try {
-				MembreDTO lMembreDTOAdd = getMembreBO().addMembre(lUsername, lPassword, lStatus, lIdClient, lIdRole);
+				password = Utils.EncryptMdp(password);
+			} catch (NoSuchAlgorithmException ex) {
+				lLOGGER.warn(ex.getMessage());
+				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
+			}
+			
+			lLOGGER.info("The username is : " + username + " , The password is : " + password 
+					+ " , The Status is : " + status);
+			try {
+				final MembreDTO membreDTOAdd = getMembreBO().addMembre(membreDTO);
 				
-				return new ResponseEntity<Object>(lMembreDTOAdd, HttpStatus.CREATED);
+				return new ResponseEntity<Object>(membreDTOAdd, HttpStatus.CREATED);
 			} catch (DaoException ex) {
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
@@ -107,25 +115,27 @@ public class MembreController {
 	 * @return un responseEntity qui contient (soit un objet null avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
+	@CrossOrigin(origins="*",methods = RequestMethod.PUT)
 	@RequestMapping(value="/Membre", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> updateMembre( @RequestBody MembreDTO pMembreDTO) 
 	{  
 
-		int lIdMembre = pMembreDTO.getIdMembre();
-		String lUsername = pMembreDTO.getUsername();
-		String lPassword = pMembreDTO.getPassword();
-		int lIdClient = pMembreDTO.getIdClient();
-		int lIdRole = pMembreDTO.getIdRole();
-		boolean lStatus = true; 
+		final int idMembre = pMembreDTO.getIdMembre();
+		final String username = pMembreDTO.getUsername();
+		final String password = pMembreDTO.getPassword();
+		final int idClient = pMembreDTO.getIdClient();
+		final int idRole = pMembreDTO.getIdRole();
+		final boolean status = pMembreDTO.isStatus(); 
 		
-		lLOGGER.info("The username is : " + lUsername + " , The password is : " + lPassword 
-				+ " ,  The Status is : " + lStatus + " , The id is : " + lIdMembre);
+		lLOGGER.info("The username is : " + username + " , The password is : " + password 
+				+ " ,  The Status is : " + status + " , The id is : " + idMembre);
 		
-		// on vérifie si le username, le password, role et le status sont différents de null ou vide
-		if (lIdMembre != 0 && StringUtils.isNotBlank(lUsername) && StringUtils.isNotBlank(lPassword))
+		// on vérifie si le username et le password  sont différents de null ou vide
+		if (idMembre != 0 && StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) 
+				&& idClient != 0 && idRole != 0)
 		{
 			try {
-				getMembreBO().updateMembre(lIdMembre, lUsername, lPassword, lStatus, lIdClient, lIdRole);
+				getMembreBO().updateMembre(pMembreDTO);
 				
 				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
@@ -144,6 +154,7 @@ public class MembreController {
 	 * @return un responseEntity qui contient (soit un objet null avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
+	@CrossOrigin(origins="*",methods = RequestMethod.DELETE)
 	@RequestMapping(value="/membre/{idMembre}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> deleteMembre( @PathVariable("idMembre")  int pIdMembre) 
 	{  
@@ -173,6 +184,7 @@ public class MembreController {
 	 * @return un responseEntity qui contient (soit liste des membres avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
+	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/membres", method = RequestMethod.GET)
 	public ResponseEntity<Object> listeMembres() 
 	{  

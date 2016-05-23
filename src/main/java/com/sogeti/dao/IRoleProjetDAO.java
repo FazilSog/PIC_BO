@@ -1,5 +1,6 @@
 package com.sogeti.dao;
 
+import com.sogeti.dao.model.ProjetDO;
 import com.sogeti.dao.model.RoleProjetDO;
 import com.sogeti.exception.DaoException;
 
@@ -43,11 +44,11 @@ public interface IRoleProjetDAO {
 	
 	/**
 	 * Elle permet de recuperer un RoleProjet via l'id projet
-	 * @param pIdProjet id projet
+	 * @param pProjetDO le projet DO
 	 * @return objet de type  RoleProjetDO
 	 * @throws DaoException exception
 	 */
-	public RoleProjetDO findRoleProjetByIdProjet (final int pIdProjet) throws DaoException;
+	public RoleProjetDO findRoleProjet (final ProjetDO pProjetDO) throws DaoException;
 	
 
 }
