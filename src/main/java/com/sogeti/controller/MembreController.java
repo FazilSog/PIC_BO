@@ -64,11 +64,10 @@ public class MembreController {
 	@CrossOrigin(origins="*",methods = RequestMethod.POST)
 	@RequestMapping(value="/membre", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> addMembre( @RequestBody MembreDTO pMembreDTO, 
-			@RequestHeader HttpHeaders pHeaders) 
+			@RequestHeader HttpHeaders pHttpHeaders) 
 	{  
 		// on récupère le token via le header
-		final String authorization = pHeaders.get("Authorization").toString();
-		final String token = authorization.substring(26, authorization.length() - 3);
+		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
 
 		final MembreDTO membreDTO = pMembreDTO;
 		

@@ -63,31 +63,41 @@ public class ProjetController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.POST)
 	@RequestMapping(value="/projet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> addProjet( @RequestBody ProjetDTO pProjetDTO) 
+	public ResponseEntity<Object> addProjet( @RequestBody ProjetDTO pProjetDTO, 
+			@RequestHeader HttpHeaders pHttpHeaders) 
 	{   
-		String branche = pProjetDTO.getBranche();
-		int idProjet = pProjetDTO.getIdProjet();
-		String frequence = pProjetDTO.getFrequence();
-		char status = pProjetDTO.getStatus();
-		String nomProjet = pProjetDTO.getNomProjet();
-		String credential = pProjetDTO.getCredential();
+		final ProjetDTO  projetDTO = pProjetDTO;
+		
+		// on récupère le token via le header
+		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
+
+		// Décrypter le token pour obtenir l'id Client
+		int idClient = Token.obtenirIdClient(token);
+		projetDTO.setIdClient(idClient);
+		
+		String branche = projetDTO.getBranche();
+		int idProjet = projetDTO.getIdProjet();
+		String frequence = projetDTO.getFrequence();
+		char status = projetDTO.getStatus();
+		String nomProjet = projetDTO.getNomProjet();
+		String credential = projetDTO.getCredential();
 		boolean actif = true;
-		String description = pProjetDTO.getDescription();
-		String url = pProjetDTO.getUrl();
+		String description = projetDTO.getDescription();
+		String url = projetDTO.getUrl();
 		
 		LOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
 				+ " , The frequance is : " + frequence + " , The Status is : " + status + " , The nomProjet is : " + nomProjet
 				+ " , The credentiel is : " + credential + " , The actif is : " + actif + " , The description is : " + description
 				+ " , The url is : " + url);
 		
+		//TODO a verifier la regle metier et quelles sont les champs obligatoires 
 		// on vérifie si le username, le password et le role sont différents de null ou vide
 		if (StringUtils.isNotBlank(branche) && StringUtils.isNotBlank(url) && StringUtils.isNotBlank(nomProjet) 
 				&& StringUtils.isNotBlank(frequence) && StringUtils.isNotBlank(credential) 
 				&& StringUtils.isNotBlank(String.valueOf(status)) && StringUtils.isNotBlank(description))
 		{
-			//TODO a verifier la regle metier et quelles sont les champs obligatoires 
 			try {
-				final ProjetDTO lProjetDTOAdd = getProjetBO().addProjet(pProjetDTO);
+				final ProjetDTO lProjetDTOAdd = getProjetBO().addProjet(projetDTO);
 				
 				return new ResponseEntity<Object>(lProjetDTOAdd, HttpStatus.CREATED);
 			} catch (DaoException ex) {
@@ -181,11 +191,10 @@ public class ProjetController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/projets", method = RequestMethod.GET)
-	public ResponseEntity<Object> listeProjets(@RequestHeader HttpHeaders pHeaders) 
+	public ResponseEntity<Object> listeProjets(@RequestHeader HttpHeaders pHttpHeaders) 
 	{  
 		// on récupère le token via le header
-		final String authorization = pHeaders.get("Authorization").toString();
-		final String token = authorization.substring(26, authorization.length() - 3);
+		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
 		
 		// Décrypter le token pour obtenir l'id Client
 		int idClient = Token.obtenirIdClient(token);
@@ -207,11 +216,10 @@ public class ProjetController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/projetsMembre", method = RequestMethod.GET)
-	public ResponseEntity<Object> listeProjetsByMembre(@RequestHeader HttpHeaders pHeaders) 
+	public ResponseEntity<Object> listeProjetsByMembre(@RequestHeader HttpHeaders pHttpHeaders) 
 	{  
 		// on récupère le token via le header
-		final String authorization = pHeaders.get("Authorization").toString();
-		final String token = authorization.substring(26, authorization.length() - 3);
+		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
 		
 		// Décrypter le token pour obtenir l'id Membre
 		int idMembre = Token.obtenirIdMembre(token);

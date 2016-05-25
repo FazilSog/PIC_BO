@@ -116,8 +116,8 @@ public class ProjetBOImpl implements IProjetBO {
 		// on instancie l'objet ProjetDTO
 		final ProjetDTO projetDTO = new ProjetDTO();
 		
-		// on recupere le membre via l'id
-		final MembreDO membreDO = getMembreDAO().findMembreById(pProjetDTO.getIdMembre());
+		// on recupere le client via l'id
+		final ClientDO clientDO = getClientDAO().findClientById(pProjetDTO.getIdClient());
 				
 		// on ajoute le projet dans la table
 		final ProjetDO projetDONew = new ProjetDO();
@@ -130,7 +130,7 @@ public class ProjetBOImpl implements IProjetBO {
 		projetDONew.setNomProjet(pProjetDTO.getNomProjet());
 		projetDONew.setStatus(pProjetDTO.getStatus());
 		projetDONew.setUrl(pProjetDTO.getUrl());
-		projetDONew.setClient(membreDO.getClient());
+		projetDONew.setClient(clientDO);
 		
 		// on ajoute le projet	 
 		final ProjetDO projetDO = getProjetDAO().addProjet(projetDONew);
@@ -139,13 +139,13 @@ public class ProjetBOImpl implements IProjetBO {
 		projetDTO.setIdProjet(projetDO.getIdProjet());
 		
 		// on instancie l'objet RoleProjetDO
-		final RoleProjetDO roleProjetDO = new RoleProjetDO();
+		/*final RoleProjetDO roleProjetDO = new RoleProjetDO();
 		roleProjetDO.setMembre(membreDO);
 		roleProjetDO.setProjet(projetDO);
 		roleProjetDO.setRole(membreDO.getRoleMembre());
 		 
 		// on ajoute le roleProjetDO
-		getRoleProjetDAO().addRoleProjet(roleProjetDO);
+		getRoleProjetDAO().addRoleProjet(roleProjetDO);*/
 		 
 				
 		return projetDTO;

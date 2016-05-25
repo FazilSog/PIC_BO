@@ -8,7 +8,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 
 /**
  * 
@@ -96,7 +98,7 @@ public class Token {
 		int idClient = 0;
 		
 		// on vérifie si le token est signé
-		if (Jwts.parser().isSigned(pJwt))
+		if (StringUtils.isNotBlank(pJwt) && Jwts.parser().isSigned(pJwt))
 		{
 			// on obtient le claims (Payload)
 			final Claims claims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(pJwt).getBody();
@@ -118,7 +120,7 @@ public class Token {
 		int idMembre = 0;
 		
 		// on vérifie si le token est signé
-		if (Jwts.parser().isSigned(pJwt))
+		if (StringUtils.isNotBlank(pJwt) && Jwts.parser().isSigned(pJwt))
 		{
 			// on obtient le claims (Payload)
 			final Claims claims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(pJwt).getBody();
@@ -128,6 +130,24 @@ public class Token {
 			}
 		}
 		return idMembre;
+	}
+	
+	/**
+	 * Cette méthode permet d'obtenir l'id membre via le token
+	 * @param pJwt le token
+	 * @return l'id membre
+	 */
+	public static String obtenirTokenByhttpHeaders(final HttpHeaders pHeaders)
+	{
+		// on récupère le token via le header
+		String token = "";
+		final String authorization = pHeaders.get("Authorization").toString();
+		if (StringUtils.isNotBlank(authorization))
+		{
+			token = authorization.substring(26, authorization.length() - 3);
+		}
+		
+		return token;
 	}
 	
 	/**
