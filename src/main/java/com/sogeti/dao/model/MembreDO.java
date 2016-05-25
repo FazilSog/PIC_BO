@@ -48,7 +48,7 @@ public class MembreDO {
 	@JoinColumn(name = "IDROLE")
 	private RoleDO roleMembre;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy ="membre")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy ="membre")
 	private Set<RoleProjetDO> roleProjet = new HashSet<RoleProjetDO>();
 	
 	/**
@@ -181,8 +181,7 @@ public class MembreDO {
 	 * @param roleProjet l'objet roleProjetDO
 	 */
 	public MembreDO(final int idMembre, final String username, final String password,
-			final boolean status, final String token, final ClientDO client, final RoleDO roleMembre,
-			final Set<RoleProjetDO> roleProjet) {
+			final boolean status, final String token, final ClientDO client, final RoleDO roleMembre) {
 		this.idMembre = idMembre;
 		this.username = username;
 		this.password = password;
@@ -190,7 +189,6 @@ public class MembreDO {
 		this.token = token;
 		this.client = client;
 		this.roleMembre = roleMembre;
-		this.roleProjet = roleProjet;
 	}
 	
 	/**

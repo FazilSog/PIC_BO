@@ -53,7 +53,7 @@ public class RoleControlller {
 	 * ou un message d'erreur avec le code status 403)
 	 */
 	@RequestMapping(value="/roles", method = RequestMethod.GET)
-	public ResponseEntity<Object> listerRoles() 
+	public ResponseEntity<Object> listeRoles() 
 	{  
 		lLOGGER.info("Début méthode listerRoles dans le controlleur : RoleController");
 		try {

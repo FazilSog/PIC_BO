@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ import com.sogeti.utils.Utils;
 @RequestMapping("PIC_BO/membre")
 public class MembreController {
 	
-	private Logger lLOGGER = Logger.getLogger(MembreController.class);
+	private Logger LOGGER = Logger.getLogger(MembreController.class);
 	
 	@Autowired
 	private IMembreBO membreBO;
@@ -63,12 +64,12 @@ public class MembreController {
 	@CrossOrigin(origins="*",methods = RequestMethod.POST)
 	@RequestMapping(value="/membre", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> addMembre( @RequestBody MembreDTO pMembreDTO, 
-			@RequestHeader(value="Authorization") String pToken) 
+			@RequestHeader HttpHeaders pHeaders) 
 	{  
+		// on récupère le token via le header
+		final String authorization = pHeaders.get("Authorization").toString();
+		final String token = authorization.substring(26, authorization.length() - 3);
 
-		/*for (String header : headers.keySet()) {
-			System.out.println("elem = " + headers.get(header));
-		}*/
 		final MembreDTO membreDTO = pMembreDTO;
 		
 		final String username = membreDTO.getUsername();
@@ -76,7 +77,7 @@ public class MembreController {
 		int idRole = membreDTO.getIdRole();
 		boolean status = true; 
 		// Décrypter le token pour obtenir l'id Client
-		int idClient = Token.obtenirIdClient(pToken);
+		int idClient = Token.obtenirIdClient(token);
 		
 		// on vérifie si le username, le password sont différents de null ou vide et id role, id client sont différents de zéro
 		if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) && idClient != 0 && idRole != 0)
@@ -88,13 +89,16 @@ public class MembreController {
 			// on crypte le mot de pass
 			try {
 				password = Utils.EncryptMdp(password);
+				
+				membreDTO.setPassword(password);
 			} catch (NoSuchAlgorithmException ex) {
-				lLOGGER.warn(ex.getMessage());
-				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
+				LOGGER.warn(ex.getMessage());
+				return new ResponseEntity<Object>("Impossible de crypter le password !", HttpStatus.FORBIDDEN);
 			}
 			
-			lLOGGER.info("The username is : " + username + " , The password is : " + password 
+			LOGGER.info("The username is : " + username + " , The password is : " + password 
 					+ " , The Status is : " + status);
+			
 			try {
 				final MembreDTO membreDTOAdd = getMembreBO().addMembre(membreDTO);
 				
@@ -127,7 +131,7 @@ public class MembreController {
 		final int idRole = pMembreDTO.getIdRole();
 		final boolean status = pMembreDTO.isStatus(); 
 		
-		lLOGGER.info("The username is : " + username + " , The password is : " + password 
+		LOGGER.info("The username is : " + username + " , The password is : " + password 
 				+ " ,  The Status is : " + status + " , The id is : " + idMembre);
 		
 		// on vérifie si le username et le password  sont différents de null ou vide
@@ -159,7 +163,7 @@ public class MembreController {
 	public ResponseEntity<Object> deleteMembre( @PathVariable("idMembre")  int pIdMembre) 
 	{  
 		
-		lLOGGER.info("The id is : " + pIdMembre);
+		LOGGER.info("The id is : " + pIdMembre);
 		
 		// on vérifie si l'id est différent de zéro
 		if (pIdMembre != 0 )

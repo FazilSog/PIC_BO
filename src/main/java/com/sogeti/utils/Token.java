@@ -8,6 +8,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * 
  * @author moissa
@@ -16,45 +18,51 @@ import java.util.Date;
 
 public class Token {
 
+	@Value("${com.sogeti.cleToken}")
+	private static String cleSignature;
+	
+	
 	/**
 	 * Cette méthode genere un token JSON Web Token (JWT)
 	 * En general, le JWT contient 3 parties : Header, Payload, Signature
 	 * 
 	 */
-	public static String generateToken(final int idMembre, final int idClient) {
+	public static String generateToken(final int pIdMembre, final int pIdClient) {
 		
 		// on instancie le JWTBuilder
-		final JwtBuilder lJwtBuilder = Jwts.builder();
+		final JwtBuilder jwtBuilder = Jwts.builder();
 		
 		// 1 - Partie Header
-		lJwtBuilder.setHeaderParam("alg", "HS256");
-		lJwtBuilder.setHeaderParam("typ", "JWT");
+		jwtBuilder.setHeaderParam("alg", "HS256");
+		jwtBuilder.setHeaderParam("typ", "JWT");
 		
 		// 2 - Payload
 		// Claims
-		final Claims lClaims = Jwts.claims();
+		final Claims claims = Jwts.claims();
 		// id membre et idClient
-		lClaims.put("id_membre", idMembre);
-		lClaims.put("idClient", idClient);
+		claims.put("idMembre", pIdMembre);
+		claims.put("idClient", pIdClient);
 		// Sujet (subject)
-		lClaims.put("subject", "totot");
+		claims.put("subject", "totot");
 		// Date de création du token
-		lClaims.put("iat", new Date().getTime());
+		claims.put("iat", new Date().getTime());
 		// Date d’expiration du token (expiration)
-		final Calendar lCal = Calendar.getInstance();
-		lCal.setTime(new Date());		
-		long timeStamp = lCal.getTime().getTime();		
-		lClaims.put("expiration", timeStamp + 60);
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());		
+		long timeStamp = cal.getTime().getTime();		
+		claims.put("expiration", timeStamp + 60);
 
-		lJwtBuilder.setClaims(lClaims);
-
+		jwtBuilder.setClaims(claims);
+		
+		System.out.println("Clé Signature = " + cleSignature);
+		
 		// 3 - Signature 
 		// TODO définir une clé (exemle : SOGETIpIC3456698)
-		lJwtBuilder.signWith(SignatureAlgorithm.HS256, "SOGETIpIC3456698");
+		jwtBuilder.signWith(SignatureAlgorithm.HS256, "SOGETIpIC3456698");
 		 
 		// La méthode compact réalise l'encodage en Base64URL et concaténer les 
 		// 3 parties du JWT (Header + Payload + Signature)
-		return lJwtBuilder.compact();
+		return jwtBuilder.compact();
 
 	}
 	
@@ -80,24 +88,46 @@ public class Token {
 	
 	/**
 	 * Cette méthode permet d'obtenir l'id client via le token
-	 * @param jwt le token
+	 * @param pJwt le token
 	 * @return l'id client
 	 */
-	public static int obtenirIdClient(final String jwt)
+	public static int obtenirIdClient(final String pJwt)
 	{
-		int lIdClient = 0;
+		int idClient = 0;
 		
 		// on vérifie si le token est signé
-		if (Jwts.parser().isSigned(jwt))
+		if (Jwts.parser().isSigned(pJwt))
 		{
 			// on obtient le claims (Payload)
-			final Claims lClaims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(jwt).getBody();
+			final Claims claims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(pJwt).getBody();
 			
-			if (lClaims.containsKey("idClient")) {
-				lIdClient = Integer.parseInt(lClaims.get("idClient").toString());
+			if (claims.containsKey("idClient")) {
+				idClient = Integer.parseInt(claims.get("idClient").toString());
 			}
 		}
-		return lIdClient;
+		return idClient;
+	}
+	
+	/**
+	 * Cette méthode permet d'obtenir l'id membre via le token
+	 * @param pJwt le token
+	 * @return l'id membre
+	 */
+	public static int obtenirIdMembre(final String pJwt)
+	{
+		int idMembre = 0;
+		
+		// on vérifie si le token est signé
+		if (Jwts.parser().isSigned(pJwt))
+		{
+			// on obtient le claims (Payload)
+			final Claims claims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(pJwt).getBody();
+			
+			if (claims.containsKey("idMembre")) {
+				idMembre = Integer.parseInt(claims.get("idMembre").toString());
+			}
+		}
+		return idMembre;
 	}
 	
 	/**

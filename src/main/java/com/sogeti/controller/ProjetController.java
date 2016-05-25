@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sogeti.bo.IProjetBO;
 import com.sogeti.dto.ProjetDTO;
 import com.sogeti.exception.DaoException;
+import com.sogeti.utils.Token;
 /**
  * 
  * @author syahiaou
@@ -29,7 +32,7 @@ import com.sogeti.exception.DaoException;
 public class ProjetController {
 	
 	//Initialisation du logger
-	private Logger lLOGGER = Logger.getLogger(ProjetController.class);
+	private Logger LOGGER = Logger.getLogger(ProjetController.class);
 	
 	@Autowired
 	private IProjetBO projetBO;
@@ -72,7 +75,7 @@ public class ProjetController {
 		String description = pProjetDTO.getDescription();
 		String url = pProjetDTO.getUrl();
 		
-		lLOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
+		LOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
 				+ " , The frequance is : " + frequence + " , The Status is : " + status + " , The nomProjet is : " + nomProjet
 				+ " , The credentiel is : " + credential + " , The actif is : " + actif + " , The description is : " + description
 				+ " , The url is : " + url);
@@ -82,7 +85,7 @@ public class ProjetController {
 				&& StringUtils.isNotBlank(frequence) && StringUtils.isNotBlank(credential) 
 				&& StringUtils.isNotBlank(String.valueOf(status)) && StringUtils.isNotBlank(description))
 		{
-			//TODO a verifier la regle metier et quels sont les champs obligatoire 
+			//TODO a verifier la regle metier et quelles sont les champs obligatoires 
 			try {
 				final ProjetDTO lProjetDTOAdd = getProjetBO().addProjet(pProjetDTO);
 				
@@ -117,7 +120,7 @@ public class ProjetController {
 		String description = pProjetDTO.getDescription();
 		String url = pProjetDTO.getUrl();
 		
-		lLOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
+		LOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
 				+ " , The frequance is : " + frequence + " , The Status is : " + status + " , The nomProjet is : " + nomProjet
 				+ " , The credentiel is : " + credential + " , The actif is : " + actif + " , The description is : " + description
 				+ " , The url is : " + url);
@@ -152,7 +155,7 @@ public class ProjetController {
 	public ResponseEntity<Object> deleteProjet( @PathVariable("idProjet")  int pIdProjet) 
 	{  
 		
-		lLOGGER.info("The id is : " + pIdProjet);
+		LOGGER.info("The id is : " + pIdProjet);
 		
 		// on vérifie si l'id est différent de zéro
 		if (pIdProjet != 0 )
@@ -171,18 +174,24 @@ public class ProjetController {
 	}
 	
 	/**
-	 * Elle permet de récuperer la liste des projets
+	 * Elle permet de récuperer la liste des projets d'un client
 	 * 
 	 * @return un responseEntity qui contient (soit liste des membres avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/projets", method = RequestMethod.GET)
-	public ResponseEntity<Object> listeProjets() 
+	public ResponseEntity<Object> listeProjets(@RequestHeader HttpHeaders pHeaders) 
 	{  
+		// on récupère le token via le header
+		final String authorization = pHeaders.get("Authorization").toString();
+		final String token = authorization.substring(26, authorization.length() - 3);
+		
+		// Décrypter le token pour obtenir l'id Client
+		int idClient = Token.obtenirIdClient(token);
+		
 		try {
-			// TODO à récuper l'id client via le token
-			List<ProjetDTO> lListeprojets = getProjetBO().listerProjets(1);
+			final List<ProjetDTO> lListeprojets = getProjetBO().listerProjets(idClient);
 			
 			return new ResponseEntity<Object>(lListeprojets, HttpStatus.CREATED);
 		} catch (DaoException ex) {
@@ -198,11 +207,17 @@ public class ProjetController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/projetsMembre", method = RequestMethod.GET)
-	public ResponseEntity<Object> listeProjetsByMembre() 
+	public ResponseEntity<Object> listeProjetsByMembre(@RequestHeader HttpHeaders pHeaders) 
 	{  
+		// on récupère le token via le header
+		final String authorization = pHeaders.get("Authorization").toString();
+		final String token = authorization.substring(26, authorization.length() - 3);
+		
+		// Décrypter le token pour obtenir l'id Membre
+		int idMembre = Token.obtenirIdMembre(token);
+				
 		try {
-			// TODO à récuper l'id Membre via le token
-			List<ProjetDTO> lListeprojets = getProjetBO().listerProjetsByMembre(1);
+			final List<ProjetDTO> lListeprojets = getProjetBO().listerProjetsByMembre(idMembre);
 			
 			return new ResponseEntity<Object>(lListeprojets, HttpStatus.CREATED);
 		} catch (DaoException ex) {

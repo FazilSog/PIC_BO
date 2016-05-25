@@ -241,8 +241,7 @@ public class ProjetDO {
 	 */
 	public ProjetDO(final int idProjet, final String url, final String nomProjet,
 			final String credential, final String frequence, final String branche,
-			final String description, final boolean actif, final char status, final ClientDO client,
-			final Set<RoleProjetDO> roleProjet) {
+			final String description, final boolean actif, final char status, final ClientDO client) {
 		
 		this.idProjet = idProjet;
 		this.url = url;
@@ -254,7 +253,6 @@ public class ProjetDO {
 		this.actif = actif;
 		this.status = status;
 		this.client = client;
-		this.roleProjet = roleProjet;
 	}
 
 	/**
