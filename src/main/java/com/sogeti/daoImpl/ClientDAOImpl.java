@@ -55,6 +55,12 @@ public class ClientDAOImpl implements IClientDAO {
 				throw new DaoException("Connexion échoué : Identifiant inconnu");
 			}
 		}
+		
+		// on test si l'objet client est == null
+		if (clientDO == null)
+		{
+			throw new DaoException("Le client n'est pas connu!");
+		}
 		lLOGGER.info("Fin méthode : findClientById");
 		return clientDO;
 	}

@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 
 /**
@@ -20,9 +19,6 @@ import org.springframework.http.HttpHeaders;
 
 public class Token {
 
-	@Value("${com.sogeti.cleToken}")
-	private static String cleSignature;
-	
 	
 	/**
 	 * Cette méthode genere un token JSON Web Token (JWT)
@@ -55,8 +51,6 @@ public class Token {
 		claims.put("expiration", timeStamp + 60);
 
 		jwtBuilder.setClaims(claims);
-		
-		System.out.println("Clé Signature = " + cleSignature);
 		
 		// 3 - Signature 
 		// TODO définir une clé (exemle : SOGETIpIC3456698)
@@ -134,16 +128,16 @@ public class Token {
 	
 	/**
 	 * Cette méthode permet d'obtenir l'id membre via le token
-	 * @param pJwt le token
-	 * @return l'id membre
+	 * @param pHeaders le http headers
+	 * @return le token
 	 */
 	public static String obtenirTokenByhttpHeaders(final HttpHeaders pHeaders)
 	{
 		// on récupère le token via le header
 		String token = "";
-		final String authorization = pHeaders.get("Authorization").toString();
-		if (StringUtils.isNotBlank(authorization))
+		if (pHeaders.get("Authorization") != null && StringUtils.isNotBlank(pHeaders.get("Authorization").toString()))
 		{
+			final String authorization = pHeaders.get("Authorization").toString();
 			token = authorization.substring(26, authorization.length() - 3);
 		}
 		
