@@ -31,7 +31,7 @@ import com.sogeti.utils.Utils;
 @RequestMapping("PIC_BO/authentification")
 public class AuthentificationController {
 	
-	private static final Logger aLOGGER = Logger.getLogger(AuthentificationController.class);
+	private static final Logger LOGGER = Logger.getLogger(AuthentificationController.class);
 	
 	@Autowired
 	private IMembreBO membreBO;
@@ -51,7 +51,7 @@ public class AuthentificationController {
 	}
 
 	public AuthentificationController(){
-		aLOGGER.info("init AuthentificationController");
+		LOGGER.info("init AuthentificationController");
 	}
 	 
 	@RequestMapping(value="/auth", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -62,12 +62,12 @@ public class AuthentificationController {
 		try {
 			lPassword = Utils.encryptMdp(pMembreDTO.getPassword());
 		} catch (NoSuchAlgorithmException ex) {
-			aLOGGER.warn(ex.getMessage());
+			LOGGER.warn(ex.getMessage());
 			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 		}
 		
 		
-		aLOGGER.info("The username is: " + lUsername + ", The password is: " + lPassword);
+		LOGGER.info("The username is: " + lUsername + ", The password is: " + lPassword);
 		
 		// on vérifie si le username et le password sont différents de null ou vide
 		if (StringUtils.isNotBlank(lUsername) && StringUtils.isNotBlank(lPassword))

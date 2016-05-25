@@ -28,7 +28,7 @@ import com.sogeti.utils.HibernateSessionFactory;
 public class ProjetDAOImpl implements IProjetDAO {
 	
 	// Initialisation du LOGGER
-	private static final Logger aLOGGER =Logger.getLogger(ProjetDAOImpl.class);
+	private static final Logger LOGGER =Logger.getLogger(ProjetDAOImpl.class);
 
 	
 	/**
@@ -37,7 +37,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 	 */
 	private ProjetDO findProjet(final String pNomProjet, final String pUrl, final String pBranche) throws DaoException {
 		
-		aLOGGER.info("Début méthode : getMembre");
+		LOGGER.info("Début méthode : getMembre");
 		
 		ProjetDO ProjetDO = null;
 		
@@ -55,11 +55,11 @@ public class ProjetDAOImpl implements IProjetDAO {
 				
 			} catch (HibernateException e) {
 				// Critical errors : database unreachable, etc.
-				aLOGGER.error("Exception - DataAccessException occurs : " + e.getMessage() + " on complete getProjet().");
+				LOGGER.error("Exception - DataAccessException occurs : " + e.getMessage() + " on complete getProjet().");
 				throw new DaoException("Connexion échoué : Projet inconnu");
 			}
 		}
-		aLOGGER.info("Fin méthode : getProjet");
+		LOGGER.info("Fin méthode : getProjet");
 		
 		return ProjetDO;
 	}
@@ -71,7 +71,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 	public ProjetDO findProjetById(int pIdProjet) throws DaoException {
 		
 		//initialaisation du logger
-		aLOGGER.info("Début méthode : getProjet");
+		LOGGER.info("Début méthode : getProjet");
 		
 		ProjetDO projetDO = null;
 		
@@ -79,7 +79,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 			throw new DaoException("L'identifiant est obligatoire. Valeur zéro est interdit.");
 		} else {
 			try {
-				aLOGGER.info("On recupére le projet à partie de son Id: " + pIdProjet);
+				LOGGER.info("On recupére le projet à partie de son Id: " + pIdProjet);
 				
 				// create a new criteria
 				final Criteria criteria = HibernateSessionFactory.getSession().createCriteria(ProjetDO.class);
@@ -88,7 +88,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 				
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
-				aLOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete getProjet().");
+				LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete getProjet().");
 				throw new DaoException("Connexion échoué : Identifiant inconnu");
 			}
 		}
@@ -96,7 +96,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 		if (projetDO == null) {
 			throw new DaoException("Le projet n'existe pas.");
 		} 
-		aLOGGER.info("Fin méthode : getMembre");
+		LOGGER.info("Fin méthode : getMembre");
 		return projetDO;
 	}
 	
@@ -107,7 +107,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 	public ProjetDO addProjet(final ProjetDO pProjetDO) throws DaoException {
 		
 		//On initialise le LOGGER
-		aLOGGER.info("Début méthode : addProjet");
+		LOGGER.info("Début méthode : addProjet");
 		
 		//On instancie l'objet PrjetDO
 		final ProjetDO projetDO = pProjetDO;
@@ -129,12 +129,12 @@ public class ProjetDAOImpl implements IProjetDAO {
 				
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
-				aLOGGER.error("Exception - DataAccessException occurs : " 
+				LOGGER.error("Exception - DataAccessException occurs : " 
 						+ ex.getMessage() + " on complete addProjet().");
 				throw new DaoException("Connexion échoué : Impossible de créer le projet");
 
 			}
-			aLOGGER.info("Fin méthode : addProjet");
+			LOGGER.info("Fin méthode : addProjet");
 			return projetDO;
 		}
 	}
@@ -146,7 +146,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 	public void updateProjet(final ProjetDO pProjetDO) throws DaoException{
 		
 		//On initialise le LOGGER
-		aLOGGER.info("Début méthode : updateProjet");
+		LOGGER.info("Début méthode : updateProjet");
 			
 		try {
 			//On met a jour le projet
@@ -155,12 +155,12 @@ public class ProjetDAOImpl implements IProjetDAO {
 		} catch (HibernateException ex) {
 			
 			// Critical errors : database unreachable, etc.
-			aLOGGER.error("Exception - DataAccessException occurs : " 
+			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete updateProjet().");
 			throw new DaoException("connexion échoué : Impossible de mettre à jour le projet");
 		}
 			
-		aLOGGER.info("Fin méthode : updateProjet");
+		LOGGER.info("Fin méthode : updateProjet");
 	}
 	
 	/**
@@ -170,7 +170,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 	public void deleteProjet (final int pIdProjet) throws DaoException {
 		
 		//On initialise le LOGGER
-		aLOGGER.info("Début méthode : deleteMembre");
+		LOGGER.info("Début méthode : deleteMembre");
 		
 		//On recuepre le projet via son Id
 		final ProjetDO projetDO = findProjetById(pIdProjet);
@@ -180,12 +180,12 @@ public class ProjetDAOImpl implements IProjetDAO {
 			HibernateSessionFactory.getSession().delete(projetDO);
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
-			aLOGGER.error("Exception - DataAccessException occurs : " 
+			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete deleteMembre().");
 			throw new DaoException("Connexion échoué : Impossible de supprimer le projet");
 		}
 		
-		aLOGGER.info("Fin méthode : deleteProjet");
+		LOGGER.info("Fin méthode : deleteProjet");
 	}
 	
 	/**
@@ -195,19 +195,19 @@ public class ProjetDAOImpl implements IProjetDAO {
 	public void deleteProjet (final ProjetDO pProjetDO) throws DaoException {
 		
 		//On initialise le LOGGER
-		aLOGGER.info("Début méthode : deleteMembre");
+		LOGGER.info("Début méthode : deleteMembre");
 		
 		try {
 			// la méthode delete permet de supprimer le projet dans la table
 			HibernateSessionFactory.getSession().delete(pProjetDO);
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
-			aLOGGER.error("Exception - DataAccessException occurs : " 
+			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete deleteMembre().");
 			throw new DaoException("Connexion échoué : Impossible de supprimer le projet");
 		}
 		
-		aLOGGER.info("Fin méthode : deleteProjet");
+		LOGGER.info("Fin méthode : deleteProjet");
 	}
 	
 
@@ -219,7 +219,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 	public List<ProjetDO> listerProjets(final ClientDO pClientDO) throws DaoException {
 		
 		//On initialise le LOGGER
-		aLOGGER.info("Début méthode : listerProjet");
+		LOGGER.info("Début méthode : listerProjet");
 		
 		//ON recupere la liste des projets
 		List<ProjetDO> lListeProjet = new ArrayList<ProjetDO>();
@@ -232,12 +232,12 @@ public class ProjetDAOImpl implements IProjetDAO {
 			
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
-			aLOGGER.error("Exception - DataAccessException occurs : " 
+			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete listerMembres().");
 			throw new DaoException("Connexion échoué : Impossible de récupérer la liste des projets");
 		}
 		
-		aLOGGER.info("Fin méthode : listerProjet");
+		LOGGER.info("Fin méthode : listerProjet");
 		return lListeProjet;
 	}
 		

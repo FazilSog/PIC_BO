@@ -32,7 +32,7 @@ import com.sogeti.utils.Utils;
 @RequestMapping("PIC_BO/membre")
 public class MembreController {
 	
-	private static final Logger aLOGGER = Logger.getLogger(MembreController.class);
+	private static final Logger LOGGER = Logger.getLogger(MembreController.class);
 	
 	@Autowired
 	private IMembreBO membreBO;
@@ -52,7 +52,7 @@ public class MembreController {
 	}
 
 	public MembreController(){
-		aLOGGER.info("init MembreController");
+		LOGGER.info("init MembreController");
 	}
 	 
 	/**
@@ -89,11 +89,11 @@ public class MembreController {
 				
 				membreDTO.setPassword(password);
 			} catch (NoSuchAlgorithmException ex) {
-				aLOGGER.warn(ex.getMessage());
+				LOGGER.warn(ex.getMessage());
 				return new ResponseEntity<Object>("Impossible de crypter le password !", HttpStatus.FORBIDDEN);
 			}
 			
-			aLOGGER.info("The username is : " + username + " , The password is : " + password 
+			LOGGER.info("The username is : " + username + " , The password is : " + password 
 					+ " , The Status is : " + status);
 			
 			try {
@@ -127,7 +127,7 @@ public class MembreController {
 		final int idRole = pMembreDTO.getIdRole();
 		final boolean status = pMembreDTO.isStatus(); 
 		
-		aLOGGER.info("The username is : " + username + " , The password is : " + password 
+		LOGGER.info("The username is : " + username + " , The password is : " + password 
 				+ " ,  The Status is : " + status + " , The id is : " + idMembre);
 		
 		// on vérifie si le username et le password  sont différents de null ou vide
@@ -158,7 +158,7 @@ public class MembreController {
 	@RequestMapping(value="/membre/{idMembre}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> deleteMembre( @PathVariable("idMembre")  int pIdMembre) {  
 		
-		aLOGGER.info("The id is : " + pIdMembre);
+		LOGGER.info("The id is : " + pIdMembre);
 		
 		// on vérifie si l'id est différent de zéro
 		if (pIdMembre != 0 )

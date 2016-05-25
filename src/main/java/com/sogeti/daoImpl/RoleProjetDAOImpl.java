@@ -25,7 +25,7 @@ import com.sogeti.utils.HibernateSessionFactory;
 public class RoleProjetDAOImpl implements IRoleProjetDAO {
 
 	// Initialisation du LOGGER
-	private static final Logger aLOGGER = Logger.getLogger(RoleProjetDAOImpl.class);
+	private static final Logger LOGGER = Logger.getLogger(RoleProjetDAOImpl.class);
 	
 	/**
 	 * {@inheritDoc}
@@ -34,7 +34,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 	public void addRoleProjet(final RoleProjetDO pRoleProjetDO) throws DaoException {
 		
 		//On initialise le LOGGER
-		aLOGGER.info("Début méthode : addRoleProjet");
+		LOGGER.info("Début méthode : addRoleProjet");
 		 try {
 			
 			 //On ajoute le projet
@@ -42,11 +42,11 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 			 
 		 } catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
-				aLOGGER.error("Exception - DataAccessException occurs : " 
+				LOGGER.error("Exception - DataAccessException occurs : " 
 				+ ex.getMessage() + " on complete getProjet().");
 				throw new DaoException("Connexion échoué : Identifiant inconnu");
 			}
-		 aLOGGER.info("Fin méthode : addRoleProjet");
+		 LOGGER.info("Fin méthode : addRoleProjet");
 		}
 	
 	/**
@@ -56,17 +56,17 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 	public void updateRoleProjet(final RoleProjetDO pRoleProjet) throws DaoException {
 		
 		//On initialise le LOGGER
-		aLOGGER.info("Début méthode : updateRoleProjet");
+		LOGGER.info("Début méthode : updateRoleProjet");
 		
 		try {
 			HibernateSessionFactory.getSession().update(pRoleProjet);
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
-			aLOGGER.error("Exception - DataAccessException occurs : " 
+			LOGGER.error("Exception - DataAccessException occurs : " 
 			+ ex.getMessage() + " on complete getProjet().");
 			throw new DaoException("Connexion échoué : Identifiant inconnu");
 		}
-	 aLOGGER.info("Fin méthode : updateRoleProjet");
+	 LOGGER.info("Fin méthode : updateRoleProjet");
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 	public RoleProjetDO findRoleProjetByID (final int pIdRoleProjet) throws DaoException {
 		
 		//On initialise le LOGGER
-		aLOGGER.info("Début méthode : findClientById");
+		LOGGER.info("Début méthode : findClientById");
 		
 		RoleProjetDO roleProjet = null;
 				
@@ -88,11 +88,11 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 			
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
-			aLOGGER.error("Exception - DataAccessException occurs : " 
+			LOGGER.error("Exception - DataAccessException occurs : " 
 			+ ex.getMessage() + " on complete getProjet().");
 			throw new DaoException("Connexion échoué : Identifiant inconnu");
 		}
-		aLOGGER.info("Fin méthode : findClientById");
+		LOGGER.info("Fin méthode : findClientById");
 		
 		if (roleProjet != null)
 		{
@@ -108,7 +108,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 	 */
 	public RoleProjetDO findRoleProjet (final ProjetDO pProjetDO) throws DaoException {
 		//On initialise le LOGGER
-		aLOGGER.info("Début méthode : findRoleProjetByIdProjet");
+		LOGGER.info("Début méthode : findRoleProjetByIdProjet");
 		
 		RoleProjetDO roleProjet = null;
 				
@@ -120,11 +120,11 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 			
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
-			aLOGGER.error("Exception - DataAccessException occurs : " 
+			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete getProjet().");
 			throw new DaoException("Connexion échoué : Identifiant inconnu");
 		}
-		aLOGGER.info("Fin méthode : findRoleProjetByIdProjet");
+		LOGGER.info("Fin méthode : findRoleProjetByIdProjet");
 		
 		if (roleProjet == null)
 		{
@@ -141,7 +141,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 	public void deleteRoleProjet(final RoleProjetDO pRoleProjetDO) throws DaoException {
 		
 		//On initialise le LOGGER
-		aLOGGER.info("Début méthode : deleteRoleProjet");
+		LOGGER.info("Début méthode : deleteRoleProjet");
 				
 		try {
 			//On recupere la session est on supprime l'objet RoleProjetDO
@@ -149,10 +149,10 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 			
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
-			aLOGGER.error("Exception - DataAccessException occurs : " 
+			LOGGER.error("Exception - DataAccessException occurs : " 
 			+ ex.getMessage() + " on complete getProjet().");
 			throw new DaoException("Connexion échoué : Identifiant inconnu");
 		}
-		aLOGGER.info("Fin méthode : deleteRoleProjet");
+		LOGGER.info("Fin méthode : deleteRoleProjet");
 	}
 }

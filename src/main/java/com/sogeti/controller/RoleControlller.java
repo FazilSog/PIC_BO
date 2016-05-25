@@ -25,7 +25,7 @@ import com.sogeti.exception.DaoException;
 public class RoleControlller {
 
 	//Initialisation du logger
-	private static final Logger alOGGER = Logger.getLogger(ProjetController.class);
+	private static final Logger lOGGER = Logger.getLogger(ProjetController.class);
 	
 	@Autowired
 	private IRoleBO roleBO;
@@ -46,7 +46,7 @@ public class RoleControlller {
 	}
 	
 	public RoleControlller() {
-		alOGGER.info("init RoleControlller");
+		lOGGER.info("init RoleControlller");
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class RoleControlller {
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/roles", method = RequestMethod.GET)
 	public ResponseEntity<Object> listeRoles() {  
-		alOGGER.info("Début méthode listerRoles dans le controlleur : RoleController");
+		lOGGER.info("Début méthode listerRoles dans le controlleur : RoleController");
 		try {
 			final List<RoleDTO> lListeRolesDTO = getRoleBO().listerRoles();
 			

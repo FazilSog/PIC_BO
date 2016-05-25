@@ -32,7 +32,7 @@ import com.sogeti.utils.Token;
 public class ProjetController {
 	
 	//Initialisation du logger
-	private static final Logger aLOGGER = Logger.getLogger(ProjetController.class);
+	private static final Logger LOGGER = Logger.getLogger(ProjetController.class);
 	
 	@Autowired
 	private IProjetBO projetBO;
@@ -52,7 +52,7 @@ public class ProjetController {
 	}
 	
 	public ProjetController() {
-		aLOGGER.info("init ProjetController");
+		LOGGER.info("init ProjetController");
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public class ProjetController {
 		String description = projetDTO.getDescription();
 		String url = projetDTO.getUrl();
 		
-		aLOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
+		LOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
 				+ " , The frequance is : " + frequence + " , The Status is : " + status + " , The nomProjet is : " + nomProjet
 				+ " , The credentiel is : " + credential + " , The actif is : " + actif + " , The description is : " + description
 				+ " , The url is : " + url);
@@ -99,7 +99,7 @@ public class ProjetController {
 				
 				return new ResponseEntity<Object>(lProjetDTOAdd, HttpStatus.CREATED);
 			} catch (DaoException ex) {
-				aLOGGER.warn(ex.getMessage());
+				LOGGER.warn(ex.getMessage());
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
 		}
@@ -128,7 +128,7 @@ public class ProjetController {
 		String description = pProjetDTO.getDescription();
 		String url = pProjetDTO.getUrl();
 		
-		aLOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
+		LOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
 				+ " , The frequance is : " + frequence + " , The Status is : " + status + " , The nomProjet is : " + nomProjet
 				+ " , The credentiel is : " + credential + " , The actif is : " + actif + " , The description is : " + description
 				+ " , The url is : " + url);
@@ -144,7 +144,7 @@ public class ProjetController {
 				
 				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
-				aLOGGER.warn(ex.getMessage());
+				LOGGER.warn(ex.getMessage());
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
 		}
@@ -163,7 +163,7 @@ public class ProjetController {
 	@RequestMapping(value="/projet/{idProjet}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> deleteProjet( @PathVariable("idProjet")  int pIdProjet) {  
 		
-		aLOGGER.info("The id is : " + pIdProjet);
+		LOGGER.info("The id is : " + pIdProjet);
 		
 		// on vérifie si l'id est différent de zéro
 		if (pIdProjet != 0 )
@@ -173,7 +173,7 @@ public class ProjetController {
 				
 				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
-				aLOGGER.warn(ex.getMessage());
+				LOGGER.warn(ex.getMessage());
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
 		}
@@ -202,7 +202,7 @@ public class ProjetController {
 			
 			return new ResponseEntity<Object>(lListeprojets, HttpStatus.CREATED);
 		} catch (DaoException ex) {
-			aLOGGER.warn(ex.getMessage());
+			LOGGER.warn(ex.getMessage());
 			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 		}
 	}
@@ -227,7 +227,7 @@ public class ProjetController {
 			
 			return new ResponseEntity<Object>(lListeprojets, HttpStatus.CREATED);
 		} catch (DaoException ex) {
-			aLOGGER.warn(ex.getMessage());
+			LOGGER.warn(ex.getMessage());
 			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 		}
 	}

@@ -136,17 +136,7 @@ public class ProjetBOImpl implements IProjetBO {
 		final ProjetDO projetDO = getProjetDAO().addProjet(projetDONew);
 		
 		// on récupere l'id du projet et on passe dans l'objet projetDTO
-		projetDTO.setIdProjet(projetDO.getIdProjet());
-		
-		// on instancie l'objet RoleProjetDO
-		/*final RoleProjetDO roleProjetDO = new RoleProjetDO();
-		roleProjetDO.setMembre(membreDO);
-		roleProjetDO.setProjet(projetDO);
-		roleProjetDO.setRole(membreDO.getRoleMembre());
-		 
-		// on ajoute le roleProjetDO
-		getRoleProjetDAO().addRoleProjet(roleProjetDO);*/
-		 
+		projetDTO.setIdProjet(projetDO.getIdProjet()); 
 				
 		return projetDTO;
 	}

@@ -27,7 +27,7 @@ import com.sogeti.utils.HibernateSessionFactory;
 public class MembreDAOImpl implements IMembreDAO {
 	
 	// Initialisation du LOGGER
-	private static final Logger aLOGGER = Logger.getLogger(MembreDAOImpl.class);
+	private static final Logger LOGGER = Logger.getLogger(MembreDAOImpl.class);
 
 	/**
 	 * {@inheritDoc}
@@ -36,7 +36,7 @@ public class MembreDAOImpl implements IMembreDAO {
 
 	public MembreDO authentifierMembre(final String pUsername, final String pPassword) throws DaoException {
 		
-		aLOGGER.info("Début méthode : AuthentifierMembre");
+		LOGGER.info("Début méthode : AuthentifierMembre");
 		// on vérifie si le membre existe dans la table
 		final MembreDO membreDO = findMembreByNameAndPass(pUsername, pPassword);
 		// si le membre n'existe pas dans la table
@@ -45,7 +45,7 @@ public class MembreDAOImpl implements IMembreDAO {
 			throw new DaoException("Login / mdp invalide ou user désactivé");
 		}
 		
-		aLOGGER.info("Fin méthode : AuthentifierMembre");
+		LOGGER.info("Fin méthode : AuthentifierMembre");
 		return membreDO;
 	}
 	
@@ -55,7 +55,7 @@ public class MembreDAOImpl implements IMembreDAO {
 	 */
 	public MembreDO findMembreById(final int pIdMembre) throws DaoException {
 		
-		aLOGGER.info("Début méthode : getMembre");
+		LOGGER.info("Début méthode : getMembre");
 		
 		MembreDO membreDO = null;
 		
@@ -64,7 +64,7 @@ public class MembreDAOImpl implements IMembreDAO {
 		} else {
 
 			try {
-				aLOGGER.info("On recupére l'utilisateur à partie de son Id: " + pIdMembre);
+				LOGGER.info("On recupére l'utilisateur à partie de son Id: " + pIdMembre);
 				// create a new criteria
 				final Criteria crit = HibernateSessionFactory.getSession().createCriteria(MembreDO.class);
 				crit.add(Restrictions.eq("idMembre", pIdMembre));
@@ -72,7 +72,7 @@ public class MembreDAOImpl implements IMembreDAO {
 				
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
-				aLOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete getMembre().");
+				LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete getMembre().");
 				throw new DaoException("Connexion échoué : Identifiant inconnu");
 			}
 		}
@@ -83,7 +83,7 @@ public class MembreDAOImpl implements IMembreDAO {
 			throw new DaoException("Le Membre n'est pas connu.");
 		}
 
-		aLOGGER.info("Fin méthode : getMembre");
+		LOGGER.info("Fin méthode : getMembre");
 		return membreDO;
 	}
 	
@@ -94,7 +94,7 @@ public class MembreDAOImpl implements IMembreDAO {
 	public MembreDO findMembreByNameAndPass(final String pUsername, final String pPassword) throws DaoException {
 		
 		//Initialisation de LOGGER
-		aLOGGER.info("Début méthode : getMembre");
+		LOGGER.info("Début méthode : getMembre");
 		
 		MembreDO membreDO = null;
 		
@@ -113,11 +113,11 @@ public class MembreDAOImpl implements IMembreDAO {
 			
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
-			aLOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete getMembre().");
+			LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete getMembre().");
 			throw new DaoException("Connexion échoué : USER/MDP incorrect");
 		}
 		
-		aLOGGER.info("Fin méthode : getMembre");
+		LOGGER.info("Fin méthode : getMembre");
 		return membreDO;
 	}
 	
@@ -127,7 +127,7 @@ public class MembreDAOImpl implements IMembreDAO {
 	 */
 	public MembreDO setMembre(final MembreDO pMemberDO) throws DaoException {
 		
-		aLOGGER.info("Début méthode : setMembre");
+		LOGGER.info("Début méthode : setMembre");
 		
 		// si le user ou le pwd sont null on va lever une Exception 
 		if (pMemberDO == null) {
@@ -138,12 +138,12 @@ public class MembreDAOImpl implements IMembreDAO {
 	        HibernateSessionFactory.getSession().merge(pMemberDO);
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
-			aLOGGER.error("Exception - DataAccessException occurs : " 
+			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete setMembre().");
 			throw new DaoException("Connexion échoué : Impossible de mettre à jour le membre");
 		}
 		
-		aLOGGER.info("Fin méthode : setMembre");
+		LOGGER.info("Fin méthode : setMembre");
 		return pMemberDO;
 	}
 	
@@ -154,7 +154,7 @@ public class MembreDAOImpl implements IMembreDAO {
 	public int addMembre(final MembreDO pMembreDO) throws DaoException {
 		
 		//ON initialise le LOGGER
-		aLOGGER.info("Début méthode : addMembre");
+		LOGGER.info("Début méthode : addMembre");
 		
 		// si oui, on leve une exception
 		final MembreDO membreDO = findMembreByNameAndPass(pMembreDO.getUsername(), pMembreDO.getPassword());
@@ -173,12 +173,12 @@ public class MembreDAOImpl implements IMembreDAO {
 			} catch (HibernateException ex) {
 				
 				// Critical errors : database unreachable, etc.
-				aLOGGER.error("Exception - DataAccessException occurs : " 
+				LOGGER.error("Exception - DataAccessException occurs : " 
 						+ ex.getMessage() + " on complete addMembre().");
 				throw new DaoException("Connexion échoué : Impossible de créer le membre");
 			}				
 		}
-		aLOGGER.info("Fin méthode : addMembre");
+		LOGGER.info("Fin méthode : addMembre");
 		return idMembre;
 	}
 	
@@ -189,7 +189,7 @@ public class MembreDAOImpl implements IMembreDAO {
 	public void updateMembre(final MembreDO pMembreDO) throws DaoException {
 		
 		//On initialise le LOGGER
-		aLOGGER.info("Début méthode : updateMembre");
+		LOGGER.info("Début méthode : updateMembre");
 		
 		try {
 			// la méthode update permet de modifier le membre dans la table
@@ -197,12 +197,12 @@ public class MembreDAOImpl implements IMembreDAO {
 		} catch (HibernateException ex) {
 			
 			// Critical errors : database unreachable, etc.
-			aLOGGER.error("Exception - DataAccessException occurs : " 
+			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete updateMembre().");
 			throw new DaoException("connexion échoué : Impossible de mettre à jour le membre");
 		}
 			
-		aLOGGER.info("Fin méthode : updateMembre");
+		LOGGER.info("Fin méthode : updateMembre");
 	}
 	
 	/**
@@ -212,7 +212,7 @@ public class MembreDAOImpl implements IMembreDAO {
 	public void deleteMembre(final int pIdMembre) throws DaoException {
 		
 		//On initialise le LOGGER
-		aLOGGER.info("Début méthode : deleteMembre");
+		LOGGER.info("Début méthode : deleteMembre");
 		
 		final MembreDO membreDO = findMembreById(pIdMembre);
 			
@@ -222,12 +222,12 @@ public class MembreDAOImpl implements IMembreDAO {
 		} catch (HibernateException ex) {
 			
 			// Critical errors : database unreachable, etc.
-			aLOGGER.error("Exception - DataAccessException occurs : " 
+			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete deleteMembre().");
 			throw new DaoException("Connexion échoué : Impossible de supprimer le membre");
 		}
 		
-		aLOGGER.info("Fin méthode : deleteMembre");
+		LOGGER.info("Fin méthode : deleteMembre");
 	}
 	
 	/**
@@ -237,7 +237,7 @@ public class MembreDAOImpl implements IMembreDAO {
 	public void deleteMembre(final MembreDO pMembreDO) throws DaoException {
 		
 		//On initialise le LOGGER
-		aLOGGER.info("Début méthode : deleteMembre");
+		LOGGER.info("Début méthode : deleteMembre");
 			
 		try {
 			// la méthode delete permet de supprimer le membre dans la table
@@ -245,12 +245,12 @@ public class MembreDAOImpl implements IMembreDAO {
 		} catch (HibernateException ex) {
 			
 			// Critical errors : database unreachable, etc.
-			aLOGGER.error("Exception - DataAccessException occurs : " 
+			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete deleteMembre().");
 			throw new DaoException("Connexion échoué : Impossible de supprimer le membre");
 		}
 		
-		aLOGGER.info("Fin méthode : deleteMembre");
+		LOGGER.info("Fin méthode : deleteMembre");
 	}
 	
 	
@@ -262,7 +262,7 @@ public class MembreDAOImpl implements IMembreDAO {
 	public List<MembreDO> listerMembres() throws DaoException {
 		
 		//On initialise le LOGGER
-		aLOGGER.info("Début méthode : listerMembres");
+		LOGGER.info("Début méthode : listerMembres");
 		
 		List<MembreDO> lListeMembres = new ArrayList<MembreDO>();
 		
@@ -275,12 +275,12 @@ public class MembreDAOImpl implements IMembreDAO {
 		} catch (HibernateException ex) {
 			
 			// Critical errors : database unreachable, etc.
-			aLOGGER.error("Exception - DataAccessException occurs : " 
+			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete listerMembres().");
 			throw new DaoException("Connexion échoué : Impossible de récupérer la liste des membres");
 		}
 		
-		aLOGGER.info("Fin méthode : listerMembres");
+		LOGGER.info("Fin méthode : listerMembres");
 		
 		return lListeMembres;
 	}
