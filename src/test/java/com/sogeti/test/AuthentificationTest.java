@@ -1,4 +1,4 @@
-package com.sogeti.test;
+/*package com.sogeti.test;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -116,3 +116,4 @@ public class AuthentificationTest {
 	    }
 }
 
+*/

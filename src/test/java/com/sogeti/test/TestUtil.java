@@ -1,4 +1,4 @@
-package com.sogeti.test;
+/*package com.sogeti.test;
 
 
 	
@@ -22,3 +22,4 @@ package com.sogeti.test;
 	    }
 
 }
+*/
