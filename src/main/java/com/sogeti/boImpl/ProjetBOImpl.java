@@ -196,14 +196,14 @@ public class ProjetBOImpl implements IProjetBO {
 	 */
 	public List<ProjetDTO> listerProjets(final int pIdClient) throws DaoException {
 		
-		final ClientDO lClientDO = getClientDAO().findClientById(pIdClient);
+		final ClientDO clientDO = getClientDAO().findClientById(pIdClient);
 		
 		
 		// on instance la liste des projets
 		final List<ProjetDTO> lListeProjetDTO = new ArrayList<ProjetDTO>();
 		
 		// on interroge le service listerProjet
-		final List<ProjetDO> listeProjetDO = getProjetDAO().listerProjets(lClientDO);
+		final List<ProjetDO> listeProjetDO = getProjetDAO().listerProjets(clientDO);
 		
 		// on convertit la liste<ProjetDO> vers la liste<ProjetDTO>
 		for(ProjetDO projetDO : listeProjetDO){
