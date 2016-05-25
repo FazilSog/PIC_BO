@@ -27,7 +27,7 @@ import com.sogeti.utils.HibernateSessionFactory;
 public class RoleDAOImpl implements IRoleDAO {
 	
 	// Initialisation du LOGGER
-	private Logger lLOGGER = Logger.getLogger(RoleDAOImpl.class);
+	private static final Logger aLOGGER = Logger.getLogger(RoleDAOImpl.class);
 			
 	/**
 	 * {@inheritDoc}
@@ -36,7 +36,7 @@ public class RoleDAOImpl implements IRoleDAO {
 	public RoleDO findRoleById(final int pIdRole) throws DaoException {
 		
 		//On initialise le LOGGER
-		lLOGGER.info("Début méthode : findRoleById");
+		aLOGGER.info("Début méthode : findRoleById");
 		
 		RoleDO roleDO = null;
 		
@@ -53,14 +53,14 @@ public class RoleDAOImpl implements IRoleDAO {
 				
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
-				lLOGGER.error("Exception - DataAccessException occurs : " 
+				aLOGGER.error("Exception - DataAccessException occurs : " 
 				+ ex.getMessage() + " on complete getProjet().");
 				// TODO
 				throw new DaoException("Connexion échoué : XXXXXXX");
 			}
 		}
 		
-		lLOGGER.info("Fin méthode : findRoleById");
+		aLOGGER.info("Fin méthode : findRoleById");
 		return roleDO;
 	}
 	
@@ -71,7 +71,7 @@ public class RoleDAOImpl implements IRoleDAO {
 	public RoleDO findRoleByCodeRole(final String pCodeRole) throws DaoException {
 		
 		//On initialise le LOGGER
-		lLOGGER.info("Début méthode : findRoleByCodeRole");
+		aLOGGER.info("Début méthode : findRoleByCodeRole");
 		
 		RoleDO roleDO = null;
 		
@@ -87,14 +87,14 @@ public class RoleDAOImpl implements IRoleDAO {
 				 
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
-				lLOGGER.error("Exception - DataAccessException occurs : " 
+				aLOGGER.error("Exception - DataAccessException occurs : " 
 				+ ex.getMessage() + " on complete getProjet().");
 				// TODO
 				throw new DaoException("Connexion échoué : XXXX");
 			}
 		}
 		
-		lLOGGER.info("Fin méthode : findRoleByCodeRole");
+		aLOGGER.info("Fin méthode : findRoleByCodeRole");
 		return roleDO;
 			
 	}
@@ -107,7 +107,7 @@ public class RoleDAOImpl implements IRoleDAO {
 	@SuppressWarnings("unchecked")
 	public List<RoleDO> listerRoles() throws DaoException {
 		
-		lLOGGER.info("Début méthode : listerRoles");
+		aLOGGER.info("Début méthode : listerRoles");
 		
 		List<RoleDO> lListeRoles = new ArrayList<RoleDO>();
 		
@@ -116,13 +116,13 @@ public class RoleDAOImpl implements IRoleDAO {
 			lListeRoles = criteria.list();
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
-			lLOGGER.error("Exception - DataAccessException occurs : " 
+			aLOGGER.error("Exception - DataAccessException occurs : " 
 			+ ex.getMessage() + " on complete listerRoles().");
 			// TODO
 			throw new DaoException("Connexion échoué : XXXXXXX");
 		}
 		
-		lLOGGER.info("Fin méthode : listerRoles");
+		aLOGGER.info("Fin méthode : listerRoles");
 		return lListeRoles;
 	}
 		

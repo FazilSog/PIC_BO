@@ -32,7 +32,7 @@ import com.sogeti.utils.Utils;
 @RequestMapping("PIC_BO/membre")
 public class MembreController {
 	
-	private Logger LOGGER = Logger.getLogger(MembreController.class);
+	private static final Logger aLOGGER = Logger.getLogger(MembreController.class);
 	
 	@Autowired
 	private IMembreBO membreBO;
@@ -52,7 +52,7 @@ public class MembreController {
 	}
 
 	public MembreController(){
-		System.out.println("init MembreController");
+		aLOGGER.info("init MembreController");
 	}
 	 
 	/**
@@ -63,9 +63,7 @@ public class MembreController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.POST)
 	@RequestMapping(value="/membre", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> addMembre( @RequestBody MembreDTO pMembreDTO, 
-			@RequestHeader HttpHeaders pHttpHeaders) 
-	{  
+	public ResponseEntity<Object> addMembre( @RequestBody MembreDTO pMembreDTO, @RequestHeader HttpHeaders pHttpHeaders) {  
 		// on récupère le token via le header
 		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
 
@@ -87,15 +85,15 @@ public class MembreController {
 			
 			// on crypte le mot de pass
 			try {
-				password = Utils.EncryptMdp(password);
+				password = Utils.encryptMdp(password);
 				
 				membreDTO.setPassword(password);
 			} catch (NoSuchAlgorithmException ex) {
-				LOGGER.warn(ex.getMessage());
+				aLOGGER.warn(ex.getMessage());
 				return new ResponseEntity<Object>("Impossible de crypter le password !", HttpStatus.FORBIDDEN);
 			}
 			
-			LOGGER.info("The username is : " + username + " , The password is : " + password 
+			aLOGGER.info("The username is : " + username + " , The password is : " + password 
 					+ " , The Status is : " + status);
 			
 			try {
@@ -120,8 +118,7 @@ public class MembreController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.PUT)
 	@RequestMapping(value="/Membre", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> updateMembre( @RequestBody MembreDTO pMembreDTO) 
-	{  
+	public ResponseEntity<Object> updateMembre( @RequestBody MembreDTO pMembreDTO) {  
 
 		final int idMembre = pMembreDTO.getIdMembre();
 		final String username = pMembreDTO.getUsername();
@@ -130,7 +127,7 @@ public class MembreController {
 		final int idRole = pMembreDTO.getIdRole();
 		final boolean status = pMembreDTO.isStatus(); 
 		
-		LOGGER.info("The username is : " + username + " , The password is : " + password 
+		aLOGGER.info("The username is : " + username + " , The password is : " + password 
 				+ " ,  The Status is : " + status + " , The id is : " + idMembre);
 		
 		// on vérifie si le username et le password  sont différents de null ou vide
@@ -159,10 +156,9 @@ public class MembreController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.DELETE)
 	@RequestMapping(value="/membre/{idMembre}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> deleteMembre( @PathVariable("idMembre")  int pIdMembre) 
-	{  
+	public ResponseEntity<Object> deleteMembre( @PathVariable("idMembre")  int pIdMembre) {  
 		
-		LOGGER.info("The id is : " + pIdMembre);
+		aLOGGER.info("The id is : " + pIdMembre);
 		
 		// on vérifie si l'id est différent de zéro
 		if (pIdMembre != 0 )
@@ -189,8 +185,7 @@ public class MembreController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/membres", method = RequestMethod.GET)
-	public ResponseEntity<Object> listeMembres() 
-	{  
+	public ResponseEntity<Object> listeMembres() {  
 
 		try {
 			List<MembreDTO> lListeMembres = getMembreBO().listerMembres();

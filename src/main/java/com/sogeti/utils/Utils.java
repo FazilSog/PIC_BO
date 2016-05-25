@@ -11,7 +11,9 @@ import java.security.NoSuchAlgorithmException;
 public class Utils {
 
 	
-	public static String EncryptMdp(final String pMdp) throws NoSuchAlgorithmException {
+	public static String encryptMdp(final String pMdp) throws NoSuchAlgorithmException {
+		
+		final int radix = 16;
 		
         String generatedPassword = null;
         //This bytes[] has bytes in decimal format;
@@ -27,13 +29,13 @@ public class Utils {
             byte[] bytes = md.digest();
             for(int i=0; i< bytes.length ;i++)
             {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, radix).substring(1));
             }
             //Get complete hashed password in hex format
             generatedPassword = sb.toString();
             
         } 
-        catch (NoSuchAlgorithmException e) 
+        catch (NoSuchAlgorithmException ex) 
         {
             throw new NoSuchAlgorithmException("Impossible de crypter le password !");
         }

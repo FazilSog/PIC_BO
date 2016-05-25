@@ -21,12 +21,11 @@ import com.sogeti.exception.DaoException;
  *
  */
 @Controller
-@CrossOrigin
 @RequestMapping("PIC_BO/role")
 public class RoleControlller {
 
 	//Initialisation du logger
-	private Logger lLOGGER = Logger.getLogger(ProjetController.class);
+	private static final Logger alOGGER = Logger.getLogger(ProjetController.class);
 	
 	@Autowired
 	private IRoleBO roleBO;
@@ -45,6 +44,10 @@ public class RoleControlller {
 	public void setRoleBO(IRoleBO roleBO) {
 		this.roleBO = roleBO;
 	}
+	
+	public RoleControlller() {
+		alOGGER.info("init RoleControlller");
+	}
 
 	/**
 	 * Elle permet de récuperer la liste des roles
@@ -52,10 +55,10 @@ public class RoleControlller {
 	 * @return un responseEntity qui contient (soit liste des membres avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
+	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/roles", method = RequestMethod.GET)
-	public ResponseEntity<Object> listeRoles() 
-	{  
-		lLOGGER.info("Début méthode listerRoles dans le controlleur : RoleController");
+	public ResponseEntity<Object> listeRoles() {  
+		alOGGER.info("Début méthode listerRoles dans le controlleur : RoleController");
 		try {
 			final List<RoleDTO> lListeRolesDTO = getRoleBO().listerRoles();
 			

@@ -63,32 +63,12 @@ public class Token {
 	}
 	
 	/**
-	 * Cette méthode permet de découper le token JWT et retourner seulement
-	 * la partie Payload
-	 * @param jwt
-	 */
-	private static void decouperJwt (String jwt)
-	{
-		// TODO à faire et savoir les données qui nous intéressent
-		if (Jwts.parser().isSigned(jwt))
-		{
-			Claims claims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(jwt).getBody();
-			
-			claims.get("id_membre");
-			claims.get("id_membre");
-			claims.get("subject");
-			claims.get("iat");
-			claims.get("expiration");
-		}
-	}
-	
-	/**
 	 * Cette méthode permet d'obtenir l'id client via le token
 	 * @param pJwt le token
 	 * @return l'id client
 	 */
-	public static int obtenirIdClient(final String pJwt)
-	{
+	public static int obtenirIdClient(final String pJwt) {
+		
 		int idClient = 0;
 		
 		// on vérifie si le token est signé
@@ -109,8 +89,8 @@ public class Token {
 	 * @param pJwt le token
 	 * @return l'id membre
 	 */
-	public static int obtenirIdMembre(final String pJwt)
-	{
+	public static int obtenirIdMembre(final String pJwt) {
+		
 		int idMembre = 0;
 		
 		// on vérifie si le token est signé
@@ -131,10 +111,11 @@ public class Token {
 	 * @param pHeaders le http headers
 	 * @return le token
 	 */
-	public static String obtenirTokenByhttpHeaders(final HttpHeaders pHeaders)
-	{
+	public static String obtenirTokenByhttpHeaders(final HttpHeaders pHeaders) {
+		
 		// on récupère le token via le header
 		String token = "";
+		
 		if (pHeaders.get("Authorization") != null && StringUtils.isNotBlank(pHeaders.get("Authorization").toString()))
 		{
 			final String authorization = pHeaders.get("Authorization").toString();
@@ -143,28 +124,5 @@ public class Token {
 		
 		return token;
 	}
-	
-	/**
-	 * 
-	 * @param jwt
-	 */
-	/*	public static Long getTimestamp (String jwt)
-	{
-		// TODO à faire et savoir les données qui nous intéressent
-		Long timeStamp = Long.MAX_VALUE;
-		if (Jwts.parser().isSigned(jwt))
-		{
-			Claims claims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(jwt).getBody();
-			
-			if(claims != null && claims.containsKey("expiration")  && claims.get("expiration") != null) {
 
-				 timeStamp  = Long.parseLong(claims.get("expiration").toString());
-				
-			}
-		}
-		
-		return timeStamp;
-		
-	}*/
-	
 }

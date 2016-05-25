@@ -32,7 +32,7 @@ import com.sogeti.utils.Token;
 public class ProjetController {
 	
 	//Initialisation du logger
-	private Logger LOGGER = Logger.getLogger(ProjetController.class);
+	private static final Logger aLOGGER = Logger.getLogger(ProjetController.class);
 	
 	@Autowired
 	private IProjetBO projetBO;
@@ -51,8 +51,8 @@ public class ProjetController {
 		this.projetBO = projetBO;
 	}
 	
-	public ProjetController(){
-		System.out.println("init ProjetController");
+	public ProjetController() {
+		aLOGGER.info("init ProjetController");
 	}
 	
 	/**
@@ -63,9 +63,7 @@ public class ProjetController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.POST)
 	@RequestMapping(value="/projet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> addProjet( @RequestBody ProjetDTO pProjetDTO, 
-			@RequestHeader HttpHeaders pHttpHeaders) 
-	{   
+	public ResponseEntity<Object> addProjet( @RequestBody ProjetDTO pProjetDTO, @RequestHeader HttpHeaders pHttpHeaders) {   
 		final ProjetDTO  projetDTO = pProjetDTO;
 		
 		// on récupère le token via le header
@@ -85,7 +83,7 @@ public class ProjetController {
 		String description = projetDTO.getDescription();
 		String url = projetDTO.getUrl();
 		
-		LOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
+		aLOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
 				+ " , The frequance is : " + frequence + " , The Status is : " + status + " , The nomProjet is : " + nomProjet
 				+ " , The credentiel is : " + credential + " , The actif is : " + actif + " , The description is : " + description
 				+ " , The url is : " + url);
@@ -101,6 +99,7 @@ public class ProjetController {
 				
 				return new ResponseEntity<Object>(lProjetDTOAdd, HttpStatus.CREATED);
 			} catch (DaoException ex) {
+				aLOGGER.warn(ex.getMessage());
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
 		}
@@ -117,8 +116,7 @@ public class ProjetController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.PUT)
 	@RequestMapping(value="/updateprojet", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> updateProjet( @RequestBody ProjetDTO pProjetDTO) 
-	{  
+	public ResponseEntity<Object> updateProjet( @RequestBody ProjetDTO pProjetDTO) {  
 
 		String branche = pProjetDTO.getBranche();
 		int idProjet = pProjetDTO.getIdProjet();
@@ -130,7 +128,7 @@ public class ProjetController {
 		String description = pProjetDTO.getDescription();
 		String url = pProjetDTO.getUrl();
 		
-		LOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
+		aLOGGER.info("The idProjet is : " + idProjet + " , The branche is : " + branche 
 				+ " , The frequance is : " + frequence + " , The Status is : " + status + " , The nomProjet is : " + nomProjet
 				+ " , The credentiel is : " + credential + " , The actif is : " + actif + " , The description is : " + description
 				+ " , The url is : " + url);
@@ -146,6 +144,7 @@ public class ProjetController {
 				
 				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
+				aLOGGER.warn(ex.getMessage());
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
 		}
@@ -162,10 +161,9 @@ public class ProjetController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.DELETE)
 	@RequestMapping(value="/projet/{idProjet}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> deleteProjet( @PathVariable("idProjet")  int pIdProjet) 
-	{  
+	public ResponseEntity<Object> deleteProjet( @PathVariable("idProjet")  int pIdProjet) {  
 		
-		LOGGER.info("The id is : " + pIdProjet);
+		aLOGGER.info("The id is : " + pIdProjet);
 		
 		// on vérifie si l'id est différent de zéro
 		if (pIdProjet != 0 )
@@ -175,6 +173,7 @@ public class ProjetController {
 				
 				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
+				aLOGGER.warn(ex.getMessage());
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
 		}
@@ -191,8 +190,7 @@ public class ProjetController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/projets", method = RequestMethod.GET)
-	public ResponseEntity<Object> listeProjets(@RequestHeader HttpHeaders pHttpHeaders) 
-	{  
+	public ResponseEntity<Object> listeProjets(@RequestHeader HttpHeaders pHttpHeaders) {  
 		// on récupère le token via le header
 		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
 		
@@ -204,6 +202,7 @@ public class ProjetController {
 			
 			return new ResponseEntity<Object>(lListeprojets, HttpStatus.CREATED);
 		} catch (DaoException ex) {
+			aLOGGER.warn(ex.getMessage());
 			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 		}
 	}
@@ -216,8 +215,7 @@ public class ProjetController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/projetsMembre", method = RequestMethod.GET)
-	public ResponseEntity<Object> listeProjetsByMembre(@RequestHeader HttpHeaders pHttpHeaders) 
-	{  
+	public ResponseEntity<Object> listeProjetsByMembre(@RequestHeader HttpHeaders pHttpHeaders) {  
 		// on récupère le token via le header
 		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
 		
@@ -229,6 +227,7 @@ public class ProjetController {
 			
 			return new ResponseEntity<Object>(lListeprojets, HttpStatus.CREATED);
 		} catch (DaoException ex) {
+			aLOGGER.warn(ex.getMessage());
 			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 		}
 	}

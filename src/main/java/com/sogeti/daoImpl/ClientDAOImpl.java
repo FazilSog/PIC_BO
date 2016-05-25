@@ -24,7 +24,7 @@ import com.sogeti.utils.HibernateSessionFactory;
 public class ClientDAOImpl implements IClientDAO {
 	
 	// Initialisation du LOGGER
-	private Logger lLOGGER = Logger.getLogger(ClientDAOImpl.class);
+	private static final Logger aLOGGER = Logger.getLogger(ClientDAOImpl.class);
 	
 	/**
 	 * {@inheritDoc}
@@ -36,7 +36,7 @@ public class ClientDAOImpl implements IClientDAO {
 		ClientDO clientDO = null;
 	
 		//On initialise le LOGGER
-		lLOGGER.info("Début méthode : findClientById");
+		aLOGGER.info("Début méthode : findClientById");
 	
 		if (pIdClient == 0) {
 			throw new DaoException("idClient obligatoire.La valeur NULL est interdite.");
@@ -50,18 +50,17 @@ public class ClientDAOImpl implements IClientDAO {
 				
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
-				lLOGGER.error("Exception - DataAccessException occurs : " 
+				aLOGGER.error("Exception - DataAccessException occurs : " 
 				+ ex.getMessage() + " on complete getProjet().");
 				throw new DaoException("Connexion échoué : Identifiant inconnu");
 			}
 		}
 		
 		// on test si l'objet client est == null
-		if (clientDO == null)
-		{
+		if (clientDO == null) {
 			throw new DaoException("Le client n'est pas connu!");
 		}
-		lLOGGER.info("Fin méthode : findClientById");
+		aLOGGER.info("Fin méthode : findClientById");
 		return clientDO;
 	}
 }

@@ -22,7 +22,7 @@ public interface IMembreDAO {
 	 * @return le membreDO
 	 * @throws DaoException exception
 	 */
-	public MembreDO AuthentifierMembre(final String pUsername, final String pPassword) throws DaoException;
+	public MembreDO authentifierMembre(final String pUsername, final String pPassword) throws DaoException;
 	
 	/**
 	 * Elle permet de recupèrer le membre à partir de son identifiant
@@ -58,7 +58,7 @@ public interface IMembreDAO {
 	 * @return l'id d'un membre
 	 * @throws DaoException exception
 	 */
-	public int addMembre (final MembreDO pMembreDO) throws DaoException;
+	public int addMembre(final MembreDO pMembreDO) throws DaoException;
 	
 	/**
 	 * Elle permet de modifier un membre.
@@ -68,7 +68,7 @@ public interface IMembreDAO {
 	 * @param pMembreDO le membreDO
 	 * @throws DaoException exception
 	 */
-	public void updateMembre (final MembreDO pMembreDO) throws DaoException;
+	public void updateMembre(final MembreDO pMembreDO) throws DaoException;
 	
 	
 	/**
@@ -79,17 +79,17 @@ public interface IMembreDAO {
 	 * @param pIdMembre l'identifiant d'un membre
 	 * @throws DaoException exception
 	 */
-	public void deleteMembre (final int pIdMembre) throws DaoException;
+	public void deleteMembre(final int pIdMembre) throws DaoException;
 	
 	/**
 	 * Elle permet de supprimer un membre.
 	 * La méthode vérifie déjà si le membre existe dans la table, 
 	 * si oui, on supprime le membre
 	 * si non, on leve une exception
-	 * @param pIdMembre l'identifiant d'un membre
+	 * @param pMembreBO le mebreBO
 	 * @throws DaoException exception
 	 */
-	public void deleteMembre (final MembreDO pMembreBO) throws DaoException;
+	public void deleteMembre(final MembreDO pMembreBO) throws DaoException;
 	
 	
 	

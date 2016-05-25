@@ -88,7 +88,7 @@ public class MembreBOImpl implements IMembreBO {
 		AuthentificationDTO lAuthentification = new AuthentificationDTO();
 		
 		// on interroge le service AuthentifierMembre
-		MembreDO lMembreDO = getMembreDAO().AuthentifierMembre(pUsername, pPassword);
+		MembreDO lMembreDO = getMembreDAO().authentifierMembre(pUsername, pPassword);
 
 		if (lMembreDO != null) {
 		
