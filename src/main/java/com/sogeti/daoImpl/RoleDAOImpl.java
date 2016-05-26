@@ -60,6 +60,10 @@ public class RoleDAOImpl implements IRoleDAO {
 			}
 		}
 		
+		if (roleDO == null) {
+			throw new DaoException("Le role n'est pas connu!");
+		}
+		
 		LOGGER.info("Fin méthode : findRoleById");
 		return roleDO;
 	}

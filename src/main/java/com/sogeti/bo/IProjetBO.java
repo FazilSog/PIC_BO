@@ -53,5 +53,26 @@ public interface IProjetBO {
 	 */
 	public List<ProjetDTO> listerProjetsByMembre(final int pIdMembre) throws DaoException;
 	
+	/**
+	 * Elle permet d'ajouter l'affectation d'un membre sur un projet
+	 * @param pProjetDTO l'objet ProjetDTO
+	 * @throws DaoException exception
+	 */
+	public void addAffectProjectToMembre(final ProjetDTO pProjetDTO) throws DaoException;
+	
+	/**
+	 * Elle permet de modifier l'affectation d'un membre sur un projet
+	 * @param pProjetDTO l'objet ProjetDTO
+	 * @throws DaoException excetpion
+	 */
+	public void updateAffectProjectToMembre(final ProjetDTO pProjetDTO) throws DaoException;
+	
+	/**
+	 * Elle permet de supprimer l'affectation d'un membre sur un projet
+	 * @param pProjetDTO l'objet ProjetDTO
+	 * @throws DaoException exception
+	 */
+	public void deleteAffectProjectToMembre(final ProjetDTO pProjetDTO) throws DaoException;
+	
 
 }

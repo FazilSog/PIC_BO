@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import com.sogeti.dao.IRoleProjetDAO;
+import com.sogeti.dao.model.MembreDO;
 import com.sogeti.dao.model.ProjetDO;
 import com.sogeti.dao.model.RoleProjetDO;
 import com.sogeti.exception.DaoException;
@@ -41,10 +42,11 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 			 HibernateSessionFactory.getSession().save(pRoleProjetDO);
 			 
 		 } catch (HibernateException ex) {
-				// Critical errors : database unreachable, etc.
-				LOGGER.error("Exception - DataAccessException occurs : " 
-				+ ex.getMessage() + " on complete getProjet().");
-				throw new DaoException("Connexion échoué : Identifiant inconnu");
+			// Critical errors : database unreachable, etc.
+			LOGGER.error("Exception - DataAccessException occurs : " 
+			+ ex.getMessage() + " on complete addRoleProjet().");
+			// TODO vérifier le message d'erreur
+			throw new DaoException("Impossible d'ajouter le role projet");
 			}
 		 LOGGER.info("Fin méthode : addRoleProjet");
 		}
@@ -63,8 +65,9 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
-			+ ex.getMessage() + " on complete getProjet().");
-			throw new DaoException("Connexion échoué : Identifiant inconnu");
+			+ ex.getMessage() + " on complete updateRoleProjet().");
+			// TODO vérifier le message d'erreur
+			throw new DaoException("Impossible de faire un update sur un role projet");
 		}
 	 LOGGER.info("Fin méthode : updateRoleProjet");
 	}
@@ -89,14 +92,15 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
-			+ ex.getMessage() + " on complete getProjet().");
-			throw new DaoException("Connexion échoué : Identifiant inconnu");
+			+ ex.getMessage() + " on complete findRoleProjetByID().");
+			// TODO vérifier le message d'erreur
+			throw new DaoException("Impossible de trouver le role projet");
 		}
 		LOGGER.info("Fin méthode : findClientById");
 		
-		if (roleProjet != null)
+		if (roleProjet == null)
 		{
-			throw new DaoException("Connexion échoué : Le role projet n'est pas connu!");
+			throw new DaoException("Le role projet n'est pas connu!");
 		}
 		
 		return roleProjet;
@@ -121,8 +125,9 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
-					+ ex.getMessage() + " on complete getProjet().");
-			throw new DaoException("Connexion échoué : Identifiant inconnu");
+					+ ex.getMessage() + " on complete findRoleProjet().");
+			// TODO vérifier le message d'erreur
+			throw new DaoException("XXXXXXXX");
 		}
 		LOGGER.info("Fin méthode : findRoleProjetByIdProjet");
 		
@@ -140,7 +145,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 	 */
 	public void deleteRoleProjet(final RoleProjetDO pRoleProjetDO) throws DaoException {
 		
-		//On initialise le LOGGER
+		// On initialise le LOGGER
 		LOGGER.info("Début méthode : deleteRoleProjet");
 				
 		try {
@@ -150,9 +155,45 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
-			+ ex.getMessage() + " on complete getProjet().");
-			throw new DaoException("Connexion échoué : Identifiant inconnu");
+			+ ex.getMessage() + " on complete deleteRoleProjet().");
+			// TODO vérifier le message d'erreur
+			throw new DaoException("XXXXXXXXXXXXXXXXXXXXXX");
 		}
 		LOGGER.info("Fin méthode : deleteRoleProjet");
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @throws DaoException 
+	 */
+	public RoleProjetDO findRoleProjetByProjetAndMembre (final ProjetDO pProjetDO, final MembreDO pMembreDO) throws DaoException {
+		
+		//On initialise le LOGGER
+		LOGGER.info("Début méthode : findRoleProjetByProjetAndMembre");
+		
+		RoleProjetDO roleProjet = null;
+				
+		try {
+			//On verifie l'egalité du role recu avec clui qu'on n'a en base
+			final Criteria criteria = HibernateSessionFactory.getSession().createCriteria(RoleProjetDO.class);
+			criteria.add(Restrictions.eq("projet", pProjetDO));
+			criteria.add(Restrictions.eq("membre", pMembreDO));
+			
+			roleProjet = (RoleProjetDO) criteria.uniqueResult();
+			
+		} catch (HibernateException ex) {
+			// Critical errors : database unreachable, etc.
+			LOGGER.error("Exception - DataAccessException occurs : " 
+					+ ex.getMessage() + " on complete findRoleProjet().");
+			// TODO vérifier le message d'erreur
+			throw new DaoException("XXXXXXXX");
+		}
+		LOGGER.info("Fin méthode : findRoleProjetByProjetAndMembre");
+		
+		if (roleProjet == null)
+		{
+			throw new DaoException("Le role projet n'est pas connu !");
+		}
+		return roleProjet;
 	}
 }

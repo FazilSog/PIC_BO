@@ -16,6 +16,7 @@ import com.sogeti.dao.IRoleProjetDAO;
 import com.sogeti.dao.model.ClientDO;
 import com.sogeti.dao.model.MembreDO;
 import com.sogeti.dao.model.ProjetDO;
+import com.sogeti.dao.model.RoleDO;
 import com.sogeti.dao.model.RoleProjetDO;
 import com.sogeti.dto.ProjetDTO;
 import com.sogeti.exception.DaoException;
@@ -257,5 +258,89 @@ public class ProjetBOImpl implements IProjetBO {
 		}
 		return lListeProjetDTO;
 	}
+	
+	/**
+	 * {@inheritDoc} 
+	 */
+	public void addAffectProjectToMembre(final ProjetDTO pProjetDTO) throws DaoException {
+		
+		// l'id Projet sélectionné
+		final int idProjet = pProjetDTO.getIdProjet();
+		// on récupère l'objet ProjetDO via son id
+		final ProjetDO projetDO =  getProjetDAO().findProjetById(idProjet);
+		
+		// l'id Membre sélectionné
+		final int idMembre = pProjetDTO.getIdMembre();
+		// on récupère l'objet MembreDO via son id
+		final MembreDO membreDO = getMembreDAO().findMembreById(idMembre);
+		
+		// l'id Role sélectionné
+		final int idRole = pProjetDTO.getIdRole();
+		// on récupère l'objet RoleDO via son id
+		final RoleDO roleDO = getRoleDAO().findRoleById(idRole);
+		
+		// on instancie l'objet RoleProjetDO
+		final RoleProjetDO roleProjetDO = new RoleProjetDO();
+		roleProjetDO.setMembre(membreDO);
+		roleProjetDO.setProjet(projetDO);
+		roleProjetDO.setRole(roleDO);
+		
+		// on ajout l'objet RoleProjet dans la table
+		getRoleProjetDAO().addRoleProjet(roleProjetDO);
+		
+	}
+	
+	
+	/**
+	 * {@inheritDoc} 
+	 */
+	public void updateAffectProjectToMembre(final ProjetDTO pProjetDTO) throws DaoException {
+		
+		// l'id Projet sélectionné
+		final int idProjet = pProjetDTO.getIdProjet();
+		// on récupère l'objet ProjetDO via son id
+		final ProjetDO projetDO =  getProjetDAO().findProjetById(idProjet);
+		
+		// on récupère l'objet RoleProjet via l'objet ProjetDO
+		final RoleProjetDO roleProjetDO = getRoleProjetDAO().findRoleProjet(projetDO);
+		
+		// l'id Membre sélectionné
+		final int idMembre = pProjetDTO.getIdMembre();
+		// on récupère l'objet MembreDO via son id
+		final MembreDO membreDO = getMembreDAO().findMembreById(idMembre);
+		// setter l'objet MembreDO dans RoleProjetDO
+		roleProjetDO.setMembre(membreDO);
+		
+		// l'id Role sélectionné
+		final int idRole = pProjetDTO.getIdRole();
+		// on récupère l'objet RoleDO via son id
+		final RoleDO roleDO = getRoleDAO().findRoleById(idRole);
+		// setter l'objet MembreDO dans RoleProjetDO
+		roleProjetDO.setRole(roleDO);
+				
+		// on ajout l'objet RoleProjet dans la table
+		getRoleProjetDAO().updateRoleProjet(roleProjetDO);
+	}
 
+	/**
+	 * {@inheritDoc} 
+	 */
+	public void deleteAffectProjectToMembre(final ProjetDTO pProjetDTO) throws DaoException {
+		
+		// l'id Projet sélectionné
+		final int idProjet = pProjetDTO.getIdProjet();
+		// on récupère l'objet ProjetDO via son id
+		final ProjetDO projetDO =  getProjetDAO().findProjetById(idProjet);
+		
+		// l'id Membre sélectionné
+		final int idMembre = pProjetDTO.getIdMembre();
+		// on récupère l'objet MembreDO via son id
+		final MembreDO membreDO = getMembreDAO().findMembreById(idMembre);
+		
+		// on récupère l'objet RoleProjet via l'objet ProjetDO
+		final RoleProjetDO roleProjetDO = getRoleProjetDAO().findRoleProjetByProjetAndMembre(projetDO, membreDO);
+				
+		// on ajout l'objet RoleProjet dans la table
+		getRoleProjetDAO().deleteRoleProjet(roleProjetDO);
+	}
 }

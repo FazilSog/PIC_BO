@@ -72,8 +72,7 @@ public class Token {
 		int idClient = 0;
 		
 		// on vérifie si le token est signé
-		if (StringUtils.isNotBlank(pJwt) && Jwts.parser().isSigned(pJwt))
-		{
+		if (StringUtils.isNotBlank(pJwt) && Jwts.parser().isSigned(pJwt)) {
 			// on obtient le claims (Payload)
 			final Claims claims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(pJwt).getBody();
 			
@@ -94,8 +93,7 @@ public class Token {
 		int idMembre = 0;
 		
 		// on vérifie si le token est signé
-		if (StringUtils.isNotBlank(pJwt) && Jwts.parser().isSigned(pJwt))
-		{
+		if (StringUtils.isNotBlank(pJwt) && Jwts.parser().isSigned(pJwt)) {
 			// on obtient le claims (Payload)
 			final Claims claims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(pJwt).getBody();
 			
@@ -115,11 +113,12 @@ public class Token {
 		
 		// on récupère le token via le header
 		String token = "";
+		final int beginIndex = 26;
 		
-		if (pHeaders.get("Authorization") != null && StringUtils.isNotBlank(pHeaders.get("Authorization").toString()))
-		{
+		if (pHeaders.get("Authorization") != null && StringUtils.isNotBlank(pHeaders.get("Authorization").toString())) {
 			final String authorization = pHeaders.get("Authorization").toString();
-			token = authorization.substring(26, authorization.length() - 3);
+			final int endIndex = authorization.length() - 3;
+			token = authorization.substring(beginIndex, endIndex);
 		}
 		
 		return token;
