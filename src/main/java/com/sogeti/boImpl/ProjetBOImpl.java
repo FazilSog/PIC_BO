@@ -187,6 +187,7 @@ public class ProjetBOImpl implements IProjetBO {
 	 */
 	public List<ProjetDTO> listerProjets(final int pIdClient) throws DaoException {
 		
+		// on récuperer l'objet clientDO
 		final ClientDO clientDO = getClientDAO().findClientById(pIdClient);
 		
 		
