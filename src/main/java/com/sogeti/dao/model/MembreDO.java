@@ -178,7 +178,6 @@ public class MembreDO {
 	 * @param token token du membre
 	 * @param client l'objet clientDO
 	 * @param roleMembre l'objet roleDO
-	 * @param roleProjet l'objet roleProjetDO
 	 */
 	public MembreDO(final int idMembre, final String username, final String password,
 			final boolean status, final String token, final ClientDO client, final RoleDO roleMembre) {

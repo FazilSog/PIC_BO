@@ -45,6 +45,9 @@ public class RoleControlller {
 		this.roleBO = roleBO;
 	}
 	
+	/**
+	 * Constructeur par défaut
+	 */
 	public RoleControlller() {
 		lOGGER.info("init RoleControlller");
 	}

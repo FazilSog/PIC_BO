@@ -83,7 +83,7 @@ public class MembreBOImpl implements IMembreBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public AuthentificationDTO Authentification(final String pUsername, final String pPassword) throws DaoException {
+	public AuthentificationDTO authentification(final String pUsername, final String pPassword) throws DaoException {
 		// on instance l'objet AuthentificationDTO
 		AuthentificationDTO lAuthentification = new AuthentificationDTO();
 		

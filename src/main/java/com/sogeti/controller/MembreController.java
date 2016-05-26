@@ -51,6 +51,9 @@ public class MembreController {
 		this.membreBO = membreBO;
 	}
 
+	/**
+	 * Constructeur par défaut
+	 */
 	public MembreController(){
 		LOGGER.info("init MembreController");
 	}
@@ -77,8 +80,7 @@ public class MembreController {
 		int idClient = Token.obtenirIdClient(token);
 		
 		// on vérifie si le username, le password sont différents de null ou vide et id role, id client sont différents de zéro
-		if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) && idClient != 0 && idRole != 0)
-		{
+		if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) && idClient != 0 && idRole != 0) {
 			// on set l'id client et le status
 			membreDTO.setIdClient(idClient);
 			membreDTO.setStatus(status);
@@ -103,8 +105,7 @@ public class MembreController {
 			} catch (DaoException ex) {
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
-		}
-		else {
+		} else {
 			return new ResponseEntity<Object>("L'ajout a échoué", HttpStatus.FORBIDDEN);
 		}
 
@@ -132,8 +133,7 @@ public class MembreController {
 		
 		// on vérifie si le username et le password  sont différents de null ou vide
 		if (idMembre != 0 && StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) 
-				&& idClient != 0 && idRole != 0)
-		{
+				&& idClient != 0 && idRole != 0) {
 			try {
 				getMembreBO().updateMembre(pMembreDTO);
 				
@@ -141,8 +141,7 @@ public class MembreController {
 			} catch (DaoException ex) {
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
-		}
-		else {
+		} else {
 			return new ResponseEntity<Object>("La modification a échouée", HttpStatus.FORBIDDEN);
 		}
 
@@ -161,8 +160,7 @@ public class MembreController {
 		LOGGER.info("The id is : " + pIdMembre);
 		
 		// on vérifie si l'id est différent de zéro
-		if (pIdMembre != 0 )
-		{
+		if (pIdMembre != 0 ) {
 			try {
 				getMembreBO().deleteMembre(pIdMembre);
 				
@@ -170,8 +168,7 @@ public class MembreController {
 			} catch (DaoException ex) {
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
-		}
-		else {
+		} else {
 			return new ResponseEntity<Object>("La modification a échouée", HttpStatus.FORBIDDEN);
 		}
 

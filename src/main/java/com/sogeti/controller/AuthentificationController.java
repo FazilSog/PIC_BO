@@ -50,6 +50,9 @@ public class AuthentificationController {
 		this.membreBO = membreBO;
 	}
 
+	/**
+	 * Constructeur par défaut
+	 */
 	public AuthentificationController(){
 		LOGGER.info("init AuthentificationController");
 	}
@@ -70,16 +73,14 @@ public class AuthentificationController {
 		LOGGER.info("The username is: " + lUsername + ", The password is: " + lPassword);
 		
 		// on vérifie si le username et le password sont différents de null ou vide
-		if (StringUtils.isNotBlank(lUsername) && StringUtils.isNotBlank(lPassword))
-		{
+		if (StringUtils.isNotBlank(lUsername) && StringUtils.isNotBlank(lPassword)) {
 			try {
-				AuthentificationDTO lAuthentifier = getMembreBO().Authentification(lUsername, lPassword);
+				AuthentificationDTO lAuthentifier = getMembreBO().authentification(lUsername, lPassword);
 				return new ResponseEntity<Object>(lAuthentifier, HttpStatus.CREATED);
 			} catch (DaoException ex) {
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
-		}
-		else {
+		} else {
 			return new ResponseEntity<Object>("Le login / mdp invalide ou user désactivé", HttpStatus.FORBIDDEN);
 		}
 

@@ -20,7 +20,7 @@ public interface IMembreBO {
 	 * @return l'objet AuthentificationDTO
 	 * @throws DaoException exception
 	 */
-	public AuthentificationDTO Authentification(final String pUsername, final String pPassword) throws DaoException;
+	public AuthentificationDTO authentification(final String pUsername, final String pPassword) throws DaoException;
 	
 	/**
 	 * Elle permet de créer un membre.

@@ -55,7 +55,7 @@ public class MembreDAOImpl implements IMembreDAO {
 	 */
 	public MembreDO findMembreById(final int pIdMembre) throws DaoException {
 		
-		LOGGER.info("Début méthode : getMembre");
+		LOGGER.info("Début méthode : findMembreById");
 		
 		MembreDO membreDO = null;
 		
@@ -72,7 +72,7 @@ public class MembreDAOImpl implements IMembreDAO {
 				
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
-				LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete getMembre().");
+				LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete findMembreById().");
 				throw new DaoException("Connexion échoué : Identifiant inconnu");
 			}
 		}
@@ -83,7 +83,7 @@ public class MembreDAOImpl implements IMembreDAO {
 			throw new DaoException("Le Membre n'est pas connu.");
 		}
 
-		LOGGER.info("Fin méthode : getMembre");
+		LOGGER.info("Fin méthode : findMembreById");
 		return membreDO;
 	}
 	
@@ -94,7 +94,7 @@ public class MembreDAOImpl implements IMembreDAO {
 	public MembreDO findMembreByNameAndPass(final String pUsername, final String pPassword) throws DaoException {
 		
 		//Initialisation de LOGGER
-		LOGGER.info("Début méthode : getMembre");
+		LOGGER.info("Début méthode : findMembreByNameAndPass");
 		
 		MembreDO membreDO = null;
 		
@@ -113,11 +113,11 @@ public class MembreDAOImpl implements IMembreDAO {
 			
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
-			LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete getMembre().");
+			LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete findMembreByNameAndPass().");
 			throw new DaoException("Connexion échoué : USER/MDP incorrect");
 		}
 		
-		LOGGER.info("Fin méthode : getMembre");
+		LOGGER.info("Fin méthode : findMembreByNameAndPass");
 		return membreDO;
 	}
 	

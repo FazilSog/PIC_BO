@@ -54,7 +54,7 @@ public class RoleDAOImpl implements IRoleDAO {
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
 				LOGGER.error("Exception - DataAccessException occurs : " 
-				+ ex.getMessage() + " on complete getProjet().");
+				+ ex.getMessage() + " on complete findRoleById().");
 				// TODO
 				throw new DaoException("Connexion échoué : XXXXXXX");
 			}
@@ -92,7 +92,7 @@ public class RoleDAOImpl implements IRoleDAO {
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
 				LOGGER.error("Exception - DataAccessException occurs : " 
-				+ ex.getMessage() + " on complete getProjet().");
+				+ ex.getMessage() + " on complete findRoleByCodeRole().");
 				// TODO
 				throw new DaoException("Connexion échoué : XXXX");
 			}

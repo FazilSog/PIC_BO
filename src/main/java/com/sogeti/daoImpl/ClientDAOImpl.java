@@ -46,12 +46,13 @@ public class ClientDAOImpl implements IClientDAO {
 				final Criteria criteria = HibernateSessionFactory.getSession()
 						.createCriteria(ClientDO.class);
 				criteria.add(Restrictions.eq("idClient", pIdClient));
+				
 				clientDO = (ClientDO) criteria.uniqueResult();
 				
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
 				LOGGER.error("Exception - DataAccessException occurs : " 
-				+ ex.getMessage() + " on complete getProjet().");
+				+ ex.getMessage() + " on complete findClientById().");
 				throw new DaoException("Connexion échoué : Identifiant inconnu");
 			}
 		}

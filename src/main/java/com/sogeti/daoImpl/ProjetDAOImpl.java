@@ -37,9 +37,9 @@ public class ProjetDAOImpl implements IProjetDAO {
 	 */
 	private ProjetDO findProjet(final String pNomProjet, final String pUrl, final String pBranche) throws DaoException {
 		
-		LOGGER.info("Début méthode : getMembre");
+		LOGGER.info("Début méthode : findProjet");
 		
-		ProjetDO ProjetDO = null;
+		ProjetDO projetDO = null;
 		
 		if (pNomProjet == null || pUrl == null || pBranche == null) {
 			throw new DaoException(" Valeur vide et/ou zéro est interdit.");
@@ -51,17 +51,17 @@ public class ProjetDAOImpl implements IProjetDAO {
 				crit.add(Restrictions.eq("nomProjet", pNomProjet));
 				crit.add(Restrictions.eq("url", pUrl));
 				crit.add(Restrictions.eq("branche", pBranche));
-				ProjetDO = (ProjetDO) crit.uniqueResult();
+				projetDO = (ProjetDO) crit.uniqueResult();
 				
-			} catch (HibernateException e) {
+			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
-				LOGGER.error("Exception - DataAccessException occurs : " + e.getMessage() + " on complete getProjet().");
+				LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete findProjet().");
 				throw new DaoException("Connexion échoué : Projet inconnu");
 			}
 		}
-		LOGGER.info("Fin méthode : getProjet");
+		LOGGER.info("Fin méthode : findProjet");
 		
-		return ProjetDO;
+		return projetDO;
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 	public ProjetDO findProjetById(int pIdProjet) throws DaoException {
 		
 		//initialaisation du logger
-		LOGGER.info("Début méthode : getProjet");
+		LOGGER.info("Début méthode : findProjetById");
 		
 		ProjetDO projetDO = null;
 		
@@ -88,7 +88,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 				
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
-				LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete getProjet().");
+				LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete findProjetById().");
 				throw new DaoException("Connexion échoué : Identifiant inconnu");
 			}
 		}
@@ -96,7 +96,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 		if (projetDO == null) {
 			throw new DaoException("Le projet n'existe pas.");
 		} 
-		LOGGER.info("Fin méthode : getMembre");
+		LOGGER.info("Fin méthode : findProjetById");
 		return projetDO;
 	}
 	
@@ -170,7 +170,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 	public void deleteProjet (final int pIdProjet) throws DaoException {
 		
 		//On initialise le LOGGER
-		LOGGER.info("Début méthode : deleteMembre");
+		LOGGER.info("Début méthode : deleteProjet");
 		
 		//On recuepre le projet via son Id
 		final ProjetDO projetDO = findProjetById(pIdProjet);
@@ -195,7 +195,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 	public void deleteProjet (final ProjetDO pProjetDO) throws DaoException {
 		
 		//On initialise le LOGGER
-		LOGGER.info("Début méthode : deleteMembre");
+		LOGGER.info("Début méthode : deleteProjet");
 		
 		try {
 			// la méthode delete permet de supprimer le projet dans la table
@@ -219,7 +219,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 	public List<ProjetDO> listerProjets(final ClientDO pClientDO) throws DaoException {
 		
 		//On initialise le LOGGER
-		LOGGER.info("Début méthode : listerProjet");
+		LOGGER.info("Début méthode : listerProjets");
 		
 		//ON recupere la liste des projets
 		List<ProjetDO> lListeProjet = new ArrayList<ProjetDO>();
@@ -233,11 +233,11 @@ public class ProjetDAOImpl implements IProjetDAO {
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
-					+ ex.getMessage() + " on complete listerMembres().");
+					+ ex.getMessage() + " on complete listerProjets().");
 			throw new DaoException("Connexion échoué : Impossible de récupérer la liste des projets");
 		}
 		
-		LOGGER.info("Fin méthode : listerProjet");
+		LOGGER.info("Fin méthode : listerProjets");
 		return lListeProjet;
 	}
 		

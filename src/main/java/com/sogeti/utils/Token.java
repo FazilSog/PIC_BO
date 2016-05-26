@@ -19,6 +19,16 @@ import org.springframework.http.HttpHeaders;
 
 public class Token {
 
+	private static final String IDMEMBRE = "idMembre";
+	private static final String IDCLIENT = "idClient";
+	private static final String SUBJECT = "subject";
+	private static final String IAT = "iat";
+	private static final String EXPRIRATION = "expiration";
+	private static final String CLE_SIGNATURE_TOKEN = "SOGETIpIC3456698";
+	private static final String AUTHORIZATION = "Authorization";
+	private static final String ALG = "alg";
+	private static final String TYP = "typ";
+	private static final String JWT = "jwt";
 	
 	/**
 	 * Cette méthode genere un token JSON Web Token (JWT)
@@ -31,30 +41,30 @@ public class Token {
 		final JwtBuilder jwtBuilder = Jwts.builder();
 		
 		// 1 - Partie Header
-		jwtBuilder.setHeaderParam("alg", "HS256");
-		jwtBuilder.setHeaderParam("typ", "JWT");
+		jwtBuilder.setHeaderParam(ALG, SignatureAlgorithm.HS256);
+		jwtBuilder.setHeaderParam(TYP, JWT);
 		
 		// 2 - Payload
 		// Claims
 		final Claims claims = Jwts.claims();
 		// id membre et idClient
-		claims.put("idMembre", pIdMembre);
-		claims.put("idClient", pIdClient);
+		claims.put(IDMEMBRE, pIdMembre);
+		claims.put(IDCLIENT, pIdClient);
 		// Sujet (subject)
-		claims.put("subject", "totot");
+		claims.put(SUBJECT, "Application PIC");
 		// Date de création du token
-		claims.put("iat", new Date().getTime());
+		claims.put(IAT, new Date().getTime());
 		// Date d’expiration du token (expiration)
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());		
 		long timeStamp = cal.getTime().getTime();		
-		claims.put("expiration", timeStamp + 60);
+		claims.put(EXPRIRATION, timeStamp + 60);
 
 		jwtBuilder.setClaims(claims);
 		
 		// 3 - Signature 
 		// TODO définir une clé (exemle : SOGETIpIC3456698)
-		jwtBuilder.signWith(SignatureAlgorithm.HS256, "SOGETIpIC3456698");
+		jwtBuilder.signWith(SignatureAlgorithm.HS256, CLE_SIGNATURE_TOKEN);
 		 
 		// La méthode compact réalise l'encodage en Base64URL et concaténer les 
 		// 3 parties du JWT (Header + Payload + Signature)
@@ -74,10 +84,10 @@ public class Token {
 		// on vérifie si le token est signé
 		if (StringUtils.isNotBlank(pJwt) && Jwts.parser().isSigned(pJwt)) {
 			// on obtient le claims (Payload)
-			final Claims claims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(pJwt).getBody();
+			final Claims claims = Jwts.parser().setSigningKey(CLE_SIGNATURE_TOKEN).parseClaimsJws(pJwt).getBody();
 			
-			if (claims.containsKey("idClient")) {
-				idClient = Integer.parseInt(claims.get("idClient").toString());
+			if (claims.containsKey(IDCLIENT)) {
+				idClient = Integer.parseInt(claims.get(IDCLIENT).toString());
 			}
 		}
 		return idClient;
@@ -95,10 +105,10 @@ public class Token {
 		// on vérifie si le token est signé
 		if (StringUtils.isNotBlank(pJwt) && Jwts.parser().isSigned(pJwt)) {
 			// on obtient le claims (Payload)
-			final Claims claims = Jwts.parser().setSigningKey("SOGETIpIC3456698").parseClaimsJws(pJwt).getBody();
+			final Claims claims = Jwts.parser().setSigningKey(CLE_SIGNATURE_TOKEN).parseClaimsJws(pJwt).getBody();
 			
-			if (claims.containsKey("idMembre")) {
-				idMembre = Integer.parseInt(claims.get("idMembre").toString());
+			if (claims.containsKey(IDMEMBRE)) {
+				idMembre = Integer.parseInt(claims.get(IDMEMBRE).toString());
 			}
 		}
 		return idMembre;
@@ -115,8 +125,8 @@ public class Token {
 		String token = "";
 		final int beginIndex = 26;
 		
-		if (pHeaders.get("Authorization") != null && StringUtils.isNotBlank(pHeaders.get("Authorization").toString())) {
-			final String authorization = pHeaders.get("Authorization").toString();
+		if (pHeaders.get(AUTHORIZATION) != null && StringUtils.isNotBlank(pHeaders.get(AUTHORIZATION).toString())) {
+			final String authorization = pHeaders.get(AUTHORIZATION).toString();
 			final int endIndex = authorization.length() - 3;
 			token = authorization.substring(beginIndex, endIndex);
 		}

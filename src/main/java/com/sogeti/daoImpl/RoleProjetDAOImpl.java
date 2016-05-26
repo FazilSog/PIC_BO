@@ -79,7 +79,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 	public RoleProjetDO findRoleProjetByID (final int pIdRoleProjet) throws DaoException {
 		
 		//On initialise le LOGGER
-		LOGGER.info("Début méthode : findClientById");
+		LOGGER.info("Début méthode : findRoleProjetByID");
 		
 		RoleProjetDO roleProjet = null;
 				
@@ -96,7 +96,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 			// TODO vérifier le message d'erreur
 			throw new DaoException("Impossible de trouver le role projet");
 		}
-		LOGGER.info("Fin méthode : findClientById");
+		LOGGER.info("Fin méthode : findRoleProjetByID");
 		
 		if (roleProjet == null)
 		{
@@ -112,7 +112,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 	 */
 	public RoleProjetDO findRoleProjet (final ProjetDO pProjetDO) throws DaoException {
 		//On initialise le LOGGER
-		LOGGER.info("Début méthode : findRoleProjetByIdProjet");
+		LOGGER.info("Début méthode : findRoleProjet");
 		
 		RoleProjetDO roleProjet = null;
 				
@@ -129,7 +129,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 			// TODO vérifier le message d'erreur
 			throw new DaoException("XXXXXXXX");
 		}
-		LOGGER.info("Fin méthode : findRoleProjetByIdProjet");
+		LOGGER.info("Fin méthode : findRoleProjet");
 		
 		if (roleProjet == null)
 		{
@@ -184,7 +184,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
-					+ ex.getMessage() + " on complete findRoleProjet().");
+					+ ex.getMessage() + " on complete findRoleProjetByProjetAndMembre().");
 			// TODO vérifier le message d'erreur
 			throw new DaoException("XXXXXXXX");
 		}

@@ -25,12 +25,17 @@ public class AuthentificationDTO {
 		this.tokenMembre = tokenMembre;
 	}
 
-	
+	/**
+	 * contructeur AuthentificationDTO
+	 * @param tokenMembre le token du membre
+	 */
 	public AuthentificationDTO(String tokenMembre) {
 		this.tokenMembre = tokenMembre;
 	}
 
-
+	/**
+	 * Constructeur par défaut
+	 */
 	public AuthentificationDTO() {
 			
 	}

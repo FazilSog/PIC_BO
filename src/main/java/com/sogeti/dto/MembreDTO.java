@@ -93,11 +93,13 @@ public class MembreDTO {
 	
 	/**
 	 * Construteur MembreDTO
-	 * @param idMembre
-	 * @param username
-	 * @param password
-	 * @param role
-	 * @param status
+	 * @param idMembre l'id membre
+	 * @param username le username
+	 * @param password le password
+	 * @param role le role
+	 * @param status le status
+	 * @param idClient l'id client
+	 * @param idRole l'id Role
 	 */
 	public MembreDTO(int idMembre, String username, String password,
 			boolean status, int idClient, int idRole) {
@@ -122,7 +124,8 @@ public class MembreDTO {
 	@Override
 	public String toString() {
 		return "MembreDTO [idMembre=" + idMembre + ", username=" + username
-				+ ", password=" + password + ", status=" + status + "]";
+				+ ", password=" + password + ", status=" + status
+				+ ", idClient=" + idClient + ", idRole=" + idRole + "]";
 	}
 		
 	

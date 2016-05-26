@@ -237,7 +237,6 @@ public class ProjetDO {
 	 * @param actif actif du projet
 	 * @param status status du projet
 	 * @param client L'objet ClientDO
-	 * @param roleProjet L'objet RoleProjetDO
 	 */
 	public ProjetDO(final int idProjet, final String url, final String nomProjet,
 			final String credential, final String frequence, final String branche,

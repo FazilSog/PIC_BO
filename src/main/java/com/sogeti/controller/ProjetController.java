@@ -51,6 +51,9 @@ public class ProjetController {
 		this.projetBO = projetBO;
 	}
 	
+	/**
+	 * Constructeur par défaut
+	 */
 	public ProjetController() {
 		LOGGER.info("init ProjetController");
 	}
@@ -89,12 +92,11 @@ public class ProjetController {
 				+ " , The credentiel is : " + credential + " , The actif is : " + actif + " , The description is : " + description
 				+ " , The url is : " + url);
 		
-		//TODO a verifier la regle metier et quelles sont les champs obligatoires 
+		// TODO a verifier la regle metier et quelles sont les champs obligatoires 
 		// on vérifie si le username, le password et le role sont différents de null ou vide
 		if (StringUtils.isNotBlank(branche) && StringUtils.isNotBlank(url) && StringUtils.isNotBlank(nomProjet) 
 				&& StringUtils.isNotBlank(frequence) && StringUtils.isNotBlank(credential) 
-				&& StringUtils.isNotBlank(String.valueOf(status)) && StringUtils.isNotBlank(description))
-		{
+				&& StringUtils.isNotBlank(String.valueOf(status)) && StringUtils.isNotBlank(description)) {
 			try {
 				final ProjetDTO lProjetDTOAdd = getProjetBO().addProjet(projetDTO);
 				
@@ -103,8 +105,7 @@ public class ProjetController {
 				LOGGER.warn(ex.getMessage());
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
-		}
-		else {
+		} else {
 			return new ResponseEntity<Object>("L'ajout a échoué", HttpStatus.FORBIDDEN);
 		}
 	}
@@ -138,8 +139,7 @@ public class ProjetController {
 		if (StringUtils.isNotBlank(branche) && StringUtils.isNotBlank(url) && StringUtils.isNotBlank(nomProjet) 
 				&& StringUtils.isNotBlank(String.valueOf(idProjet)) 
 				&& StringUtils.isNotBlank(frequence) && StringUtils.isNotBlank(credential) 
-				&& StringUtils.isNotBlank(String.valueOf(status)) && StringUtils.isNotBlank(description))
-		{
+				&& StringUtils.isNotBlank(String.valueOf(status)) && StringUtils.isNotBlank(description)) {
 			try {
 				getProjetBO().updateProjet(pProjetDTO);
 				
@@ -148,8 +148,7 @@ public class ProjetController {
 				LOGGER.warn(ex.getMessage());
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
-		}
-		else {
+		} else {
 			return new ResponseEntity<Object>("La modification a échouée", HttpStatus.FORBIDDEN);
 		}
 	}
@@ -167,8 +166,7 @@ public class ProjetController {
 		LOGGER.info("The id is : " + pIdProjet);
 		
 		// on vérifie si l'id est différent de zéro
-		if (pIdProjet != 0 )
-		{
+		if (pIdProjet != 0 ) {
 			try {
 				getProjetBO().deleteProjet(pIdProjet);
 				
@@ -177,8 +175,7 @@ public class ProjetController {
 				LOGGER.warn(ex.getMessage());
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
-		}
-		else {
+		} else {
 			return new ResponseEntity<Object>("La modification a échouée", HttpStatus.FORBIDDEN);
 		}
 	}
@@ -252,8 +249,7 @@ public class ProjetController {
 		// l'id Role sélectionné
 		final int idRole = pProjetDTO.getIdRole();
 		
-		if (idProjet != 0 && idMembre != 0 && idRole != 0)
-		{
+		if (idProjet != 0 && idMembre != 0 && idRole != 0) {
 			try {
 				// on interroge le service BO pour affecter un projet sur un membre
 				getProjetBO().addAffectProjectToMembre(pProjetDTO);
@@ -288,8 +284,7 @@ public class ProjetController {
 		// l'id Role sélectionné
 		final int idRole = pProjetDTO.getIdRole();
 		
-		if (idProjet != 0 && idMembre != 0 && idRole != 0)
-		{
+		if (idProjet != 0 && idMembre != 0 && idRole != 0) {
 			try {
 				// on interroge le service BO pour affecter un projet sur un membre
 				getProjetBO().updateAffectProjectToMembre(pProjetDTO);
@@ -322,8 +317,7 @@ public class ProjetController {
 		// l'id Membre sélectionné
 		final int idMembre = pProjetDTO.getIdMembre();
 		
-		if (idProjet != 0 && idMembre != 0)
-		{
+		if (idProjet != 0 && idMembre != 0) {
 			try {
 				// on interroge le service BO pour affecter un projet sur un membre
 				getProjetBO().deleteAffectProjectToMembre(pProjetDTO);

@@ -49,9 +49,9 @@ public class RoleDTO {
 	}
 	
 	/**
-	 * @param idRole
-	 * @param codeRole
-	 * @param libelleRole
+	 * @param idRole l'id du role
+	 * @param codeRole le code du role
+	 * @param libelleRole le libelle du role
 	 */
 	public RoleDTO(int idRole, String codeRole, String libelleRole) {
 		this.idRole = idRole;
@@ -75,7 +75,5 @@ public class RoleDTO {
 				+ ", libelleRole=" + libelleRole + "]";
 	}
 	
-	
-
 	
 }
