@@ -1,5 +1,7 @@
 package com.sogeti.daoImpl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
@@ -21,16 +23,15 @@ import com.sogeti.utils.HibernateSessionFactory;
 
 @Service
 @Transactional
-public class ClientDAOImpl implements IClientDAO {
+public class ClientDAOImpl extends GenericDAO<ClientDO> implements IClientDAO {
 	
 	// Initialisation du LOGGER
 	private static final Logger LOGGER = Logger.getLogger(ClientDAOImpl.class);
 	
 	/**
 	 * {@inheritDoc}
-	 * @throws DaoException 
 	 */
-	public ClientDO findClientById(final int pIdClient) throws DaoException {
+	public ClientDO find(final int pIdClient) throws DaoException {
 		
 		//on initilalise le clientDO a null
 		ClientDO clientDO = null;
@@ -64,4 +65,40 @@ public class ClientDAOImpl implements IClientDAO {
 		LOGGER.info("Fin méthode : findClientById");
 		return clientDO;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public void create(final ClientDO pClient) throws DaoException {
+		// TODO à faire si besoin du projet
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public void update(final ClientDO pClient) throws DaoException {
+		// TODO à faire si besoin du projet
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public void delete(final ClientDO pClient) throws DaoException {
+		// TODO à faire si besoin du projet
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public void delete(final int pIdClient) throws DaoException {
+		// TODO à faire si besoin du projet
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<ClientDO> listeObjects() throws DaoException {
+		return null;
+	}
+	
 }

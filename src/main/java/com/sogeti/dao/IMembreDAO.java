@@ -2,6 +2,7 @@ package com.sogeti.dao;
 
 import java.util.List;
 
+import com.sogeti.dao.model.ClientDO;
 import com.sogeti.dao.model.MembreDO;
 import com.sogeti.exception.DaoException;
 
@@ -30,7 +31,7 @@ public interface IMembreDAO {
 	 * @return le membre DO
 	 * @throws DaoException exception
 	 */
-	public MembreDO findMembreById(final int pIdMembre) throws DaoException; 
+	public MembreDO find(final int pIdMembre) throws DaoException; 
 	
 	/**
 	 * Elle permet de recupèrer le membre à partir de son username et password
@@ -55,10 +56,9 @@ public interface IMembreDAO {
 	 * si oui, on leve une exception
 	 * si non, on crée le membre et on recupère son identifiant
 	 * @param pMembreDO le membre DO
-	 * @return l'id d'un membre
 	 * @throws DaoException exception
 	 */
-	public int addMembre(final MembreDO pMembreDO) throws DaoException;
+	public void create(final MembreDO pMembreDO) throws DaoException;
 	
 	/**
 	 * Elle permet de modifier un membre.
@@ -68,18 +68,7 @@ public interface IMembreDAO {
 	 * @param pMembreDO le membreDO
 	 * @throws DaoException exception
 	 */
-	public void updateMembre(final MembreDO pMembreDO) throws DaoException;
-	
-	
-	/**
-	 * Elle permet de supprimer un membre.
-	 * La méthode vérifie déjà si le membre existe dans la table, 
-	 * si oui, on supprime le membre
-	 * si non, on leve une exception
-	 * @param pIdMembre l'identifiant d'un membre
-	 * @throws DaoException exception
-	 */
-	public void deleteMembre(final int pIdMembre) throws DaoException;
+	public void update(final MembreDO pMembreDO) throws DaoException;
 	
 	/**
 	 * Elle permet de supprimer un membre.
@@ -89,14 +78,21 @@ public interface IMembreDAO {
 	 * @param pMembreBO le mebreBO
 	 * @throws DaoException exception
 	 */
-	public void deleteMembre(final MembreDO pMembreBO) throws DaoException;
-	
-	
+	public void delete(final MembreDO pMembreBO) throws DaoException;
 	
 	/**
-	 * Elle permet de retourner une liste des membres.
-	 * 
+	 * Elle permet de récuperer la liste des membres
+	 * @return la liste
 	 * @throws DaoException exception
 	 */
-	public List<MembreDO> listerMembres() throws DaoException;
+	public List<MembreDO> listeObjects() throws DaoException;
+	
+	/**
+	 * Elle permet de récuperer la liste des membres d'un client
+	 * @param pClientDO le clientDO
+	 * @return la liste
+	 * @throws DaoException exception
+	 */
+	public List<MembreDO> listeMembreByClient(final ClientDO pClientDO) throws DaoException;
+
 }

@@ -1,5 +1,7 @@
 package com.sogeti.dao;
 
+import java.util.List;
+
 import com.sogeti.dao.model.MembreDO;
 import com.sogeti.dao.model.ProjetDO;
 import com.sogeti.dao.model.RoleProjetDO;
@@ -18,14 +20,14 @@ public interface IRoleProjetDAO {
 	 * @param pRoleProjetDO l'objet roleProjetDO
 	 * @throws DaoException exception
 	 */
-	public void addRoleProjet(final RoleProjetDO pRoleProjetDO) throws DaoException;
+	public void create(final RoleProjetDO pRoleProjetDO) throws DaoException;
 	
 	/**
 	 * Elle permet de modifier un role dans la table ROLEPROJET
 	 *@param pRoleProjet objet role projet
 	 *@throws DaoException exception
 	 */
-	public void updateRoleProjet(final RoleProjetDO pRoleProjet) throws DaoException;
+	public void update(final RoleProjetDO pRoleProjet) throws DaoException;
 	
 	
 	/**
@@ -33,7 +35,7 @@ public interface IRoleProjetDAO {
 	 * @param pRoleProjetDO objet RoleProjetDO
 	 * @throws DaoException
 	 */
-	public void deleteRoleProjet(final RoleProjetDO pRoleProjetDO) throws DaoException;
+	public void delete(final RoleProjetDO pRoleProjetDO) throws DaoException;
 	
 	/**
 	 * Elle permet de recuperer un RoleProjet via idRoleProjet
@@ -41,7 +43,7 @@ public interface IRoleProjetDAO {
 	 * @return objet de type  RoleProjetDO
 	 * @throws DaoException exception
 	 */
-	public RoleProjetDO findRoleProjetByID (final int pIdRoleProjet) throws DaoException;
+	public RoleProjetDO find (final int pIdRoleProjet) throws DaoException;
 	
 	/**
 	 * Elle permet de recuperer un RoleProjet via l'objet Projet
@@ -59,6 +61,13 @@ public interface IRoleProjetDAO {
 	 * @throws DaoException exception
 	 */
 	public RoleProjetDO findRoleProjetByProjetAndMembre (final ProjetDO pProjetDO, final MembreDO pMembreDO) throws DaoException;
+	
+	/**
+	 * Permet de récuperer la liste de roleProjet
+	 * @return la liste
+	 * @throws DaoException exception
+	 */
+	public List<RoleProjetDO> listeObjects() throws DaoException;
 	
 
 }

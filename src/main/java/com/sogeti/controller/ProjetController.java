@@ -98,9 +98,10 @@ public class ProjetController {
 				&& StringUtils.isNotBlank(frequence) && StringUtils.isNotBlank(credential) 
 				&& StringUtils.isNotBlank(String.valueOf(status)) && StringUtils.isNotBlank(description)) {
 			try {
-				final ProjetDTO lProjetDTOAdd = getProjetBO().addProjet(projetDTO);
+				// on interroge le service ad projet
+				getProjetBO().addProjet(projetDTO);
 				
-				return new ResponseEntity<Object>(lProjetDTOAdd, HttpStatus.CREATED);
+				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
 				LOGGER.warn(ex.getMessage());
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);

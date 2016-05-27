@@ -25,10 +25,9 @@ public interface IMembreBO {
 	/**
 	 * Elle permet de créer un membre.
 	 * @param pMembreDTO le membreDTO
-	 * @return le membreDTO créer avec l'id
 	 * @throws DaoException exception
 	 */
-	public MembreDTO addMembre (final MembreDTO pMembreDTO) throws DaoException;
+	public void addMembre (final MembreDTO pMembreDTO) throws DaoException;
 	
 	/**
 	 * Elle permet de modifier un membre.

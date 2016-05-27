@@ -25,7 +25,7 @@ import com.sogeti.utils.HibernateSessionFactory;
 
 @Service
 @Transactional
-public class ProjetDAOImpl implements IProjetDAO {
+public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 	
 	// Initialisation du LOGGER
 	private static final Logger LOGGER =Logger.getLogger(ProjetDAOImpl.class);
@@ -68,7 +68,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public ProjetDO findProjetById(int pIdProjet) throws DaoException {
+	public ProjetDO find(int pIdProjet) throws DaoException {
 		
 		//initialaisation du logger
 		LOGGER.info("Début méthode : findProjetById");
@@ -104,15 +104,10 @@ public class ProjetDAOImpl implements IProjetDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public ProjetDO addProjet(final ProjetDO pProjetDO) throws DaoException {
+	public void create(final ProjetDO pProjetDO) throws DaoException {
 		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : addProjet");
-		
-		//On instancie l'objet PrjetDO
-		final ProjetDO projetDO = pProjetDO;
-		
-		int idProjet = 0;
 		
 		// on vérifie si le projet existe
 		final ProjetDO projetDOExiste = findProjet(pProjetDO.getNomProjet(), pProjetDO.getUrl(), pProjetDO.getBranche());
@@ -123,9 +118,8 @@ public class ProjetDAOImpl implements IProjetDAO {
 		} else {
 			
 			try {
-				idProjet = (int) HibernateSessionFactory.getSession().save(pProjetDO);
-				//On recupere l'Id du projet
-				projetDO.setIdProjet(idProjet);
+				// la méthode save va créer le projet dans la table
+				HibernateSessionFactory.getSession().save(pProjetDO);
 				
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
@@ -135,7 +129,6 @@ public class ProjetDAOImpl implements IProjetDAO {
 
 			}
 			LOGGER.info("Fin méthode : addProjet");
-			return projetDO;
 		}
 	}
 
@@ -143,7 +136,7 @@ public class ProjetDAOImpl implements IProjetDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public void updateProjet(final ProjetDO pProjetDO) throws DaoException{
+	public void update(final ProjetDO pProjetDO) throws DaoException{
 		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : updateProjet");
@@ -162,37 +155,12 @@ public class ProjetDAOImpl implements IProjetDAO {
 			
 		LOGGER.info("Fin méthode : updateProjet");
 	}
-	
+		
 	/**
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public void deleteProjet (final int pIdProjet) throws DaoException {
-		
-		//On initialise le LOGGER
-		LOGGER.info("Début méthode : deleteProjet");
-		
-		//On recuepre le projet via son Id
-		final ProjetDO projetDO = findProjetById(pIdProjet);
-
-		try {
-			// la méthode delete permet de supprimer le projet dans la table
-			HibernateSessionFactory.getSession().delete(projetDO);
-		} catch (HibernateException ex) {
-			// Critical errors : database unreachable, etc.
-			LOGGER.error("Exception - DataAccessException occurs : " 
-					+ ex.getMessage() + " on complete deleteMembre().");
-			throw new DaoException("Connexion échoué : Impossible de supprimer le projet");
-		}
-		
-		LOGGER.info("Fin méthode : deleteProjet");
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 * @throws DaoException 
-	 */
-	public void deleteProjet (final ProjetDO pProjetDO) throws DaoException {
+	public void delete (final ProjetDO pProjetDO) throws DaoException {
 		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : deleteProjet");
@@ -210,13 +178,11 @@ public class ProjetDAOImpl implements IProjetDAO {
 		LOGGER.info("Fin méthode : deleteProjet");
 	}
 	
-
 	/**
 	 * {@inheritDoc}
-	 * @throws DaoException 
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ProjetDO> listerProjets(final ClientDO pClientDO) throws DaoException {
+	public List<ProjetDO> listeObjects() throws DaoException {
 		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : listerProjets");
@@ -225,10 +191,39 @@ public class ProjetDAOImpl implements IProjetDAO {
 		List<ProjetDO> lListeProjet = new ArrayList<ProjetDO>();
 		try {
 			// La méthode CreateCriteria permet de créer une instance de la classe projetDO
-			final Criteria lCriteria = HibernateSessionFactory.getSession().createCriteria(ProjetDO.class)
+			final Criteria criteria = HibernateSessionFactory.getSession().createCriteria(ProjetDO.class);
+			
+			// on recupère la lise des objects de type projetDO
+			lListeProjet = criteria.list();
+			
+		} catch (HibernateException ex) {
+			// Critical errors : database unreachable, etc.
+			LOGGER.error("Exception - DataAccessException occurs : " 
+					+ ex.getMessage() + " on complete listerProjets().");
+			throw new DaoException("Connexion échoué : Impossible de récupérer la liste des projets");
+		}
+		
+		LOGGER.info("Fin méthode : listerProjets");
+		return lListeProjet;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ProjetDO> listeObjects(final ClientDO pClientDO) throws DaoException {
+		
+		//On initialise le LOGGER
+		LOGGER.info("Début méthode : listerProjets");
+		
+		//ON recupere la liste des projets
+		List<ProjetDO> lListeProjet = new ArrayList<ProjetDO>();
+		try {
+			// La méthode CreateCriteria permet de créer une instance de la classe projetDO
+			final Criteria criteria = HibernateSessionFactory.getSession().createCriteria(ProjetDO.class)
 					.add(Restrictions.eq("client", pClientDO));
 			// on recupère la lise des objects de type projetDO
-			lListeProjet = lCriteria.list();
+			lListeProjet = criteria.list();
 			
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.

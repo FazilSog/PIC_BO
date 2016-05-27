@@ -1,5 +1,7 @@
 package com.sogeti.daoImpl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
@@ -23,7 +25,7 @@ import com.sogeti.utils.HibernateSessionFactory;
 
 @Service
 @Transactional
-public class RoleProjetDAOImpl implements IRoleProjetDAO {
+public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRoleProjetDAO {
 
 	// Initialisation du LOGGER
 	private static final Logger LOGGER = Logger.getLogger(RoleProjetDAOImpl.class);
@@ -32,7 +34,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public void addRoleProjet(final RoleProjetDO pRoleProjetDO) throws DaoException {
+	public void create(final RoleProjetDO pRoleProjetDO) throws DaoException {
 		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : addRoleProjet");
@@ -55,7 +57,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public void updateRoleProjet(final RoleProjetDO pRoleProjet) throws DaoException {
+	public void update(final RoleProjetDO pRoleProjet) throws DaoException {
 		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : updateRoleProjet");
@@ -76,7 +78,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public RoleProjetDO findRoleProjetByID (final int pIdRoleProjet) throws DaoException {
+	public RoleProjetDO find (final int pIdRoleProjet) throws DaoException {
 		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : findRoleProjetByID");
@@ -143,7 +145,7 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public void deleteRoleProjet(final RoleProjetDO pRoleProjetDO) throws DaoException {
+	public void delete(final RoleProjetDO pRoleProjetDO) throws DaoException {
 		
 		// On initialise le LOGGER
 		LOGGER.info("Début méthode : deleteRoleProjet");
@@ -164,7 +166,6 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 	
 	/**
 	 * {@inheritDoc}
-	 * @throws DaoException 
 	 */
 	public RoleProjetDO findRoleProjetByProjetAndMembre (final ProjetDO pProjetDO, final MembreDO pMembreDO) throws DaoException {
 		
@@ -195,5 +196,13 @@ public class RoleProjetDAOImpl implements IRoleProjetDAO {
 			throw new DaoException("Le role projet n'est pas connu !");
 		}
 		return roleProjet;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<RoleProjetDO> listeObjects() throws DaoException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

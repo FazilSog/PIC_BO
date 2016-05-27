@@ -24,7 +24,7 @@ import com.sogeti.utils.HibernateSessionFactory;
 
 @Service
 @Transactional
-public class RoleDAOImpl implements IRoleDAO {
+public class RoleDAOImpl extends GenericDAO<RoleDO> implements IRoleDAO {
 	
 	// Initialisation du LOGGER
 	private static final Logger LOGGER = Logger.getLogger(RoleDAOImpl.class);
@@ -33,7 +33,7 @@ public class RoleDAOImpl implements IRoleDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public RoleDO findRoleById(final int pIdRole) throws DaoException {
+	public RoleDO find(final int pIdRole) throws DaoException {
 		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : findRoleById");
@@ -103,13 +103,37 @@ public class RoleDAOImpl implements IRoleDAO {
 			
 	}
 	
-	
+
 	/**
 	 * {@inheritDoc}
-	 * @throws DaoException 
+	 */
+	public void create(RoleDO pObject) throws DaoException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void update(RoleDO pObject) throws DaoException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void delete(RoleDO pObject) throws DaoException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	/**
+	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
-	public List<RoleDO> listerRoles() throws DaoException {
+	public List<RoleDO> listeObjects() throws DaoException {
 		
 		LOGGER.info("Début méthode : listerRoles");
 		
@@ -117,6 +141,8 @@ public class RoleDAOImpl implements IRoleDAO {
 		
 		try {
 			final Criteria criteria = HibernateSessionFactory.getSession().createCriteria(RoleDO.class);
+			
+			// permet de récupere la liste
 			lListeRoles = criteria.list();
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.

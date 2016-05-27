@@ -36,6 +36,9 @@ public class MembreBOImpl implements IMembreBO {
 	@Autowired
 	private IRoleDAO roleDAO;
 	
+	/*@Value("${com.sogeti.cleToken}")
+	private String cleSignToken;*/
+	
 	/**
 	 * @return the roleDAO
 	 */
@@ -85,37 +88,37 @@ public class MembreBOImpl implements IMembreBO {
 	 */
 	public AuthentificationDTO authentification(final String pUsername, final String pPassword) throws DaoException {
 		// on instance l'objet AuthentificationDTO
-		AuthentificationDTO lAuthentification = new AuthentificationDTO();
+		AuthentificationDTO authentification = new AuthentificationDTO();
 		
 		// on interroge le service AuthentifierMembre
-		MembreDO lMembreDO = getMembreDAO().authentifierMembre(pUsername, pPassword);
+		MembreDO membreDO = getMembreDAO().authentifierMembre(pUsername, pPassword);
 
-		if (lMembreDO != null) {
+		if (membreDO != null) {
 		
 			// on génère le token
-			String tokenMembre = Token.generateToken(lMembreDO.getIdMembre(), lMembreDO.getClient().getIdClient());
+			final String tokenMembre = Token.generateToken(membreDO.getIdMembre(), membreDO.getClient().getIdClient());
 			// on affecte la valeur du token au membre
-			lAuthentification.setTokenMembre(tokenMembre);
-			lMembreDO.setToken(tokenMembre);
+			authentification.setTokenMembre(tokenMembre);
+			membreDO.setToken(tokenMembre);
 			// on met à jour le membre
-			lMembreDO = getMembreDAO().setMembre(lMembreDO);
+			membreDO = getMembreDAO().setMembre(membreDO);
 		}
-		return lAuthentification;
+		return authentification;
 	}
 	
 	/**
 	 * {@inheritDoc} 
 	 */
-	public MembreDTO addMembre (final MembreDTO pMembreDTO) throws DaoException
+	public void addMembre (final MembreDTO pMembreDTO) throws DaoException
 	{
 		// on instancie l'objet MembreDTO
 		final MembreDTO membreDTO = pMembreDTO;
 		
 		// Recuperer le membre via son Id
-		final ClientDO clientDO = getClientDAO().findClientById(membreDTO.getIdClient());
+		final ClientDO clientDO = getClientDAO().find(membreDTO.getIdClient());
 		
 		// Recuperer le membre via son Id
-		final RoleDO roleDO = getRoleDAO().findRoleById(membreDTO.getIdRole());
+		final RoleDO roleDO = getRoleDAO().find(membreDTO.getIdRole());
 		
 		// on instancie le membreDO
 		final MembreDO membreDO = new MembreDO();
@@ -125,12 +128,9 @@ public class MembreBOImpl implements IMembreBO {
 		membreDO.setClient(clientDO);
 		membreDO.setRoleMembre(roleDO);
 		
-		// on interroge le service addMembre
-		int idMembre = getMembreDAO().addMembre(membreDO);
-		// on remonte seulement l'id
-		membreDTO.setIdMembre(idMembre);
+		// on interroge le service create pour créer un membre
+		getMembreDAO().create(membreDO);
 		
-		return membreDTO;
 	}
 	
 	/**
@@ -139,12 +139,12 @@ public class MembreBOImpl implements IMembreBO {
 	public void updateMembre (final MembreDTO pMembreDTO) throws DaoException
 	{
 		// on recupere l'objet ClientDO via son id
-		final ClientDO clientDO = getClientDAO().findClientById(pMembreDTO.getIdClient());
+		final ClientDO clientDO = getClientDAO().find(pMembreDTO.getIdClient());
 		// on recupere l'objet RoleDO via son id
-		final RoleDO roleDO = getRoleDAO().findRoleById(pMembreDTO.getIdRole());
+		final RoleDO roleDO = getRoleDAO().find(pMembreDTO.getIdRole());
 		
 		// On recupere le membre via son Id pour vérifier s'il existe
-		final MembreDO membreDO = getMembreDAO().findMembreById(pMembreDTO.getIdMembre());
+		final MembreDO membreDO = getMembreDAO().find(pMembreDTO.getIdMembre());
 				
 		// on met à jour le membreDO
 		membreDO.setUsername(pMembreDTO.getUsername());
@@ -154,7 +154,7 @@ public class MembreBOImpl implements IMembreBO {
 		membreDO.setRoleMembre(roleDO);
 		
 		// on interroge le service updateMembre
-		getMembreDAO().updateMembre(membreDO);		
+		getMembreDAO().update(membreDO);		
 	}
 	
 	/**
@@ -163,10 +163,10 @@ public class MembreBOImpl implements IMembreBO {
 	public void deleteMembre (final int pIdMembre) throws DaoException
 	{
 		// On recupere le membre via son Id pour vérifier s'il existe
-		final MembreDO membreDO = getMembreDAO().findMembreById(pIdMembre);
+		final MembreDO membreDO = getMembreDAO().find(pIdMembre);
 				
 		// on interroge le service deleteMembre
-		getMembreDAO().deleteMembre(membreDO);
+		getMembreDAO().delete(membreDO);
 	}
 	
 	/**
@@ -178,7 +178,7 @@ public class MembreBOImpl implements IMembreBO {
 		final List<MembreDTO> lListeMembresDTOs = new ArrayList<MembreDTO>();
 		
 		// on interroge le service listerMembres
-		final List<MembreDO> lListeMembreDOs = getMembreDAO().listerMembres();
+		final List<MembreDO> lListeMembreDOs = getMembreDAO().listeObjects();
 		
 		// on convertit la liste<MembreDO> vers la liste<MembreDTO>
 		for (MembreDO membreDO : lListeMembreDOs) {

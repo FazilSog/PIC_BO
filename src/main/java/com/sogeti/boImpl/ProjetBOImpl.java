@@ -112,13 +112,10 @@ public class ProjetBOImpl implements IProjetBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public ProjetDTO addProjet(final ProjetDTO pProjetDTO) throws DaoException {
-		
-		// on instancie l'objet ProjetDTO
-		final ProjetDTO projetDTO = new ProjetDTO();
+	public void addProjet(final ProjetDTO pProjetDTO) throws DaoException {
 		
 		// on recupere le client via l'id
-		final ClientDO clientDO = getClientDAO().findClientById(pProjetDTO.getIdClient());
+		final ClientDO clientDO = getClientDAO().find(pProjetDTO.getIdClient());
 				
 		// on ajoute le projet dans la table
 		final ProjetDO projetDONew = new ProjetDO();
@@ -134,12 +131,8 @@ public class ProjetBOImpl implements IProjetBO {
 		projetDONew.setClient(clientDO);
 		
 		// on ajoute le projet	 
-		final ProjetDO projetDO = getProjetDAO().addProjet(projetDONew);
+		getProjetDAO().create(projetDONew);
 		
-		// on récupere l'id du projet et on passe dans l'objet projetDTO
-		projetDTO.setIdProjet(projetDO.getIdProjet()); 
-				
-		return projetDTO;
 	}
 	
 	/**
@@ -148,7 +141,7 @@ public class ProjetBOImpl implements IProjetBO {
 	public void updateProjet(final ProjetDTO pProjetDTO) throws DaoException {
 			
 		// on récupere le projet via son id pour vérifie s'il existe
-		final ProjetDO projetDO = getProjetDAO().findProjetById(pProjetDTO.getIdProjet());
+		final ProjetDO projetDO = getProjetDAO().find(pProjetDTO.getIdProjet());
 		
 				
 		projetDO.setIdProjet(pProjetDTO.getIdProjet());
@@ -161,11 +154,11 @@ public class ProjetBOImpl implements IProjetBO {
 		projetDO.setStatus(pProjetDTO.getStatus());
 		projetDO.setUrl(pProjetDTO.getUrl());
 		
-		final ClientDO clientDO = getClientDAO().findClientById(pProjetDTO.getIdClient());
+		final ClientDO clientDO = getClientDAO().find(pProjetDTO.getIdClient());
 		projetDO.setClient(clientDO);
 		
 		// Mise à jour un projet		
-		getProjetDAO().updateProjet(projetDO);
+		getProjetDAO().update(projetDO);
 		
 	}
 	
@@ -175,10 +168,10 @@ public class ProjetBOImpl implements IProjetBO {
 	public void deleteProjet(final int pIdProjet) throws DaoException {
 		
 		// on récupere le projet via son id pour vérifie s'il existe
-		final ProjetDO projetDO = getProjetDAO().findProjetById(pIdProjet);
+		final ProjetDO projetDO = getProjetDAO().find(pIdProjet);
 		
 		//On interoge le service deleteProjet
-		getProjetDAO().deleteProjet(projetDO);
+		getProjetDAO().delete(projetDO);
 			
 	}
 	
@@ -188,14 +181,14 @@ public class ProjetBOImpl implements IProjetBO {
 	public List<ProjetDTO> listerProjets(final int pIdClient) throws DaoException {
 		
 		// on récuperer l'objet clientDO
-		final ClientDO clientDO = getClientDAO().findClientById(pIdClient);
+		final ClientDO clientDO = getClientDAO().find(pIdClient);
 		
 		
 		// on instance la liste des projets
 		final List<ProjetDTO> lListeProjetDTO = new ArrayList<ProjetDTO>();
 		
 		// on interroge le service listerProjet
-		final List<ProjetDO> listeProjetDO = getProjetDAO().listerProjets(clientDO);
+		final List<ProjetDO> listeProjetDO = getProjetDAO().listeObjects(clientDO);
 		
 		// on convertit la liste<ProjetDO> vers la liste<ProjetDTO>
 		for(ProjetDO projetDO : listeProjetDO){
@@ -229,7 +222,7 @@ public class ProjetBOImpl implements IProjetBO {
 		final List<ProjetDTO> lListeProjetDTO = new ArrayList<ProjetDTO>();
 		
 		// on récupere le membre via son identifiant
-		final MembreDO membreDO = getMembreDAO().findMembreById(pIdMembre);
+		final MembreDO membreDO = getMembreDAO().find(pIdMembre);
 		
 		// on obtient la liste RoleProjet
 		final Set<RoleProjetDO> lListeRoleProjet = membreDO.getRoleProjet();
@@ -268,17 +261,17 @@ public class ProjetBOImpl implements IProjetBO {
 		// l'id Projet sélectionné
 		final int idProjet = pProjetDTO.getIdProjet();
 		// on récupère l'objet ProjetDO via son id
-		final ProjetDO projetDO =  getProjetDAO().findProjetById(idProjet);
+		final ProjetDO projetDO =  getProjetDAO().find(idProjet);
 		
 		// l'id Membre sélectionné
 		final int idMembre = pProjetDTO.getIdMembre();
 		// on récupère l'objet MembreDO via son id
-		final MembreDO membreDO = getMembreDAO().findMembreById(idMembre);
+		final MembreDO membreDO = getMembreDAO().find(idMembre);
 		
 		// l'id Role sélectionné
 		final int idRole = pProjetDTO.getIdRole();
 		// on récupère l'objet RoleDO via son id
-		final RoleDO roleDO = getRoleDAO().findRoleById(idRole);
+		final RoleDO roleDO = getRoleDAO().find(idRole);
 		
 		// on instancie l'objet RoleProjetDO
 		final RoleProjetDO roleProjetDO = new RoleProjetDO();
@@ -287,7 +280,7 @@ public class ProjetBOImpl implements IProjetBO {
 		roleProjetDO.setRole(roleDO);
 		
 		// on ajout l'objet RoleProjet dans la table
-		getRoleProjetDAO().addRoleProjet(roleProjetDO);
+		getRoleProjetDAO().create(roleProjetDO);
 		
 	}
 	
@@ -300,7 +293,7 @@ public class ProjetBOImpl implements IProjetBO {
 		// l'id Projet sélectionné
 		final int idProjet = pProjetDTO.getIdProjet();
 		// on récupère l'objet ProjetDO via son id
-		final ProjetDO projetDO =  getProjetDAO().findProjetById(idProjet);
+		final ProjetDO projetDO =  getProjetDAO().find(idProjet);
 		
 		// on récupère l'objet RoleProjet via l'objet ProjetDO
 		final RoleProjetDO roleProjetDO = getRoleProjetDAO().findRoleProjet(projetDO);
@@ -308,19 +301,19 @@ public class ProjetBOImpl implements IProjetBO {
 		// l'id Membre sélectionné
 		final int idMembre = pProjetDTO.getIdMembre();
 		// on récupère l'objet MembreDO via son id
-		final MembreDO membreDO = getMembreDAO().findMembreById(idMembre);
+		final MembreDO membreDO = getMembreDAO().find(idMembre);
 		// setter l'objet MembreDO dans RoleProjetDO
 		roleProjetDO.setMembre(membreDO);
 		
 		// l'id Role sélectionné
 		final int idRole = pProjetDTO.getIdRole();
 		// on récupère l'objet RoleDO via son id
-		final RoleDO roleDO = getRoleDAO().findRoleById(idRole);
+		final RoleDO roleDO = getRoleDAO().find(idRole);
 		// setter l'objet MembreDO dans RoleProjetDO
 		roleProjetDO.setRole(roleDO);
 				
 		// on ajout l'objet RoleProjet dans la table
-		getRoleProjetDAO().updateRoleProjet(roleProjetDO);
+		getRoleProjetDAO().update(roleProjetDO);
 	}
 
 	/**
@@ -331,17 +324,17 @@ public class ProjetBOImpl implements IProjetBO {
 		// l'id Projet sélectionné
 		final int idProjet = pProjetDTO.getIdProjet();
 		// on récupère l'objet ProjetDO via son id
-		final ProjetDO projetDO =  getProjetDAO().findProjetById(idProjet);
+		final ProjetDO projetDO =  getProjetDAO().find(idProjet);
 		
 		// l'id Membre sélectionné
 		final int idMembre = pProjetDTO.getIdMembre();
 		// on récupère l'objet MembreDO via son id
-		final MembreDO membreDO = getMembreDAO().findMembreById(idMembre);
+		final MembreDO membreDO = getMembreDAO().find(idMembre);
 		
 		// on récupère l'objet RoleProjet via l'objet ProjetDO
 		final RoleProjetDO roleProjetDO = getRoleProjetDAO().findRoleProjetByProjetAndMembre(projetDO, membreDO);
 				
 		// on ajout l'objet RoleProjet dans la table
-		getRoleProjetDAO().deleteRoleProjet(roleProjetDO);
+		getRoleProjetDAO().delete(roleProjetDO);
 	}
 }

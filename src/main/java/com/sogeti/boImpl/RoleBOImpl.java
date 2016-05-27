@@ -49,7 +49,7 @@ public class RoleBOImpl implements IRoleBO {
 		final List<RoleDTO> lListeRoleDTO = new ArrayList<RoleDTO>();
 		
 		// on recupère la liste des Roles
-		final List<RoleDO> lListRoleDO = getRoleDAO().listerRoles();
+		final List<RoleDO> lListRoleDO = getRoleDAO().listeObjects();
 		
 		for (RoleDO roleDO : lListRoleDO) {
 			// on instancie l'objet RoleDTO

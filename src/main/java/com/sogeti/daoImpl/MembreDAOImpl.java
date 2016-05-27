@@ -12,6 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import com.sogeti.dao.IMembreDAO;
+import com.sogeti.dao.model.ClientDO;
 import com.sogeti.dao.model.MembreDO;
 import com.sogeti.exception.DaoException;
 import com.sogeti.utils.HibernateSessionFactory;
@@ -24,7 +25,7 @@ import com.sogeti.utils.HibernateSessionFactory;
 
 @Service
 @Transactional
-public class MembreDAOImpl implements IMembreDAO {
+public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 	
 	// Initialisation du LOGGER
 	private static final Logger LOGGER = Logger.getLogger(MembreDAOImpl.class);
@@ -53,7 +54,7 @@ public class MembreDAOImpl implements IMembreDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public MembreDO findMembreById(final int pIdMembre) throws DaoException {
+	public MembreDO find(final int pIdMembre) throws DaoException {
 		
 		LOGGER.info("Début méthode : findMembreById");
 		
@@ -151,7 +152,7 @@ public class MembreDAOImpl implements IMembreDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public int addMembre(final MembreDO pMembreDO) throws DaoException {
+	public void create(final MembreDO pMembreDO) throws DaoException {
 		
 		//ON initialise le LOGGER
 		LOGGER.info("Début méthode : addMembre");
@@ -159,8 +160,7 @@ public class MembreDAOImpl implements IMembreDAO {
 		// si oui, on leve une exception
 		final MembreDO membreDO = findMembreByNameAndPass(pMembreDO.getUsername(), pMembreDO.getPassword());
 		
-		int idMembre = 0;
-		
+		// on test si le membreDO est différent de null
 		if (membreDO != null) {
 			
 			throw new DaoException("Création échoué : Le Membre existe déjà.");
@@ -168,7 +168,7 @@ public class MembreDAOImpl implements IMembreDAO {
 		
 			try {
 				// la méthode save permet de créer le membre dans la table
-				idMembre = (int) HibernateSessionFactory.getSession().save(pMembreDO);
+				HibernateSessionFactory.getSession().save(pMembreDO);
 									
 			} catch (HibernateException ex) {
 				
@@ -179,14 +179,13 @@ public class MembreDAOImpl implements IMembreDAO {
 			}				
 		}
 		LOGGER.info("Fin méthode : addMembre");
-		return idMembre;
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public void updateMembre(final MembreDO pMembreDO) throws DaoException {
+	public void update(final MembreDO pMembreDO) throws DaoException {
 		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : updateMembre");
@@ -204,37 +203,12 @@ public class MembreDAOImpl implements IMembreDAO {
 			
 		LOGGER.info("Fin méthode : updateMembre");
 	}
-	
+		
 	/**
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public void deleteMembre(final int pIdMembre) throws DaoException {
-		
-		//On initialise le LOGGER
-		LOGGER.info("Début méthode : deleteMembre");
-		
-		final MembreDO membreDO = findMembreById(pIdMembre);
-			
-		try {
-			// la méthode delete permet de supprimer le membre dans la table
-			HibernateSessionFactory.getSession().delete(membreDO);
-		} catch (HibernateException ex) {
-			
-			// Critical errors : database unreachable, etc.
-			LOGGER.error("Exception - DataAccessException occurs : " 
-					+ ex.getMessage() + " on complete deleteMembre().");
-			throw new DaoException("Connexion échoué : Impossible de supprimer le membre");
-		}
-		
-		LOGGER.info("Fin méthode : deleteMembre");
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 * @throws DaoException 
-	 */
-	public void deleteMembre(final MembreDO pMembreDO) throws DaoException {
+	public void delete(final MembreDO pMembreDO) throws DaoException {
 		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : deleteMembre");
@@ -256,10 +230,9 @@ public class MembreDAOImpl implements IMembreDAO {
 	
 	/**
 	 * {@inheritDoc}
-	 * @throws DaoException 
 	 */
 	@SuppressWarnings("unchecked")
-	public List<MembreDO> listerMembres() throws DaoException {
+	public List<MembreDO> listeObjects() throws DaoException {
 		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : listerMembres");
@@ -285,6 +258,35 @@ public class MembreDAOImpl implements IMembreDAO {
 		return lListeMembres;
 	}
 	
-
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings("unchecked")
+	public List<MembreDO> listeMembreByClient(final ClientDO pClientDO) throws DaoException {
+		
+		//On initialise le LOGGER
+		LOGGER.info("Début méthode : listerMembres");
+		
+		List<MembreDO> lListeMembres = new ArrayList<MembreDO>();
+		
+		try {
+			// La méthode CreateCriteria permet de créer une instance de la classe MembreDO
+			final Criteria criteria = HibernateSessionFactory.getSession().createCriteria(MembreDO.class)
+					.add(Restrictions.eq("client", pClientDO));
+			// on recupère la lise des objects de type membreDO
+			lListeMembres = criteria.list();
+			
+		} catch (HibernateException ex) {
+			
+			// Critical errors : database unreachable, etc.
+			LOGGER.error("Exception - DataAccessException occurs : " 
+					+ ex.getMessage() + " on complete listerMembres().");
+			throw new DaoException("Connexion échoué : Impossible de récupérer la liste des membres");
+		}
+		
+		LOGGER.info("Fin méthode : listerMembres");
+		
+		return lListeMembres;
+	}
 }
 	

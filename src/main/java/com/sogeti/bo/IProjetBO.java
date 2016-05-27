@@ -16,10 +16,9 @@ public interface IProjetBO {
 	/**
 	 * Elle permet de créer un projet
 	 * @param pProjetDTO le projet DTO
-	 * @return projetDTO qui contient l'idProjet
 	 * @throws DaoException exception
 	 */
-	public ProjetDTO addProjet(final ProjetDTO pProjetDTO) throws DaoException;
+	public void addProjet(final ProjetDTO pProjetDTO) throws DaoException;
 	
 	/**
 	 * Elle permet de modifier un projet

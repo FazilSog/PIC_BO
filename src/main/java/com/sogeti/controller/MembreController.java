@@ -61,7 +61,7 @@ public class MembreController {
 	/**
 	 * Elle permet de créer le membre
 	 * @param pMembreDTO l'objet membreDTO json envoyé par le front
-	 * @return un responseEntity qui contient (soit un objet MembreDTO (avec id seulement) avec le code status 201,
+	 * @return un responseEntity qui contient (le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.POST)
@@ -99,9 +99,9 @@ public class MembreController {
 					+ " , The Status is : " + status);
 			
 			try {
-				final MembreDTO membreDTOAdd = getMembreBO().addMembre(membreDTO);
+				getMembreBO().addMembre(membreDTO);
 				
-				return new ResponseEntity<Object>(membreDTOAdd, HttpStatus.CREATED);
+				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
 				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 			}
