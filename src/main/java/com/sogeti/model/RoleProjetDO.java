@@ -1,4 +1,4 @@
-package com.sogeti.dao.model;
+package com.sogeti.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.sogeti.fwk.GenericDO;
+
 /**
  * 
  * @author syahiaou
@@ -18,7 +20,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ROLESPROJETS")
 
-public class RoleProjetDO {
+public class RoleProjetDO extends GenericDO<RoleProjetDO> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

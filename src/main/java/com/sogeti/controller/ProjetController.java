@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.sogeti.bo.IProjetBO;
 import com.sogeti.dto.ProjetDTO;
 import com.sogeti.exception.DaoException;
+import com.sogeti.fwk.GenericController;
 import com.sogeti.utils.Token;
 /**
  * 
@@ -29,7 +30,7 @@ import com.sogeti.utils.Token;
 
 @Controller
 @RequestMapping("PIC_BO/projet")
-public class ProjetController {
+public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	
 	//Initialisation du logger
 	private static final Logger LOGGER = Logger.getLogger(ProjetController.class);
@@ -67,7 +68,7 @@ public class ProjetController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.POST)
 	@RequestMapping(value="/projet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> addProjet( @RequestBody ProjetDTO pProjetDTO, @RequestHeader HttpHeaders pHttpHeaders) {   
+	public ResponseEntity<Object> create( @RequestBody ProjetDTO pProjetDTO, @RequestHeader HttpHeaders pHttpHeaders) {   
 		final ProjetDTO  projetDTO = pProjetDTO;
 		
 		// on récupère le token via le header
@@ -99,7 +100,7 @@ public class ProjetController {
 				&& StringUtils.isNotBlank(String.valueOf(status)) && StringUtils.isNotBlank(description)) {
 			try {
 				// on interroge le service ad projet
-				getProjetBO().addProjet(projetDTO);
+				getProjetBO().create(projetDTO);
 				
 				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
@@ -119,7 +120,7 @@ public class ProjetController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.PUT)
 	@RequestMapping(value="/updateprojet", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> updateProjet( @RequestBody ProjetDTO pProjetDTO) {  
+	public ResponseEntity<Object> update( @RequestBody ProjetDTO pProjetDTO) {  
 
 		final String branche = pProjetDTO.getBranche();
 		final int idProjet = pProjetDTO.getIdProjet();
@@ -127,7 +128,7 @@ public class ProjetController {
 		final char status = pProjetDTO.getStatus();
 		final String nomProjet = pProjetDTO.getNomProjet();
 		final String credential = pProjetDTO.getCredential();
-		final boolean actif = true;
+		final boolean actif = pProjetDTO.isActif();
 		final String description = pProjetDTO.getDescription();
 		final String url = pProjetDTO.getUrl();
 		
@@ -142,7 +143,7 @@ public class ProjetController {
 				&& StringUtils.isNotBlank(frequence) && StringUtils.isNotBlank(credential) 
 				&& StringUtils.isNotBlank(String.valueOf(status)) && StringUtils.isNotBlank(description)) {
 			try {
-				getProjetBO().updateProjet(pProjetDTO);
+				getProjetBO().update(pProjetDTO);
 				
 				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
@@ -162,14 +163,14 @@ public class ProjetController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.DELETE)
 	@RequestMapping(value="/projet/{idProjet}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> deleteProjet( @PathVariable("idProjet")  int pIdProjet) {  
+	public ResponseEntity<Object> delete( @PathVariable("idProjet")  int pIdProjet) {  
 		
 		LOGGER.info("The id is : " + pIdProjet);
 		
 		// on vérifie si l'id est différent de zéro
 		if (pIdProjet != 0 ) {
 			try {
-				getProjetBO().deleteProjet(pIdProjet);
+				getProjetBO().delete(pIdProjet);
 				
 				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
@@ -182,14 +183,34 @@ public class ProjetController {
 	}
 	
 	/**
+	 * Elle permet de récuperer la liste des projets
+ 	 * @return un responseEntity qui contient (soit liste des projets avec le code status 201,
+	 * ou soit un message d'erreur avec le code status 403)
+	 */
+	@CrossOrigin(origins="*",methods = RequestMethod.GET)
+	@RequestMapping(value="/projets", method = RequestMethod.GET)
+	public ResponseEntity<Object> listeObjects() {  
+
+		try {
+			//On recupere la liste des projets
+			List<ProjetDTO> lListeProjets = getProjetBO().listeObjects();
+			
+			return new ResponseEntity<Object>(lListeProjets, HttpStatus.CREATED);
+		} catch (DaoException ex) {
+			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
+		}
+
+	}
+	
+	/**
 	 * Elle permet de récuperer la liste des projets d'un client
 	 * @param pHttpHeaders le http headers
 	 * @return un responseEntity qui contient (soit liste des membres avec le code status 201,
 	 * ou soit un message d'erreur avec le code status 403)
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
-	@RequestMapping(value="/projets", method = RequestMethod.GET)
-	public ResponseEntity<Object> listeProjets(@RequestHeader HttpHeaders pHttpHeaders) {  
+	@RequestMapping(value="/projetsClient", method = RequestMethod.GET)
+	public ResponseEntity<Object> listeProjetsByClients(@RequestHeader HttpHeaders pHttpHeaders) {  
 		// on récupère le token via le header
 		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
 		
@@ -197,7 +218,7 @@ public class ProjetController {
 		final int idClient = Token.obtenirIdClient(token);
 		
 		try {
-			final List<ProjetDTO> lListeprojets = getProjetBO().listerProjets(idClient);
+			final List<ProjetDTO> lListeprojets = getProjetBO().listerProjetsByClient(idClient);
 			// on envoi la liste des projets + un http 201
 			return new ResponseEntity<Object>(lListeprojets, HttpStatus.CREATED);
 		} catch (DaoException ex) {
@@ -232,107 +253,6 @@ public class ProjetController {
 			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 		}
 	}
+
 	
-	/**
-	 * Elle permet d'affecter un membre sur un projet
-	 * @param pProjetDTO le projetDTO json envoyé par le front
-	 * @return un responseEntity qui contient (le code status 201,
-	 * ou soit un message d'erreur avec le code status 403)
-	 */
-	@CrossOrigin(origins="*",methods = RequestMethod.POST)
-	@RequestMapping(value="/addAffectProjet", method = RequestMethod.POST)
-	public ResponseEntity<Object> addAffectProjectToMembre(@RequestBody ProjetDTO pProjetDTO) {
-		
-		// l'id Projet sélectionné
-		final int idProjet = pProjetDTO.getIdProjet();
-		// l'id Membre sélectionné
-		final int idMembre = pProjetDTO.getIdMembre();
-		// l'id Role sélectionné
-		final int idRole = pProjetDTO.getIdRole();
-		
-		if (idProjet != 0 && idMembre != 0 && idRole != 0) {
-			try {
-				// on interroge le service BO pour affecter un projet sur un membre
-				getProjetBO().addAffectProjectToMembre(pProjetDTO);
-				// on envoi un http status  201
-				return new ResponseEntity<Object>(HttpStatus.CREATED);
-				
-			} catch (DaoException ex) {
-				LOGGER.warn(ex.getMessage());
-				// on envoi le message d'erreur + un http 403
-				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
-			}
-		} else {
-			return new ResponseEntity<Object>("Impossible d'affecter un membre sur un projet", HttpStatus.FORBIDDEN);
-		}
-	
-	}
-	
-	/**
-	 * Elle permet de modifier l'affectation d'un membre sur un projet
-	 * @param pProjetDTO le projetDTO json envoyé par le front
-	 * @return un responseEntity qui contient (le code status 201,
-	 * ou soit un message d'erreur avec le code status 403)
-	 */
-	@CrossOrigin(origins="*",methods = RequestMethod.PUT)
-	@RequestMapping(value="/updateAffectProjet", method = RequestMethod.PUT)
-	public ResponseEntity<Object> updateAffectProjectToMembre(@RequestBody ProjetDTO pProjetDTO) {
-		
-		// l'id Projet sélectionné
-		final int idProjet = pProjetDTO.getIdProjet();
-		// l'id Membre sélectionné
-		final int idMembre = pProjetDTO.getIdMembre();
-		// l'id Role sélectionné
-		final int idRole = pProjetDTO.getIdRole();
-		
-		if (idProjet != 0 && idMembre != 0 && idRole != 0) {
-			try {
-				// on interroge le service BO pour affecter un projet sur un membre
-				getProjetBO().updateAffectProjectToMembre(pProjetDTO);
-				// on envoi un http status  201
-				return new ResponseEntity<Object>(HttpStatus.CREATED);
-				
-			} catch (DaoException ex) {
-				LOGGER.warn(ex.getMessage());
-				// on envoi le message d'erreur + un http 403
-				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
-			}
-		} else {
-			return new ResponseEntity<Object>("Impossible d'affecter un membre sur un projet", HttpStatus.FORBIDDEN);
-		}
-	
-	}
-	
-	/**
-	 * Elle permet d'affecter un membre sur un projet
-	 * @param pProjetDTO le projetDTO json envoyé par le front
-	 * @return un responseEntity qui contient (le code status 201,
-	 * ou soit un message d'erreur avec le code status 403)
-	 */
-	@CrossOrigin(origins="*",methods = RequestMethod.DELETE)
-	@RequestMapping(value="/deleteAffectProjet", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> deleteAffectProjectToMembre(@RequestBody ProjetDTO pProjetDTO) {
-		
-		// l'id Projet sélectionné
-		final int idProjet = pProjetDTO.getIdProjet();
-		// l'id Membre sélectionné
-		final int idMembre = pProjetDTO.getIdMembre();
-		
-		if (idProjet != 0 && idMembre != 0) {
-			try {
-				// on interroge le service BO pour affecter un projet sur un membre
-				getProjetBO().deleteAffectProjectToMembre(pProjetDTO);
-				// on envoi un http status  201
-				return new ResponseEntity<Object>(HttpStatus.CREATED);
-				
-			} catch (DaoException ex) {
-				LOGGER.warn(ex.getMessage());
-				// on envoi le message d'erreur + un http 403
-				return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
-			}
-		} else {
-			return new ResponseEntity<Object>("Impossible d'affecter un membre sur un projet", HttpStatus.FORBIDDEN);
-		}
-	
-	}
 }

@@ -1,4 +1,4 @@
-package com.sogeti.boImpl;
+package com.sogeti.bo.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.sogeti.bo.IRoleBO;
 import com.sogeti.dao.IRoleDAO;
-import com.sogeti.dao.model.RoleDO;
 import com.sogeti.dto.RoleDTO;
 import com.sogeti.exception.DaoException;
+import com.sogeti.fwk.GenericBO;
+import com.sogeti.model.RoleDO;
 
 /**
  * 
@@ -19,7 +20,7 @@ import com.sogeti.exception.DaoException;
  */
 
 @Component
-public class RoleBOImpl implements IRoleBO {
+public class RoleBOImpl extends GenericBO<RoleDTO> implements IRoleBO {
 
 	@Autowired
 	private IRoleDAO roleDAO;
@@ -43,7 +44,7 @@ public class RoleBOImpl implements IRoleBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public List<RoleDTO> listerRoles() throws DaoException {
+	public List<RoleDTO> listeObjects() throws DaoException {
 		
 		// on instancie la liste des Roles DTO à remonter au font office
 		final List<RoleDTO> lListeRoleDTO = new ArrayList<RoleDTO>();
@@ -65,5 +66,31 @@ public class RoleBOImpl implements IRoleBO {
 		
 		return lListeRoleDTO;
 	}
+
+	/**
+	 * {@inheritDoc} 
+	 */
+	public void create(RoleDTO pObject) throws DaoException {
+		
+		throw new DaoException("La méthode create n'est pas implementée");
+		
+	}
+
+	/**
+	 * {@inheritDoc} 
+	 */
+	public void update(RoleDTO pObject) throws DaoException {
+		throw new DaoException("La méthode update n'est pas implementée");
+		
+	}
+
+	/**
+	 * {@inheritDoc} 
+	 */
+	public void delete(int pId) throws DaoException {
+		throw new DaoException("La méthode delete n'est pas implementée");
+		
+	}
+
 
 }

@@ -1,4 +1,4 @@
-package com.sogeti.daoImpl;
+package com.sogeti.fwk;
 
 import java.util.List;
 

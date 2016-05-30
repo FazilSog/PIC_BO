@@ -1,12 +1,15 @@
 package com.sogeti.dto;
 
+import com.sogeti.fwk.GenericDTO;
+
 
 /**
  * 
- * @author moissa
+ * @author syahiaou
  *
  */
-public class ProjetDTO {
+
+public class ProjetDTO extends GenericDTO<ProjetDTO> {
 	
 	private int idProjet;
 	private String nomProjet;

@@ -2,9 +2,9 @@ package com.sogeti.dao;
 
 import java.util.List;
 
-import com.sogeti.dao.model.ClientDO;
-import com.sogeti.dao.model.ProjetDO;
 import com.sogeti.exception.DaoException;
+import com.sogeti.model.ClientDO;
+import com.sogeti.model.ProjetDO;
 
 /**
  * 
@@ -52,7 +52,7 @@ public interface IProjetDAO {
 	public List<ProjetDO> listeObjects() throws DaoException;
 		
 	/**
-	 * Elle permet de retourner la liste des projets
+	 * Elle permet de retourner la liste des projets d'un client
 	 * @param pClientDO l'objet Client
 	 * @return liste de projets
 	 * @throws DaoException execptionDAO

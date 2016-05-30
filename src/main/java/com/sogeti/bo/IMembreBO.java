@@ -27,14 +27,14 @@ public interface IMembreBO {
 	 * @param pMembreDTO le membreDTO
 	 * @throws DaoException exception
 	 */
-	public void addMembre (final MembreDTO pMembreDTO) throws DaoException;
+	public void create (final MembreDTO pMembreDTO) throws DaoException;
 	
 	/**
 	 * Elle permet de modifier un membre.
 	 * @param pMembreDTO le membre DTO
 	 * @throws DaoException exception
 	 */
-	public void updateMembre (final MembreDTO pMembreDTO) throws DaoException;
+	public void update (final MembreDTO pMembreDTO) throws DaoException;
 	
 	
 	/**
@@ -42,7 +42,7 @@ public interface IMembreBO {
 	 * @param pIdMembre l'identifiant d'un membre
 	 * @throws DaoException exception
 	 */
-	public void deleteMembre (final int pIdMembre) throws DaoException;
+	public void delete (final int pIdMembre) throws DaoException;
 	
 	
 	/**
@@ -51,5 +51,5 @@ public interface IMembreBO {
 	 * @return la liste des membres
 	 * @throws DaoException exception
 	 */
-	public List<MembreDTO> listerMembres () throws DaoException;
+	public List<MembreDTO> listeObjects() throws DaoException;
 }

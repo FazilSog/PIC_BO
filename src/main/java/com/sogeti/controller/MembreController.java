@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.sogeti.bo.IMembreBO;
 import com.sogeti.dto.MembreDTO;
 import com.sogeti.exception.DaoException;
+import com.sogeti.fwk.GenericController;
 import com.sogeti.utils.Token;
 import com.sogeti.utils.Utils;
 /**
@@ -30,7 +31,7 @@ import com.sogeti.utils.Utils;
  */
 @Controller
 @RequestMapping("PIC_BO/membre")
-public class MembreController {
+public class MembreController extends GenericController<MembreDTO, HttpHeaders> {
 	
 	private static final Logger LOGGER = Logger.getLogger(MembreController.class);
 	
@@ -66,7 +67,7 @@ public class MembreController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.POST)
 	@RequestMapping(value="/membre", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> addMembre( @RequestBody MembreDTO pMembreDTO, @RequestHeader HttpHeaders pHttpHeaders) {  
+	public ResponseEntity<Object> create( @RequestBody MembreDTO pMembreDTO, @RequestHeader HttpHeaders pHttpHeaders) {  
 		// on récupère le token via le header
 		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
 
@@ -99,7 +100,7 @@ public class MembreController {
 					+ " , The Status is : " + status);
 			
 			try {
-				getMembreBO().addMembre(membreDTO);
+				getMembreBO().create(membreDTO);
 				
 				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
@@ -119,7 +120,7 @@ public class MembreController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.PUT)
 	@RequestMapping(value="/Membre", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> updateMembre( @RequestBody MembreDTO pMembreDTO) {  
+	public ResponseEntity<Object> update( @RequestBody MembreDTO pMembreDTO) {  
 
 		final int idMembre = pMembreDTO.getIdMembre();
 		final String username = pMembreDTO.getUsername();
@@ -135,7 +136,7 @@ public class MembreController {
 		if (idMembre != 0 && StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) 
 				&& idClient != 0 && idRole != 0) {
 			try {
-				getMembreBO().updateMembre(pMembreDTO);
+				getMembreBO().update(pMembreDTO);
 				
 				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
@@ -155,14 +156,14 @@ public class MembreController {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.DELETE)
 	@RequestMapping(value="/membre/{idMembre}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> deleteMembre( @PathVariable("idMembre")  int pIdMembre) {  
+	public ResponseEntity<Object> delete( @PathVariable("idMembre")  int pIdMembre) {  
 		
 		LOGGER.info("The id is : " + pIdMembre);
 		
 		// on vérifie si l'id est différent de zéro
 		if (pIdMembre != 0 ) {
 			try {
-				getMembreBO().deleteMembre(pIdMembre);
+				getMembreBO().delete(pIdMembre);
 				
 				return new ResponseEntity<Object>(HttpStatus.CREATED);
 			} catch (DaoException ex) {
@@ -176,16 +177,15 @@ public class MembreController {
 	
 	/**
 	 * Elle permet de récuperer la liste des Membres
-	 * 
 	 * @return un responseEntity qui contient (soit liste des membres avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/membres", method = RequestMethod.GET)
-	public ResponseEntity<Object> listeMembres() {  
+	public ResponseEntity<Object> listeObjects() {  
 
 		try {
-			List<MembreDTO> lListeMembres = getMembreBO().listerMembres();
+			List<MembreDTO> lListeMembres = getMembreBO().listeObjects();
 			
 			return new ResponseEntity<Object>(lListeMembres, HttpStatus.CREATED);
 		} catch (DaoException ex) {

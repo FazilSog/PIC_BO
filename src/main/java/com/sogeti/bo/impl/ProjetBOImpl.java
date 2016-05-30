@@ -1,4 +1,4 @@
-package com.sogeti.boImpl;
+package com.sogeti.bo.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +13,13 @@ import com.sogeti.dao.IMembreDAO;
 import com.sogeti.dao.IProjetDAO;
 import com.sogeti.dao.IRoleDAO;
 import com.sogeti.dao.IRoleProjetDAO;
-import com.sogeti.dao.model.ClientDO;
-import com.sogeti.dao.model.MembreDO;
-import com.sogeti.dao.model.ProjetDO;
-import com.sogeti.dao.model.RoleDO;
-import com.sogeti.dao.model.RoleProjetDO;
 import com.sogeti.dto.ProjetDTO;
 import com.sogeti.exception.DaoException;
+import com.sogeti.fwk.GenericBO;
+import com.sogeti.model.ClientDO;
+import com.sogeti.model.MembreDO;
+import com.sogeti.model.ProjetDO;
+import com.sogeti.model.RoleProjetDO;
 
 /**
  * 
@@ -28,7 +28,7 @@ import com.sogeti.exception.DaoException;
  */
 
 @Component
-public class ProjetBOImpl implements IProjetBO {
+public class ProjetBOImpl extends GenericBO<ProjetDTO> implements IProjetBO {
 	
 	@Autowired
 	private IRoleDAO roleDAO;
@@ -112,7 +112,7 @@ public class ProjetBOImpl implements IProjetBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void addProjet(final ProjetDTO pProjetDTO) throws DaoException {
+	public void create(final ProjetDTO pProjetDTO) throws DaoException {
 		
 		// on recupere le client via l'id
 		final ClientDO clientDO = getClientDAO().find(pProjetDTO.getIdClient());
@@ -138,7 +138,7 @@ public class ProjetBOImpl implements IProjetBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void updateProjet(final ProjetDTO pProjetDTO) throws DaoException {
+	public void update(final ProjetDTO pProjetDTO) throws DaoException {
 			
 		// on récupere le projet via son id pour vérifie s'il existe
 		final ProjetDO projetDO = getProjetDAO().find(pProjetDTO.getIdProjet());
@@ -165,7 +165,7 @@ public class ProjetBOImpl implements IProjetBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void deleteProjet(final int pIdProjet) throws DaoException {
+	public void delete(final int pIdProjet) throws DaoException {
 		
 		// on récupere le projet via son id pour vérifie s'il existe
 		final ProjetDO projetDO = getProjetDAO().find(pIdProjet);
@@ -178,7 +178,40 @@ public class ProjetBOImpl implements IProjetBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public List<ProjetDTO> listerProjets(final int pIdClient) throws DaoException {
+	public List<ProjetDTO> listeObjects() throws DaoException{
+		
+		//On declate la liste projet DTO
+		final List<ProjetDTO> lListeProjetDTOs = new ArrayList<ProjetDTO>();
+		//On interoge le service listeObjects
+		final List<ProjetDO> lListeProjetDos = getProjetDAO().listeObjects();
+		
+		// on convertit la liste<ProjetDO> vers la liste<ProjetDTO>
+		for (ProjetDO projetDO : lListeProjetDos) {
+			ProjetDTO projetDTO = new ProjetDTO();
+			
+			projetDTO.setActif(projetDO.isActif());
+			projetDTO.setActif(projetDO.isActif());
+			projetDTO.setNomProjet(projetDO.getNomProjet());
+			projetDTO.setBranche(projetDO.getBranche());
+			projetDTO.setDescription(projetDO.getDescription());
+			projetDTO.setCredential(projetDO.getCredential());
+			projetDTO.setFrequence(projetDO.getFrequence());
+			projetDTO.setIdProjet(projetDO.getIdProjet());
+			projetDTO.setStatus(projetDO.getStatus());
+			projetDTO.setUrl(projetDO.getUrl());
+			projetDTO.setIdClient(projetDO.getClient().getIdClient());
+			
+			//On ajoute le projetDTO à la lListeProjetDTOs 
+			lListeProjetDTOs.add(projetDTO);
+		}
+		
+		return lListeProjetDTOs;
+	}
+	
+	/**
+	 * {@inheritDoc} 
+	 */
+	public List<ProjetDTO> listerProjetsByClient(final int pIdClient) throws DaoException {
 		
 		// on récuperer l'objet clientDO
 		final ClientDO clientDO = getClientDAO().find(pIdClient);
@@ -206,6 +239,7 @@ public class ProjetBOImpl implements IProjetBO {
 			projetDTO.setUrl(projetDO.getUrl());
 			projetDTO.setIdClient(projetDO.getClient().getIdClient());
 			
+			//On ajoute le projetDTO à la lListeProjetDTOs
 			lListeProjetDTO.add(projetDTO);
 			
 		}
@@ -253,88 +287,4 @@ public class ProjetBOImpl implements IProjetBO {
 		return lListeProjetDTO;
 	}
 	
-	/**
-	 * {@inheritDoc} 
-	 */
-	public void addAffectProjectToMembre(final ProjetDTO pProjetDTO) throws DaoException {
-		
-		// l'id Projet sélectionné
-		final int idProjet = pProjetDTO.getIdProjet();
-		// on récupère l'objet ProjetDO via son id
-		final ProjetDO projetDO =  getProjetDAO().find(idProjet);
-		
-		// l'id Membre sélectionné
-		final int idMembre = pProjetDTO.getIdMembre();
-		// on récupère l'objet MembreDO via son id
-		final MembreDO membreDO = getMembreDAO().find(idMembre);
-		
-		// l'id Role sélectionné
-		final int idRole = pProjetDTO.getIdRole();
-		// on récupère l'objet RoleDO via son id
-		final RoleDO roleDO = getRoleDAO().find(idRole);
-		
-		// on instancie l'objet RoleProjetDO
-		final RoleProjetDO roleProjetDO = new RoleProjetDO();
-		roleProjetDO.setMembre(membreDO);
-		roleProjetDO.setProjet(projetDO);
-		roleProjetDO.setRole(roleDO);
-		
-		// on ajout l'objet RoleProjet dans la table
-		getRoleProjetDAO().create(roleProjetDO);
-		
-	}
-	
-	
-	/**
-	 * {@inheritDoc} 
-	 */
-	public void updateAffectProjectToMembre(final ProjetDTO pProjetDTO) throws DaoException {
-		
-		// l'id Projet sélectionné
-		final int idProjet = pProjetDTO.getIdProjet();
-		// on récupère l'objet ProjetDO via son id
-		final ProjetDO projetDO =  getProjetDAO().find(idProjet);
-		
-		// on récupère l'objet RoleProjet via l'objet ProjetDO
-		final RoleProjetDO roleProjetDO = getRoleProjetDAO().findRoleProjet(projetDO);
-		
-		// l'id Membre sélectionné
-		final int idMembre = pProjetDTO.getIdMembre();
-		// on récupère l'objet MembreDO via son id
-		final MembreDO membreDO = getMembreDAO().find(idMembre);
-		// setter l'objet MembreDO dans RoleProjetDO
-		roleProjetDO.setMembre(membreDO);
-		
-		// l'id Role sélectionné
-		final int idRole = pProjetDTO.getIdRole();
-		// on récupère l'objet RoleDO via son id
-		final RoleDO roleDO = getRoleDAO().find(idRole);
-		// setter l'objet MembreDO dans RoleProjetDO
-		roleProjetDO.setRole(roleDO);
-				
-		// on ajout l'objet RoleProjet dans la table
-		getRoleProjetDAO().update(roleProjetDO);
-	}
-
-	/**
-	 * {@inheritDoc} 
-	 */
-	public void deleteAffectProjectToMembre(final ProjetDTO pProjetDTO) throws DaoException {
-		
-		// l'id Projet sélectionné
-		final int idProjet = pProjetDTO.getIdProjet();
-		// on récupère l'objet ProjetDO via son id
-		final ProjetDO projetDO =  getProjetDAO().find(idProjet);
-		
-		// l'id Membre sélectionné
-		final int idMembre = pProjetDTO.getIdMembre();
-		// on récupère l'objet MembreDO via son id
-		final MembreDO membreDO = getMembreDAO().find(idMembre);
-		
-		// on récupère l'objet RoleProjet via l'objet ProjetDO
-		final RoleProjetDO roleProjetDO = getRoleProjetDAO().findRoleProjetByProjetAndMembre(projetDO, membreDO);
-				
-		// on ajout l'objet RoleProjet dans la table
-		getRoleProjetDAO().delete(roleProjetDO);
-	}
 }

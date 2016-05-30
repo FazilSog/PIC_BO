@@ -2,8 +2,8 @@ package com.sogeti.dao;
 
 import java.util.List;
 
-import com.sogeti.dao.model.RoleDO;
 import com.sogeti.exception.DaoException;
+import com.sogeti.model.RoleDO;
 
 /**
  * 

@@ -2,10 +2,10 @@ package com.sogeti.dao;
 
 import java.util.List;
 
-import com.sogeti.dao.model.MembreDO;
-import com.sogeti.dao.model.ProjetDO;
-import com.sogeti.dao.model.RoleProjetDO;
 import com.sogeti.exception.DaoException;
+import com.sogeti.model.MembreDO;
+import com.sogeti.model.ProjetDO;
+import com.sogeti.model.RoleProjetDO;
 
 /**
  * 

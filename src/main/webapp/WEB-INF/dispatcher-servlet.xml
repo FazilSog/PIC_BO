@@ -56,11 +56,11 @@
         <property name="dataSource" ref="dataSource" />
         <property name="annotatedClasses">
             <list>
-               <value>com.sogeti.dao.model.MembreDO</value>
-               <value>com.sogeti.dao.model.ClientDO</value> 
-               <value>com.sogeti.dao.model.ProjetDO</value>
-               <value>com.sogeti.dao.model.RoleDO</value> 
-               <value>com.sogeti.dao.model.RoleProjetDO</value>            	
+               <value>com.sogeti.model.MembreDO</value>
+               <value>com.sogeti.model.ClientDO</value> 
+               <value>com.sogeti.model.ProjetDO</value>
+               <value>com.sogeti.model.RoleDO</value> 
+               <value>com.sogeti.model.RoleProjetDO</value>            	
             </list>
         </property>
         <property name="hibernateProperties">
@@ -73,30 +73,32 @@
         </property>
     </bean>
 
-	<!-- Declaration des services  Membre-->
+	
 	<bean class="com.sogeti.utils.HibernateSessionFactory">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
-    <bean id="membreBO" class="com.sogeti.boImpl.MembreBOImpl">
+	<!-- Declaration des services  Membre-->
+    <bean id="membreBO" class="com.sogeti.bo.impl.MembreBOImpl">
         <property name="membreDAO" ref="membreDAO"/>
         <property name="clientDAO" ref="clientDAO"/>
         <property name="roleDAO" ref="roleDAO"/>
     </bean>
+    <bean id="membreDAO" class="com.sogeti.dao.impl.MembreDAOImpl"/>
     
-    <bean id="membreDAO" class="com.sogeti.daoImpl.MembreDAOImpl"/>
+    <!-- Declaration des services  CLient-->
+    <bean id="clientDAO" class="com.sogeti.dao.impl.ClientDAOImpl"/>
     
-     <!-- Declaration des services  CLient-->
-    <bean id="clientDAO" class="com.sogeti.daoImpl.ClientDAOImpl"/>
+    <!-- Declaration des services  Role-->
+    <bean id="roleDAO" class="com.sogeti.dao.impl.RoleDAOImpl"/>
+    <bean id="roleBO" class="com.sogeti.bo.impl.RoleBOImpl"/>
     
-     <!-- Declaration des services  Role-->
-    <bean id="roleDAO" class="com.sogeti.daoImpl.RoleDAOImpl"/>
-    
-     <!-- Declaration des services  RolePojet-->
-    <bean id="roleProjetDAO" class="com.sogeti.daoImpl.RoleProjetDAOImpl"/>
+    <!-- Declaration des services  RolePojet-->
+    <bean id="roleProjetDAO" class="com.sogeti.dao.impl.RoleProjetDAOImpl"/>
     
     <!-- Declaration des services  Projet-->
-    <bean id="projetBO" class="com.sogeti.boImpl.ProjetBOImpl">
+    <bean id="projetDAO" class="com.sogeti.dao.impl.ProjetDAOImpl"/>
+    <bean id="projetBO" class="com.sogeti.bo.impl.ProjetBOImpl">
         <property name="membreDAO" ref="membreDAO"/>
         <property name="projetDAO" ref="projetDAO"/>
         <property name="roleProjetDAO" ref="roleProjetDAO"/>
@@ -104,13 +106,20 @@
         <property name="clientDAO" ref="clientDAO"/>
     </bean>
     
-    <bean id="projetDAO" class="com.sogeti.daoImpl.ProjetDAOImpl"/>
-
-	<bean id="roleBO" class="com.sogeti.boImpl.RoleBOImpl"/>
+    <!-- Declaration des services  AffectProjetToMembre-->
+     <bean id="affectProjetToMembre" class="com.sogeti.bo.impl.AffectProjetToMembreBOImpl">
+		 <property name="membreDAO" ref="membreDAO"/>
+		 <property name="projetDAO" ref="projetDAO"/>
+		 <property name="roleProjetDAO" ref="roleProjetDAO"/>
+		 <property name="roleDAO" ref="roleDAO"/>
+    </bean>
     
+    <!-- Declaration du Controller-->    
     <bean id="membreController" class="com.sogeti.controller.MembreController"/>
     <bean id="authentificationController" class="com.sogeti.controller.AuthentificationController"/>
     <bean id="projetController" class="com.sogeti.controller.ProjetController"/>
+    <bean id="affectProjetToMembreController" class="com.sogeti.controller.AffectProjetToMembreController"/>
+    <bean id="roleController" class="com.sogeti.controller.RoleController"/>
  
     <mvc:annotation-driven />
 </beans>

@@ -7,7 +7,7 @@ import com.sogeti.exception.DaoException;
 
 /**
  * 
- * @author moissa
+ * @author syahiaou
  *
  */
 
@@ -18,5 +18,26 @@ public interface IRoleBO {
 	 * @return la liste des roles
 	 * @throws DaoException exception
 	 */
-	public List<RoleDTO> listerRoles() throws DaoException;
+	public List<RoleDTO> listeObjects() throws DaoException;
+	
+	/**
+	 * Elle n'est pas implementée
+	 * @param pObject
+	 * @throws DaoException
+	 */
+	public void create(RoleDTO pObject) throws DaoException;
+	
+	/**
+	 * Elle n'est pas implementée
+	 * @param pObject
+	 * @throws DaoException
+	 */
+	public void update(RoleDTO pObject) throws DaoException;
+	
+	/**
+	 * Elle n'est pas implementée
+	 * @param pId
+	 * @throws DaoException
+	 */
+	public void delete(int pId) throws DaoException;
 }

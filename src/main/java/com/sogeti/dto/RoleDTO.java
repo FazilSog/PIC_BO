@@ -1,12 +1,14 @@
 package com.sogeti.dto;
 
+import com.sogeti.fwk.GenericDTO;
+
 
 /**
  * 
  * @author moissa
  *
  */
-public class RoleDTO {
+public class RoleDTO extends GenericDTO<RoleDTO> {
 	
 	private int idRole;
 	private String codeRole;

@@ -1,4 +1,4 @@
-package com.sogeti.boImpl;
+package com.sogeti.bo.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +10,13 @@ import com.sogeti.bo.IMembreBO;
 import com.sogeti.dao.IClientDAO;
 import com.sogeti.dao.IMembreDAO;
 import com.sogeti.dao.IRoleDAO;
-import com.sogeti.dao.model.ClientDO;
-import com.sogeti.dao.model.MembreDO;
-import com.sogeti.dao.model.RoleDO;
 import com.sogeti.dto.AuthentificationDTO;
 import com.sogeti.dto.MembreDTO;
 import com.sogeti.exception.DaoException;
+import com.sogeti.fwk.GenericBO;
+import com.sogeti.model.ClientDO;
+import com.sogeti.model.MembreDO;
+import com.sogeti.model.RoleDO;
 import com.sogeti.utils.Token;
 
 /**
@@ -25,7 +26,7 @@ import com.sogeti.utils.Token;
  */
 
 @Component
-public class MembreBOImpl implements IMembreBO {
+public class MembreBOImpl extends GenericBO<MembreDTO> implements IMembreBO {
 
 	@Autowired
 	private IMembreDAO membreDAO;
@@ -109,7 +110,7 @@ public class MembreBOImpl implements IMembreBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void addMembre (final MembreDTO pMembreDTO) throws DaoException
+	public void create (final MembreDTO pMembreDTO) throws DaoException
 	{
 		// on instancie l'objet MembreDTO
 		final MembreDTO membreDTO = pMembreDTO;
@@ -136,7 +137,7 @@ public class MembreBOImpl implements IMembreBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void updateMembre (final MembreDTO pMembreDTO) throws DaoException
+	public void update (final MembreDTO pMembreDTO) throws DaoException
 	{
 		// on recupere l'objet ClientDO via son id
 		final ClientDO clientDO = getClientDAO().find(pMembreDTO.getIdClient());
@@ -160,7 +161,7 @@ public class MembreBOImpl implements IMembreBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void deleteMembre (final int pIdMembre) throws DaoException
+	public void delete (final int pIdMembre) throws DaoException
 	{
 		// On recupere le membre via son Id pour vérifier s'il existe
 		final MembreDO membreDO = getMembreDAO().find(pIdMembre);
@@ -172,12 +173,12 @@ public class MembreBOImpl implements IMembreBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public List<MembreDTO> listerMembres () throws DaoException
+	public List<MembreDTO> listeObjects() throws DaoException
 	{
 		// on instance la liste des membres DTO
 		final List<MembreDTO> lListeMembresDTOs = new ArrayList<MembreDTO>();
 		
-		// on interroge le service listerMembres
+		// on interroge le service listeObjects
 		final List<MembreDO> lListeMembreDOs = getMembreDAO().listeObjects();
 		
 		// on convertit la liste<MembreDO> vers la liste<MembreDTO>

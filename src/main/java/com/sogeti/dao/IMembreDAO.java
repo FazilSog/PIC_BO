@@ -2,9 +2,9 @@ package com.sogeti.dao;
 
 import java.util.List;
 
-import com.sogeti.dao.model.ClientDO;
-import com.sogeti.dao.model.MembreDO;
 import com.sogeti.exception.DaoException;
+import com.sogeti.model.ClientDO;
+import com.sogeti.model.MembreDO;
 
 /**
  * 

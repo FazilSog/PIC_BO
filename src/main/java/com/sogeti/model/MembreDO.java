@@ -1,4 +1,4 @@
-package com.sogeti.dao.model;
+package com.sogeti.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.sogeti.fwk.GenericDO;
+
 /**
  * 
  * @author syahiaou
@@ -21,7 +23,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "MEMBERS")
-public class MembreDO {
+public class MembreDO extends GenericDO<MembreDO>{
 
 	@Id
 	@GeneratedValue

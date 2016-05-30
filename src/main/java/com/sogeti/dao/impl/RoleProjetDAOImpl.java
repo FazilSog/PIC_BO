@@ -1,4 +1,4 @@
-package com.sogeti.daoImpl;
+package com.sogeti.dao.impl;
 
 import java.util.List;
 
@@ -11,10 +11,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import com.sogeti.dao.IRoleProjetDAO;
-import com.sogeti.dao.model.MembreDO;
-import com.sogeti.dao.model.ProjetDO;
-import com.sogeti.dao.model.RoleProjetDO;
 import com.sogeti.exception.DaoException;
+import com.sogeti.fwk.GenericDAO;
+import com.sogeti.model.MembreDO;
+import com.sogeti.model.ProjetDO;
+import com.sogeti.model.RoleProjetDO;
 import com.sogeti.utils.HibernateSessionFactory;
 
 /**

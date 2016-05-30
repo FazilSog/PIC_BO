@@ -1,11 +1,13 @@
 package com.sogeti.dto;
 
+import com.sogeti.fwk.GenericDTO;
+
 /**
  * 
  * @author moissa
  *
  */
-public class AuthentificationDTO {
+public class AuthentificationDTO extends GenericDTO<AuthentificationDTO> {
 	
 
 	private String tokenMembre;

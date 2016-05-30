@@ -3,11 +3,13 @@
  */
 package com.sogeti.dto;
 
+import com.sogeti.fwk.GenericDTO;
+
 /**
  * @author moissa
  *
  */
-public class MembreDTO {
+public class MembreDTO extends GenericDTO<MembreDTO> {
 
 	private int idMembre;
 	private String username;
