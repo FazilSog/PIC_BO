@@ -39,14 +39,14 @@ public interface IProjetBO {
 	/**
 	 * Elle permet de retourner la liste des projets
 	 * @return la liste des projets
-	 * @throws DaoException
+	 * @throws DaoException exeption 
 	 */
 	public List<ProjetDTO> listeObjects() throws DaoException;
 	
 	/**
 	 * Elle permet de retourner la liste des projets d'un client
 	 * @param pIdClient l'id client
-	 * @return la liste des projets 
+	 * @return la liste des projets d'un client
 	 * @throws DaoException exception
 	 */
 	public List<ProjetDTO> listerProjetsByClient(final int pIdClient) throws DaoException;
@@ -54,12 +54,9 @@ public interface IProjetBO {
 	/**
 	 * Elle permet de retourner la liste des projets d'un membre
 	 * @param pIdMembre l'id membre
-	 * @return la liste des projets 
+	 * @return la liste des projets  d'un membre
 	 * @throws DaoException exception
 	 */
 	public List<ProjetDTO> listerProjetsByMembre(final int pIdMembre) throws DaoException;
 	
-
-	
-
 }

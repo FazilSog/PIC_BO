@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -54,7 +55,7 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.POST)
 	@RequestMapping(value="/addAffectProjet", method = RequestMethod.POST)
-	public ResponseEntity<Object> create(@RequestBody ProjetDTO pProjetDTO) {
+	public ResponseEntity<Object> create(@RequestBody ProjetDTO pProjetDTO, @RequestHeader HttpHeaders pHttpHeaders) {
 		
 		// l'id Projet sélectionné
 		final int idProjet = pProjetDTO.getIdProjet();
@@ -123,7 +124,7 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 	 * ou soit un message d'erreur avec le code status 403)
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.DELETE)
-	@RequestMapping(value="/deleteAffectProjet", method = RequestMethod.DELETE)
+	@RequestMapping(value="/deleteAffectProjet/{idRoleProjet}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> delete(@RequestBody ProjetDTO pProjetDTO) {
 		
 		// l'id Projet sélectionné
@@ -149,23 +150,22 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 	
 	}
 
-	@Override
-	public ResponseEntity<Object> create(ProjetDTO pObject, HttpHeaders pObjet2)
-			throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
+	/**
+	 * Elle n'est pas implemetée 
+	 * {@inheritDoc} 
+	 * @throws DaoException exception
+	 */
 	public ResponseEntity<Object> delete(int pId) throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new DaoException("La méthode delete via l'Id n'est pas implementée!!");
 	}
 
-	@Override
+	/**Elle n'est pas implementée 
+	 * {@inheritDoc} 
+	 * @throws DaoException exception
+	 */
 	public ResponseEntity<Object> listeObjects() throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new DaoException("La méthode listeObjects n'est pas implementée!!");
 	}
 	
 

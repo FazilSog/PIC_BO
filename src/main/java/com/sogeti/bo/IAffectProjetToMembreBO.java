@@ -1,5 +1,7 @@
 package com.sogeti.bo;
 
+import java.util.List;
+
 import com.sogeti.dto.ProjetDTO;
 import com.sogeti.exception.DaoException;
 
@@ -32,6 +34,20 @@ public interface IAffectProjetToMembreBO {
 	 */
 	public void delete(final ProjetDTO pProjetDTO) throws DaoException;
 	
+	/**
+	 * Elle n'est pas implementée
+	 * @param pId
+	 * @return
+	 * @throws DaoException exeption
+	 */
+	public void delete(int pId) throws DaoException;
+	
+	/**
+	 * Elle n'est pas implementée
+	 * @return
+	 * @throws DaoException exeption
+	 */
+	public List<ProjetDTO> listeObjects() throws DaoException;
 	
 
 }
