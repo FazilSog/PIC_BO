@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -68,7 +69,9 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.POST)
 	@RequestMapping(value="/projet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> create( @RequestBody ProjetDTO pProjetDTO, @RequestHeader HttpHeaders pHttpHeaders) {   
+	public ResponseEntity<Object> create( @RequestBody ProjetDTO pProjetDTO, @RequestHeader HttpHeaders pHttpHeaders) {  
+		
+		PropertyConfigurator.configure("log4j.properties");
 		final ProjetDTO  projetDTO = pProjetDTO;
 		
 		// on récupère le token via le header
@@ -121,7 +124,8 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@CrossOrigin(origins="*",methods = RequestMethod.PUT)
 	@RequestMapping(value="/updateprojet", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> update( @RequestBody ProjetDTO pProjetDTO) {  
-
+		PropertyConfigurator.configure("log4j.properties");
+		
 		final String branche = pProjetDTO.getBranche();
 		final int idProjet = pProjetDTO.getIdProjet();
 		final String frequence = pProjetDTO.getFrequence();
@@ -164,7 +168,7 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@CrossOrigin(origins="*",methods = RequestMethod.DELETE)
 	@RequestMapping(value="/projet/{idProjet}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> delete( @PathVariable("idProjet")  int pIdProjet) {  
-		
+		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("The id is : " + pIdProjet);
 		
 		// on vérifie si l'id est différent de zéro
@@ -190,7 +194,7 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/projets", method = RequestMethod.GET)
 	public ResponseEntity<Object> listeObjects() {  
-
+		PropertyConfigurator.configure("log4j.properties");
 		try {
 			//On recupere la liste des projets
 			List<ProjetDTO> lListeProjets = getProjetBO().listeObjects();
@@ -211,6 +215,8 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/projetsClient", method = RequestMethod.GET)
 	public ResponseEntity<Object> listeProjetsByClients(@RequestHeader HttpHeaders pHttpHeaders) {  
+		
+		PropertyConfigurator.configure("log4j.properties");
 		// on récupère le token via le header
 		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
 		
@@ -237,6 +243,7 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/projetsMembre", method = RequestMethod.GET)
 	public ResponseEntity<Object> listeProjetsByMembre(@RequestHeader HttpHeaders pHttpHeaders) {  
+		PropertyConfigurator.configure("log4j.properties");
 		// on récupère le token via le header
 		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
 		

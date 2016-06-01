@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
@@ -36,6 +37,7 @@ public class RoleDAOImpl extends GenericDAO<RoleDO> implements IRoleDAO {
 	 */
 	public RoleDO find(final int pIdRole) throws DaoException {
 		
+		PropertyConfigurator.configure("log4j.properties");
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : findRoleById");
 		
@@ -75,6 +77,7 @@ public class RoleDAOImpl extends GenericDAO<RoleDO> implements IRoleDAO {
 	 */
 	public RoleDO findRoleByCodeRole(final String pCodeRole) throws DaoException {
 		
+		PropertyConfigurator.configure("log4j.properties");
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : findRoleByCodeRole");
 		
@@ -136,6 +139,7 @@ public class RoleDAOImpl extends GenericDAO<RoleDO> implements IRoleDAO {
 	@SuppressWarnings("unchecked")
 	public List<RoleDO> listeObjects() throws DaoException {
 		
+		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : listerRoles");
 		
 		List<RoleDO> lListeRoles = new ArrayList<RoleDO>();

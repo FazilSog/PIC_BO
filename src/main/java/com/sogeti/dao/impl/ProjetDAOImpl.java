@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
@@ -38,6 +39,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 	 */
 	private ProjetDO findProjet(final String pNomProjet, final String pUrl, final String pBranche) throws DaoException {
 		
+		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : findProjet");
 		
 		ProjetDO projetDO = null;
@@ -71,6 +73,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 	 */
 	public ProjetDO find(int pIdProjet) throws DaoException {
 		
+		PropertyConfigurator.configure("log4j.properties");
 		//initialaisation du logger
 		LOGGER.info("Début méthode : findProjetById");
 		
@@ -107,6 +110,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 	 */
 	public void create(final ProjetDO pProjetDO) throws DaoException {
 		
+		PropertyConfigurator.configure("log4j.properties");
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : addProjet");
 		
@@ -139,6 +143,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 	 */
 	public void update(final ProjetDO pProjetDO) throws DaoException{
 		
+		PropertyConfigurator.configure("log4j.properties");
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : updateProjet");
 			
@@ -163,6 +168,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 	 */
 	public void delete (final ProjetDO pProjetDO) throws DaoException {
 		
+		PropertyConfigurator.configure("log4j.properties");
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : deleteProjet");
 		
@@ -185,6 +191,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 	@SuppressWarnings("unchecked")
 	public List<ProjetDO> listeObjects() throws DaoException {
 		
+		PropertyConfigurator.configure("log4j.properties");
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : listerProjets");
 		
@@ -214,6 +221,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 	@SuppressWarnings("unchecked")
 	public List<ProjetDO> listeObjects(final ClientDO pClientDO) throws DaoException {
 		
+		PropertyConfigurator.configure("log4j.properties");
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : listerProjets");
 		

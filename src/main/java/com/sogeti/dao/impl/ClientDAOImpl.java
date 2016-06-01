@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
@@ -34,6 +35,7 @@ public class ClientDAOImpl extends GenericDAO<ClientDO> implements IClientDAO {
 	 */
 	public ClientDO find(final int pIdClient) throws DaoException {
 		
+		PropertyConfigurator.configure("log4j.properties");
 		//on initilalise le clientDO a null
 		ClientDO clientDO = null;
 	

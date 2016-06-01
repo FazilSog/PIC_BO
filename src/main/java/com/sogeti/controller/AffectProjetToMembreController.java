@@ -1,6 +1,7 @@
 package com.sogeti.controller;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -57,6 +58,7 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 	@RequestMapping(value="/addAffectProjet", method = RequestMethod.POST)
 	public ResponseEntity<Object> create(@RequestBody ProjetDTO pProjetDTO, @RequestHeader HttpHeaders pHttpHeaders) {
 		
+		PropertyConfigurator.configure("log4j.properties");
 		// l'id Projet sélectionné
 		final int idProjet = pProjetDTO.getIdProjet();
 		// l'id Membre sélectionné
@@ -92,6 +94,7 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 	@RequestMapping(value="/updateAffectProjet", method = RequestMethod.PUT)
 	public ResponseEntity<Object> update(@RequestBody ProjetDTO pProjetDTO) {
 		
+		PropertyConfigurator.configure("log4j.properties");
 		// l'id Projet sélectionné
 		final int idProjet = pProjetDTO.getIdProjet();
 		// l'id Membre sélectionné
@@ -127,6 +130,7 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 	@RequestMapping(value="/deleteAffectProjet/{idRoleProjet}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> delete(@RequestBody ProjetDTO pProjetDTO) {
 		
+		PropertyConfigurator.configure("log4j.properties");
 		// l'id Projet sélectionné
 		final int idProjet = pProjetDTO.getIdProjet();
 		// l'id Membre sélectionné
