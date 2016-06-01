@@ -3,7 +3,6 @@ package com.sogeti.controller;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -67,7 +66,6 @@ public class RoleController extends GenericController<RoleDTO,HttpHeaders> {
 	public ResponseEntity<Object> listeObjects() {  
 		
 		//Logger
-		PropertyConfigurator.configure("log4j.properties");
 		lOGGER.info("Début méthode listerRoles dans le controlleur : RoleController");
 		
 		try {

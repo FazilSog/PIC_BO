@@ -65,7 +65,6 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 		
 		
 		//On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : updateRoleProjet");
 		
 		try {
@@ -87,7 +86,6 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 	public RoleProjetDO find (final int pIdRoleProjet) throws DaoException {
 		
 		//On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : findRoleProjetByID");
 		
 		RoleProjetDO roleProjet = null;
@@ -122,7 +120,6 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 	public RoleProjetDO findRoleProjet (final ProjetDO pProjetDO) throws DaoException {
 		
 		//On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : findRoleProjet");
 		
 		RoleProjetDO roleProjet = null;
@@ -157,7 +154,6 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 	public void delete(final RoleProjetDO pRoleProjetDO) throws DaoException {
 		
 		// On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : deleteRoleProjet");
 				
 		try {
@@ -180,7 +176,6 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 	public RoleProjetDO findRoleProjetByProjetAndMembre (final ProjetDO pProjetDO, final MembreDO pMembreDO) throws DaoException {
 		
 		//On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : findRoleProjetByProjetAndMembre");
 		
 		RoleProjetDO roleProjet = null;

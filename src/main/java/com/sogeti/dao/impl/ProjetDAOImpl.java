@@ -6,7 +6,6 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
@@ -40,7 +39,6 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 	private ProjetDO findProjet(final String pNomProjet, final String pUrl, final String pBranche) throws DaoException {
 		
 		//On initialise le logger
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : findProjet");
 		
 		ProjetDO projetDO = null;
@@ -76,7 +74,6 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 		
 		
 		//initialaisation du logger
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : findProjetById");
 		
 		ProjetDO projetDO = null;
@@ -114,7 +111,6 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 		
 		
 		//On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : addProjet");
 		
 		// on vérifie si le projet existe
@@ -148,7 +144,6 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 		
 		
 		//On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : updateProjet");
 			
 		try {
@@ -174,7 +169,6 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 		
 		
 		//On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : deleteProjet");
 		
 		try {
@@ -198,7 +192,6 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 		
 		
 		//On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : listerProjets");
 		
 		//ON recupere la liste des projets
@@ -229,7 +222,6 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 		
 		
 		//On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : listerProjets");
 		
 		//ON recupere la liste des projets

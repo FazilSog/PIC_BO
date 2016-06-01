@@ -6,7 +6,6 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
@@ -39,8 +38,6 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 
 	public MembreDO authentifierMembre(final String pUsername, final String pPassword) throws DaoException {
 		
-		//Logger
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : AuthentifierMembre");
 		// on vérifie si le membre existe dans la table
 		final MembreDO membreDO = findMembreByNameAndPass(pUsername, pPassword);
@@ -61,7 +58,6 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 	public MembreDO find(final int pIdMembre) throws DaoException {
 		
 		//logger
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : findMembreById");
 		
 		MembreDO membreDO = null;
@@ -101,7 +97,6 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 	public MembreDO findMembreByNameAndPass(final String pUsername, final String pPassword) throws DaoException {
 		
 		//Initialisation de LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : findMembreByNameAndPass");
 		
 		
@@ -137,7 +132,6 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 	public MembreDO setMembre(final MembreDO pMemberDO) throws DaoException {
 		
 		//Initialisation du logger
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : setMembre");
 		
 		// si le user ou le pwd sont null on va lever une Exception 
@@ -166,7 +160,6 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 		
 		
 		//ON initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : addMembre");
 		
 		// si oui, on leve une exception
@@ -201,7 +194,6 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 		
 		
 		//On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : updateMembre");
 		
 		try {
@@ -226,7 +218,6 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 		
 		
 		//On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : deleteMembre");
 			
 		try {
@@ -252,7 +243,6 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 		
 		
 		//On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : listerMembres");
 		
 		List<MembreDO> lListeMembres = new ArrayList<MembreDO>();
@@ -284,7 +274,6 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 		
 		
 		//On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : listerMembres");
 		
 		List<MembreDO> lListeMembres = new ArrayList<MembreDO>();

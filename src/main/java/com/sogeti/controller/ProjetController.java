@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -73,7 +72,6 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	public ResponseEntity<Object> create( @RequestBody ProjetDTO pProjetDTO, @RequestHeader HttpHeaders pHttpHeaders) {  
 		
 		//Logger
-		PropertyConfigurator.configure("log4j.properties");
 		final ProjetDTO  projetDTO = pProjetDTO;
 		
 		// on récupère le token via le header
@@ -127,9 +125,6 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@RequestMapping(value="/updateprojet", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> update( @RequestBody ProjetDTO pProjetDTO) {  
 		
-		//Logger
-		PropertyConfigurator.configure("log4j.properties");
-		
 		final String branche = pProjetDTO.getBranche();
 		final int idProjet = pProjetDTO.getIdProjet();
 		final String frequence = pProjetDTO.getFrequence();
@@ -174,7 +169,6 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	public ResponseEntity<Object> delete( @PathVariable("idProjet")  int pIdProjet) {  
 		
 		//Logger
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("The id is : " + pIdProjet);
 		
 		// on vérifie si l'id est différent de zéro
@@ -201,8 +195,6 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@RequestMapping(value="/projets", method = RequestMethod.GET)
 	public ResponseEntity<Object> listeObjects() {  
 		
-		//Logger
-		PropertyConfigurator.configure("log4j.properties");
 		
 		try {
 			//On recupere la liste des projets
@@ -226,8 +218,6 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@RequestMapping(value="/projetsClient", method = RequestMethod.GET)
 	public ResponseEntity<Object> listeProjetsByClients(@RequestHeader HttpHeaders pHttpHeaders) {  
 		
-		//Logger
-		PropertyConfigurator.configure("log4j.properties");
 		// on récupère le token via le header
 		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
 		
@@ -255,8 +245,6 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@RequestMapping(value="/projetsMembre", method = RequestMethod.GET)
 	public ResponseEntity<Object> listeProjetsByMembre(@RequestHeader HttpHeaders pHttpHeaders) {  
 		
-		//Logger
-		PropertyConfigurator.configure("log4j.properties");
 		// on récupère le token via le header
 		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
 		

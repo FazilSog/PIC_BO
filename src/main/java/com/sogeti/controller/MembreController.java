@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -126,9 +125,6 @@ public class MembreController extends GenericController<MembreDTO, HttpHeaders> 
 	@RequestMapping(value="/Membre", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> update( @RequestBody MembreDTO pMembreDTO) {  
 		
-		//Logger
-		PropertyConfigurator.configure("log4j.properties");
-		
 		final int idMembre = pMembreDTO.getIdMembre();
 		final String username = pMembreDTO.getUsername();
 		final String password = pMembreDTO.getPassword();
@@ -165,8 +161,6 @@ public class MembreController extends GenericController<MembreDTO, HttpHeaders> 
 	@RequestMapping(value="/membre/{idMembre}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> delete( @PathVariable("idMembre")  int pIdMembre) {
 		
-		//Logger
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("The id is : " + pIdMembre);
 		
 		// on vérifie si l'id est différent de zéro

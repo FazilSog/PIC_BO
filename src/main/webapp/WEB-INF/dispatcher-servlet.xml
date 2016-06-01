@@ -121,5 +121,5 @@
     <bean id="affectProjetToMembreController" class="com.sogeti.controller.AffectProjetToMembreController"/>
     <bean id="roleController" class="com.sogeti.controller.RoleController"/>
  
-    <mvc:annotation-driven />
+    <mvc:annotation-driven></mvc:annotation-driven>
 </beans>

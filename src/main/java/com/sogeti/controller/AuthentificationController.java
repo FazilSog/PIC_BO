@@ -4,7 +4,6 @@ import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -61,9 +60,6 @@ public class AuthentificationController {
 	 
 	@RequestMapping(value="/auth", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> authentifier( @RequestBody MembreDTO pMembreDTO) {  
-		
-		//Logger
-		PropertyConfigurator.configure("log4j.properties");
 		
 		String lUsername = pMembreDTO.getUsername();
 		String lPassword = "";

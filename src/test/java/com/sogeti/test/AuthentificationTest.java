@@ -1,6 +1,5 @@
 package com.sogeti.test;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -8,18 +7,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.transaction.Transactional;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
@@ -34,7 +29,8 @@ import com.sogeti.dto.MembreDTO;
 
 
 @RunWith(MockitoJUnitRunner.class)
-@ContextConfiguration
+@ContextConfiguration("classpath:dispatcher-servlet.xml")
+@Transactional
 public class AuthentificationTest {
 	
 	@Mock
@@ -71,10 +67,10 @@ public class AuthentificationTest {
 	@Test
     public void testGet() throws Exception {
 
-        int userId = 3;
+        int userId = 16;
 
         mockMvc.perform(
-                get("/membre" + userId))
+                get("PIC_BO/membre/membres" + userId))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("password", is(1234)))
@@ -87,7 +83,7 @@ public class AuthentificationTest {
 	@Test
     public void testSave() throws Exception {
         mockMvc.perform(
-                post("/membre")
+                post("PIC_BO/membre/membre")
                         .contentType(TestUtil.APPLICATION_JSON_UTF8)
                         .content(TestUtil.convertObjectToJsonBytes(new MembreDTO()))
         )
