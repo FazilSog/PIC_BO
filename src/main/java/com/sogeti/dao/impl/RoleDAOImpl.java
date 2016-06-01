@@ -37,8 +37,9 @@ public class RoleDAOImpl extends GenericDAO<RoleDO> implements IRoleDAO {
 	 */
 	public RoleDO find(final int pIdRole) throws DaoException {
 		
-		PropertyConfigurator.configure("log4j.properties");
+		
 		//On initialise le LOGGER
+		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : findRoleById");
 		
 		RoleDO roleDO = null;
@@ -77,8 +78,9 @@ public class RoleDAOImpl extends GenericDAO<RoleDO> implements IRoleDAO {
 	 */
 	public RoleDO findRoleByCodeRole(final String pCodeRole) throws DaoException {
 		
-		PropertyConfigurator.configure("log4j.properties");
+		
 		//On initialise le LOGGER
+		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : findRoleByCodeRole");
 		
 		RoleDO roleDO = null;
@@ -139,6 +141,7 @@ public class RoleDAOImpl extends GenericDAO<RoleDO> implements IRoleDAO {
 	@SuppressWarnings("unchecked")
 	public List<RoleDO> listeObjects() throws DaoException {
 		
+		//On initialise le logger
 		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : listerRoles");
 		

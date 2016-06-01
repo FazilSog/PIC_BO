@@ -57,6 +57,7 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	 * Constructeur par défaut
 	 */
 	public ProjetController() {
+		
 		LOGGER.info("init ProjetController");
 	}
 	
@@ -71,6 +72,7 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@RequestMapping(value="/projet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> create( @RequestBody ProjetDTO pProjetDTO, @RequestHeader HttpHeaders pHttpHeaders) {  
 		
+		//Logger
 		PropertyConfigurator.configure("log4j.properties");
 		final ProjetDTO  projetDTO = pProjetDTO;
 		
@@ -124,6 +126,8 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@CrossOrigin(origins="*",methods = RequestMethod.PUT)
 	@RequestMapping(value="/updateprojet", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> update( @RequestBody ProjetDTO pProjetDTO) {  
+		
+		//Logger
 		PropertyConfigurator.configure("log4j.properties");
 		
 		final String branche = pProjetDTO.getBranche();
@@ -168,6 +172,8 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@CrossOrigin(origins="*",methods = RequestMethod.DELETE)
 	@RequestMapping(value="/projet/{idProjet}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> delete( @PathVariable("idProjet")  int pIdProjet) {  
+		
+		//Logger
 		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("The id is : " + pIdProjet);
 		
@@ -194,13 +200,17 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/projets", method = RequestMethod.GET)
 	public ResponseEntity<Object> listeObjects() {  
+		
+		//Logger
 		PropertyConfigurator.configure("log4j.properties");
+		
 		try {
 			//On recupere la liste des projets
 			List<ProjetDTO> lListeProjets = getProjetBO().listeObjects();
 			
 			return new ResponseEntity<Object>(lListeProjets, HttpStatus.CREATED);
 		} catch (DaoException ex) {
+			LOGGER.warn(ex.getMessage());
 			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
 		}
 
@@ -216,6 +226,7 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@RequestMapping(value="/projetsClient", method = RequestMethod.GET)
 	public ResponseEntity<Object> listeProjetsByClients(@RequestHeader HttpHeaders pHttpHeaders) {  
 		
+		//Logger
 		PropertyConfigurator.configure("log4j.properties");
 		// on récupère le token via le header
 		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
@@ -243,6 +254,8 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	@CrossOrigin(origins="*",methods = RequestMethod.GET)
 	@RequestMapping(value="/projetsMembre", method = RequestMethod.GET)
 	public ResponseEntity<Object> listeProjetsByMembre(@RequestHeader HttpHeaders pHttpHeaders) {  
+		
+		//Logger
 		PropertyConfigurator.configure("log4j.properties");
 		// on récupère le token via le header
 		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);

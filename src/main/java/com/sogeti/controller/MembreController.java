@@ -51,7 +51,6 @@ public class MembreController extends GenericController<MembreDTO, HttpHeaders> 
 	 */
 	public void setMembreBO(IMembreBO membreBO) {
 		
-		PropertyConfigurator.configure("log4j.properties");
 		this.membreBO = membreBO;
 	}
 
@@ -59,6 +58,7 @@ public class MembreController extends GenericController<MembreDTO, HttpHeaders> 
 	 * Constructeur par défaut
 	 */
 	public MembreController(){
+		
 		LOGGER.info("init MembreController");
 	}
 	 
@@ -125,6 +125,8 @@ public class MembreController extends GenericController<MembreDTO, HttpHeaders> 
 	@CrossOrigin(origins="*",methods = RequestMethod.PUT)
 	@RequestMapping(value="/Membre", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> update( @RequestBody MembreDTO pMembreDTO) {  
+		
+		//Logger
 		PropertyConfigurator.configure("log4j.properties");
 		
 		final int idMembre = pMembreDTO.getIdMembre();
@@ -161,7 +163,9 @@ public class MembreController extends GenericController<MembreDTO, HttpHeaders> 
 	 */
 	@CrossOrigin(origins="*",methods = RequestMethod.DELETE)
 	@RequestMapping(value="/membre/{idMembre}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> delete( @PathVariable("idMembre")  int pIdMembre) {  
+	public ResponseEntity<Object> delete( @PathVariable("idMembre")  int pIdMembre) {
+		
+		//Logger
 		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("The id is : " + pIdMembre);
 		

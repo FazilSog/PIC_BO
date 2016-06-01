@@ -35,6 +35,7 @@ public class ClientDAOImpl extends GenericDAO<ClientDO> implements IClientDAO {
 	 */
 	public ClientDO find(final int pIdClient) throws DaoException {
 		
+		//Logger
 		PropertyConfigurator.configure("log4j.properties");
 		//on initilalise le clientDO a null
 		ClientDO clientDO = null;

@@ -38,8 +38,9 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 	 */
 	public void create(final RoleProjetDO pRoleProjetDO) throws DaoException {
 		
-		PropertyConfigurator.configure("log4j.properties");
+		
 		//On initialise le LOGGER
+		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : addRoleProjet");
 		 try {
 			
@@ -62,8 +63,9 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 	 */
 	public void update(final RoleProjetDO pRoleProjet) throws DaoException {
 		
-		PropertyConfigurator.configure("log4j.properties");
+		
 		//On initialise le LOGGER
+		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : updateRoleProjet");
 		
 		try {
@@ -136,7 +138,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete findRoleProjet().");
 			// TODO vérifier le message d'erreur
-			throw new DaoException("XXXXXXXX");
+			throw new DaoException("Impossible de retrouver le RoleProjet");
 		}
 		LOGGER.info("Fin méthode : findRoleProjet");
 		
@@ -167,7 +169,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 			LOGGER.error("Exception - DataAccessException occurs : " 
 			+ ex.getMessage() + " on complete deleteRoleProjet().");
 			// TODO vérifier le message d'erreur
-			throw new DaoException("XXXXXXXXXXXXXXXXXXXXXX");
+			throw new DaoException("Impossible de supprimer le RoleProjet");
 		}
 		LOGGER.info("Fin méthode : deleteRoleProjet");
 	}
@@ -196,7 +198,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete findRoleProjetByProjetAndMembre().");
 			// TODO vérifier le message d'erreur
-			throw new DaoException("XXXXXXXX");
+			throw new DaoException("Impossible de retrouver le RoleProjet d'un membre sur un projet");
 		}
 		LOGGER.info("Fin méthode : findRoleProjetByProjetAndMembre");
 		

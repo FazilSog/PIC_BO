@@ -55,12 +55,16 @@ public class AuthentificationController {
 	 * Constructeur par défaut
 	 */
 	public AuthentificationController(){
+		
 		LOGGER.info("init AuthentificationController");
 	}
 	 
 	@RequestMapping(value="/auth", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> authentifier( @RequestBody MembreDTO pMembreDTO) {  
+		
+		//Logger
 		PropertyConfigurator.configure("log4j.properties");
+		
 		String lUsername = pMembreDTO.getUsername();
 		String lPassword = "";
 		try {

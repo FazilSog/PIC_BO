@@ -49,6 +49,14 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 	}
 	
 	/**
+	 * Constructeur par défaut
+	 */
+	public AffectProjetToMembreController() {
+		
+		LOGGER.info("init AffectProjetToMembreController");
+	}
+	
+	/**
 	 * Elle permet d'affecter un membre sur un projet
 	 * @param pProjetDTO le projetDTO json envoyé par le front
 	 * @return un responseEntity qui contient (le code status 201,
@@ -58,6 +66,7 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 	@RequestMapping(value="/addAffectProjet", method = RequestMethod.POST)
 	public ResponseEntity<Object> create(@RequestBody ProjetDTO pProjetDTO, @RequestHeader HttpHeaders pHttpHeaders) {
 		
+		//Logger
 		PropertyConfigurator.configure("log4j.properties");
 		// l'id Projet sélectionné
 		final int idProjet = pProjetDTO.getIdProjet();
@@ -94,6 +103,7 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 	@RequestMapping(value="/updateAffectProjet", method = RequestMethod.PUT)
 	public ResponseEntity<Object> update(@RequestBody ProjetDTO pProjetDTO) {
 		
+		//Logger
 		PropertyConfigurator.configure("log4j.properties");
 		// l'id Projet sélectionné
 		final int idProjet = pProjetDTO.getIdProjet();
@@ -130,6 +140,7 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 	@RequestMapping(value="/deleteAffectProjet/{idRoleProjet}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> delete(@RequestBody ProjetDTO pProjetDTO) {
 		
+		//Logger
 		PropertyConfigurator.configure("log4j.properties");
 		// l'id Projet sélectionné
 		final int idProjet = pProjetDTO.getIdProjet();

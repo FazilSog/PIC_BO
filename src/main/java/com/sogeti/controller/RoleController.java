@@ -52,6 +52,7 @@ public class RoleController extends GenericController<RoleDTO,HttpHeaders> {
 	 * Constructeur par défaut
 	 */
 	public RoleController() {
+		
 		lOGGER.info("init RoleController");
 	}
 
@@ -65,8 +66,10 @@ public class RoleController extends GenericController<RoleDTO,HttpHeaders> {
 	@RequestMapping(value="/roles", method = RequestMethod.GET)
 	public ResponseEntity<Object> listeObjects() {  
 		
+		//Logger
 		PropertyConfigurator.configure("log4j.properties");
 		lOGGER.info("Début méthode listerRoles dans le controlleur : RoleController");
+		
 		try {
 			final List<RoleDTO> lListeRolesDTO = getRoleBO().listeObjects();
 			
