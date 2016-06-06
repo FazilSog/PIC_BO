@@ -36,7 +36,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	private ProjetDO findProjet(final String pNomProjet, final String pUrl, final String pBranche) throws DaoException {
+	public ProjetDO findProjet(final String pNomProjet, final String pUrl, final String pBranche) throws DaoException {
 		
 		//On initialise le logger
 		LOGGER.info("Début méthode : findProjet");

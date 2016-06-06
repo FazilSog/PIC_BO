@@ -1,114 +1,44 @@
 package com.sogeti.test;
 
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-
 import javax.transaction.Transactional;
 
-import org.junit.Before;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.sogeti.bo.IMembreBO;
-import com.sogeti.controller.MembreController;
-import com.sogeti.dto.MembreDTO;
+import com.sogeti.exception.DaoException;
 
-
-@RunWith(MockitoJUnitRunner.class)
-@ContextConfiguration("classpath:dispatcher-servlet.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/dispatcher-servlet.xml")
+@WebAppConfiguration
 @Transactional
+@Rollback(value=true)
 public class AuthentificationTest {
 	
-	@Mock
+	@Autowired
 	private IMembreBO membreBO;
 	
-	@InjectMocks
-	private MembreController membreController;
+	// Initialisation du LOGGER
+	private static final Logger LOGGER = Logger.getLogger(MembreTest.class);
 	
-	private MockMvc mockMvc;
-	
-	@Before
-	public void setup()
-	{
-		MockitoAnnotations.initMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(membreController).build();
-	}	
-	
-	/*@Test
-	public void testList() throws Exception {
-		List<MembreDTO> listeMembreDTO = new ArrayList<MembreDTO>();
-		listeMembreDTO.add(new MembreDTO());
-		listeMembreDTO.add(new MembreDTO());
+	@Rollback(value=true)
+	@Test
+	public void Authentification () throws DaoException {
 		
-		Mockito.when(membreBO.listeObjects().thenReturn((List<MembreDTO>) listeMembreDTO);
+		//logger
+		LOGGER.info("Début méthode  : testSaveMembre");
+		String username = "sogeti";
+		String password = "1234";
 		
-		 mockMvc.perform(
-	                get("/membres"))
-	                .andExpect(MockMvcResultMatchers.status().isOk())
-	                .andExpect(view().name("membreDTO"))
-		 			.andExpect(model().attributeExists("membreDTO"))
-	                .andExpect(model().attribute("membreDTO", hasSize(5)));
+		
+		
+		
 	}
-*/
-	@Test
-    public void testGet() throws Exception {
 
-        int userId = 16;
-
-        mockMvc.perform(
-                get("PIC_BO/membre/membres" + userId))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("password", is(1234)))
-                .andExpect(jsonPath("username", is("sogeti")))
-                .andExpect(jsonPath("role", is("d")))
-                .andExpect(jsonPath("idMembre", is(userId)))
-                .andExpect(jsonPath("status", is(true)));
-    }
-	
-	@Test
-    public void testSave() throws Exception {
-        mockMvc.perform(
-                post("PIC_BO/membre/membre")
-                        .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                        .content(TestUtil.convertObjectToJsonBytes(new MembreDTO()))
-        )
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("success", is(true)));
-    }
-	
-	 @Test
-	    public void testUpdate() throws Exception {
-	        mockMvc.perform(
-	                put("/Membre")
-	                        .contentType(TestUtil.APPLICATION_JSON_UTF8)
-	                        .content(TestUtil.convertObjectToJsonBytes(new MembreDTO())))
-	                .andExpect(MockMvcResultMatchers.status().isOk())
-	                .andExpect(jsonPath("success", is(true)));
-	    }
-
-	    @Test
-	    public void testDelete() throws Exception {
-	        mockMvc.perform(
-	                delete("/user/3"))
-	                .andExpect(MockMvcResultMatchers.status().isOk())
-	                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-	                .andExpect(jsonPath("success", is(true)));
-	    }
 }
-

@@ -40,7 +40,6 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 		
 		
 		//On initialise le LOGGER
-		PropertyConfigurator.configure("log4j.properties");
 		LOGGER.info("Début méthode : addRoleProjet");
 		 try {
 			

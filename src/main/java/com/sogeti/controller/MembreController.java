@@ -38,7 +38,7 @@ public class MembreController extends GenericController<MembreDTO, HttpHeaders> 
 	@Autowired
 	private IMembreBO membreBO;
 	
-	 /**O
+	 /**
 	 * @return the membreBO
 	 */
 	public IMembreBO getMembreBO() {

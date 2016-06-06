@@ -1,11 +1,11 @@
 package com.sogeti.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
-import org.hibernate.HibernateException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.sogeti.bo.IMembreBO;
-import com.sogeti.controller.MembreController;
 import com.sogeti.dao.IClientDAO;
+import com.sogeti.dao.IMembreDAO;
 import com.sogeti.dao.IRoleDAO;
 import com.sogeti.dao.impl.MembreDAOImpl;
 import com.sogeti.dto.MembreDTO;
@@ -24,13 +24,21 @@ import com.sogeti.exception.DaoException;
 import com.sogeti.model.ClientDO;
 import com.sogeti.model.MembreDO;
 import com.sogeti.model.RoleDO;
+/**
+ * 
+ * @author syahiaou
+ *
+ */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/dispatcher-servlet.xml")
 @WebAppConfiguration
 @Transactional
 @Rollback(value=true)
-public class MembreClasseTest {
+public class MembreTest {
+	
+	@Autowired
+	private IMembreDAO membreDAO;
 	
 	@Autowired
 	private IRoleDAO roleDAO;
@@ -41,19 +49,18 @@ public class MembreClasseTest {
 	@Autowired
 	private IMembreBO membreBO;
 	
-	@Autowired
-	private MembreController membreController;
-	
 	// Initialisation du LOGGER
-	private static final Logger LOGGER = Logger.getLogger(MembreClasseTest.class);
+	private static final Logger LOGGER = Logger.getLogger(MembreTest.class);
 	
 	@Rollback(value=true)
 	@Test
-	public void testSaveMembre() throws DaoException{
+	public void testCreateMembre() throws DaoException{
 		
 		//logger
-				LOGGER.info("Début méthode  : testSaveMembre");
+		LOGGER.info("Début méthode  : testSaveMembre");
 		int idMembre = 0;
+		//On instancie l'objet DO
+		MembreDO membreDO = new MembreDO();
 		//On instancie l'objet DTO
 		MembreDTO membreDTO = new MembreDTO();
 		//On instancie la methode MembreDAOImpl
@@ -67,11 +74,11 @@ public class MembreClasseTest {
 		
 		try {
 			
-			MembreDO membreDO = membreDAO.findMembreByNameAndPass("ddddddeddd", "1234");
+			 membreDO = membreDAO.findMembreByNameAndPass("ddddddeddd", "1234");
 			
 			if (membreDO != null){
 				LOGGER.warn("MembreDO "+membreDO +" existe donc ne sera pas créé");
-				throw new DaoException("Création échoué : Le Membre existe déjà.");
+				fail("Le Membre n'est pas connu.");
 			} else {
 				try {
 					membreBO.create(membreDTO);
@@ -80,25 +87,24 @@ public class MembreClasseTest {
 					
 						if (idMembre == 0 ){
 							LOGGER.warn("idMembre "+idMembre +"L'identifiant est obligatoire. ");
-							throw new DaoException("L'identifiant est obligatoire. Valeur zéro est interdit.");
+							fail("L'identifiant est obligatoire. Valeur zéro est interdit.");
 						} else {
 							//On recuepre le membre via son Id
-							MembreDO membreDOs = membreDAO.find(idMembre);
+							 membreDO = membreDAO.find(idMembre);
 							//On recuepre le usernale du membre
-							String username = membreDOs.getUsername();
+							String username = membreDO.getUsername();
 							//On verifie l'egaliter du username
 							assertEquals("ddddddeddd",username);
 						}
 					
-				} catch (HibernateException ex) {
-					// Critical errors : database unreachable, etc.
-					LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete findMembreById().");
-					throw new DaoException("Connexion échoué : le test creation n'est pas concluant");
-				}
+				  }catch(DaoException ex){
+					    assert(ex.getMessage().contains("Le Membre n'est pas connu."));
+					    assert(ex.getMessage().contains("L'identifiant est obligatoire. Valeur zéro est interdit."));
+				  }
 			}
 		 } finally {
 			 LOGGER.info("Fin méthode  : testSaveMembre");
-		}
+		 }
 	}
 	@Rollback(value=true)
 	@Test
@@ -106,54 +112,69 @@ public class MembreClasseTest {
 
 		//logger
 		LOGGER.info("Début méthode  : testUpdateMembre");
-		//On instancie l'objet DTO
-		MembreDTO membreDTO = new MembreDTO();
-		
-		//On set les nouvelles infos du membre dans l'objet DTO
-		membreDTO.setUsername("lenew");
-		membreDTO.setIdClient(1);
-		membreDTO.setIdRole(1);
-		membreDTO.setPassword("12345");
-		membreDTO.setStatus(true);
-		membreDTO.setIdMembre(13);
+		int idClient = 1;
+		int idRole = 1;
+		int idMembre = 23;
+	
 		//On instancie la methode MembreDAOImpl
 		MembreDAOImpl membreDAO = new MembreDAOImpl();
 
 		try {
 			//On recupere le membre
-			MembreDO membreDO = membreDAO.find(membreDTO.getIdMembre());
+			MembreDO membreDO = membreDAO.find(idMembre);
 			
 			if (membreDO == null){
 				LOGGER.warn("MembreDO "+membreDO +" Le membre n'existe pas");
-				throw new DaoException("Modification échoué : Le membre n'existe pas.");
+				fail("Modification échoué : Le membre n'existe pas.");
 			} else {
 					// on recupere l'objet RoleDO via son id
-					RoleDO roleDO = roleDAO.find(membreDTO.getIdRole());
+					RoleDO roleDO = roleDAO.find(idRole);
 					//On recupere l'objet ClientDO via son id
-					ClientDO clientDO = clientDAO.find(membreDTO.getIdClient());
+					ClientDO clientDO = clientDAO.find(idClient);
 					
-					//On set les nouvelles infos du membre dans l'objet DTO
-					membreDO.setIdMembre(membreDTO.getIdMembre());
+					//On set les nouvelles infos du membre dans l'objet DO
+					membreDO.setIdMembre(idMembre);
 					membreDO.setClient(clientDO);
 					membreDO.setRoleMembre(roleDO);
-					membreDO.setPassword(membreDTO.getPassword());
-					membreDO.setUsername(membreDTO.getUsername());
+					membreDO.setPassword("12345");
+					membreDO.setUsername("lenew");
 					membreDO.setStatus(true);
 					
 					//On interoge le service update
-					membreBO.update(membreDTO);
+					membreDAO.update(membreDO);
 					//On recupere le username du membre
 					String username = membreDO.getUsername();
 					//On verifie l'egaliter du username
 					assertEquals("lenew",username);
 				
 			}
-	 } catch (HibernateException ex) {
-				// Critical errors : database unreachable, etc.
-				LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete findMembreById().");
-				throw new DaoException("Modification échoué: le membre n'est pas connu");
+		}catch(DaoException ex){
+		    assert(ex.getMessage().contains("Modification échoué : Le membre n'existe pas."));
 		}
 		 LOGGER.info("Fin méthode  : testUpdateMembre");
+	}
+	
+	@Rollback(value = true)
+	@Test
+	public void testDeleteMembre() throws DaoException {
+		
+		//logger
+		 LOGGER.info("Début méthode  : testDeleteMembre");
+		
+		int idMembre = 23;
+		//On recupere le membre via son Id
+		MembreDO membreDO = membreDAO.find(idMembre);
+		//On appel le service delete membre
+		membreDAO.delete(membreDO);
+		//Le test passe si l’exception spécifiée dans le try-catch est levée, sinon il échoue à l’exécution de la méthode fail()
+		 try {
+			 @SuppressWarnings("unused")
+			MembreDO membreDOs = membreDAO.find(idMembre);
+			    fail("Devrait leve une expetion vu que le membre n'existe pas");
+		  }catch(DaoException ex){
+			    assert(ex.getMessage().contains("Le Membre n'est pas connu."));
+	      }
+		 LOGGER.info("Fin méthode  : deleteListeMembre");
 	}
 	
 	@Rollback(value=true)
@@ -161,6 +182,10 @@ public class MembreClasseTest {
 	@Test
 	public void testListeMembre() throws DaoException{
 		
+		//logger
+		LOGGER.info("Début méthode  : testListeMembre");
+		
+		//On affiche le contenu de la liste
 		Iterable<MembreDTO> membreDTO =	membreBO.listeObjects();
 	
 		int size = 0;
@@ -168,8 +193,8 @@ public class MembreClasseTest {
 			 size ++;
 			
 		}
-			assertEquals(21, size);
-		
+			assertEquals(20, size);
+			
+			LOGGER.info("Fin méthode  : testListeMembre");
 	}
-
 }
