@@ -47,6 +47,7 @@ public class ProjetBOImpl extends GenericBO<ProjetDTO> implements IProjetBO {
 	
 	
 	
+	
 	/**
 	 * @return the clientDAO
 	 */

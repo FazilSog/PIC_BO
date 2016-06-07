@@ -180,7 +180,7 @@ public class MembreTest {
 	@Rollback(value=true)
 	@SuppressWarnings("unused")
 	@Test
-	public void testListeMembre() throws DaoException{
+	public void testListeObjectMembre() throws DaoException{
 		
 		//logger
 		LOGGER.info("Début méthode  : testListeMembre");
@@ -197,4 +197,5 @@ public class MembreTest {
 			
 			LOGGER.info("Fin méthode  : testListeMembre");
 	}
+
 }

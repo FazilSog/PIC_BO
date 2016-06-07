@@ -16,12 +16,15 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.sogeti.bo.IProjetBO;
 import com.sogeti.dao.IClientDAO;
+import com.sogeti.dao.IMembreDAO;
 import com.sogeti.dao.IProjetDAO;
 import com.sogeti.dao.impl.ProjetDAOImpl;
 import com.sogeti.dto.ProjetDTO;
 import com.sogeti.exception.DaoException;
 import com.sogeti.model.ClientDO;
+import com.sogeti.model.MembreDO;
 import com.sogeti.model.ProjetDO;
+import com.sogeti.model.RoleProjetDO;
 
 /**
  * 
@@ -45,6 +48,9 @@ public class ProjetTest {
 	
 	@Autowired
 	private IClientDAO clientDAO;
+	
+	@Autowired
+	private IMembreDAO membreDAO;
 	
 	// Initialisation du LOGGER
 	private static final Logger LOGGER = Logger.getLogger(ProjetTest.class);
@@ -207,6 +213,54 @@ public class ProjetTest {
 			LOGGER.info("Fin méthode  : testListeProjet");
 	}
 	
+	
+	@Rollback(value=true)
+	@SuppressWarnings("unused")
+	@Test
+	public void testListeObjectByMembres() throws DaoException{
+		
+		//logger
+		LOGGER.info("Début méthode  : testListeObjectByMembres");
+		
+		int idMembre = 1;
+		//On recuper l'objet via son id
+		MembreDO membreDO = membreDAO.find(idMembre);
+		// on obtient la liste RoleProjet
+		Iterable<RoleProjetDO> lListeRoleProjet = membreDO.getRoleProjet();
+	
+		int size = 0;
+		 for (RoleProjetDO RoleProjetDos : lListeRoleProjet) {
+			 size ++;
+			
+		}
+			assertEquals(2, size);
+			
+			LOGGER.info("Fin méthode  : testListeObjectByMembres");
+	}
+	
+	@Rollback(value=true)
+	@SuppressWarnings("unused")
+	@Test
+	public void testListeObjectByClients() throws DaoException{
+		
+		//logger
+		LOGGER.info("Début méthode  : testListeObjectByClients");
+		
+		int idClient = 1;
+		//On recuper l'objet via son id
+		ClientDO ClientDO = clientDAO.find(idClient);
+		// on obtient la liste des ProjetDO
+		Iterable<ProjetDO> lListeProjet = projetDAO.listeObjects(ClientDO);
+	
+		int size = 0;
+		 for (ProjetDO ProjetDos : lListeProjet) {
+			 size ++;
+			
+		}
+			assertEquals(6, size);
+			
+			LOGGER.info("Fin méthode  : testListeObjectByClients");
+	}
 }
 	
 	

@@ -57,8 +57,7 @@ public class RoleDAOImpl extends GenericDAO<RoleDO> implements IRoleDAO {
 				// Critical errors : database unreachable, etc.
 				LOGGER.error("Exception - DataAccessException occurs : " 
 				+ ex.getMessage() + " on complete findRoleById().");
-				// TODO
-				throw new DaoException("Connexion échoué : XXXXXXX");
+				throw new DaoException("Connexion échoué : l'id role n'est pas connu!");
 			}
 		}
 		

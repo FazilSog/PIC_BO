@@ -5,7 +5,6 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Restrictions;
@@ -42,7 +41,6 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : addRoleProjet");
 		 try {
-			
 			 //On ajoute le projet
 			 HibernateSessionFactory.getSession().save(pRoleProjetDO);
 			 
