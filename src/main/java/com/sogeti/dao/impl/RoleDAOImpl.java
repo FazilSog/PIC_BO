@@ -57,7 +57,7 @@ public class RoleDAOImpl extends GenericDAO<RoleDO> implements IRoleDAO {
 				// Critical errors : database unreachable, etc.
 				LOGGER.error("Exception - DataAccessException occurs : " 
 				+ ex.getMessage() + " on complete findRoleById().");
-				throw new DaoException("Connexion échoué : l'id role n'est pas connu!");
+				throw new HibernateException("Connexion échoué : l'id role n'est pas connu!");
 			}
 		}
 		
@@ -95,7 +95,7 @@ public class RoleDAOImpl extends GenericDAO<RoleDO> implements IRoleDAO {
 				// Critical errors : database unreachable, etc.
 				LOGGER.error("Exception - DataAccessException occurs : " 
 				+ ex.getMessage() + " on complete findRoleByCodeRole().");
-				throw new DaoException("Connexion échoué : Impossible de trouver le role!");
+				throw new HibernateException("Connexion échoué : Impossible de trouver le role!");
 			}
 		}
 		
@@ -147,7 +147,7 @@ public class RoleDAOImpl extends GenericDAO<RoleDO> implements IRoleDAO {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
 			+ ex.getMessage() + " on complete listerRoles().");
-			throw new DaoException("Connexion échoué : Impossible de recuperer la liste des roles");
+			throw new HibernateException("Connexion échoué : Impossible de recuperer la liste des roles");
 		}
 		
 		LOGGER.info("Fin méthode : listerRoles");

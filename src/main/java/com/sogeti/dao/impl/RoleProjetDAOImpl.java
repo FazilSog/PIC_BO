@@ -49,7 +49,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 			LOGGER.error("Exception - DataAccessException occurs : " 
 			+ ex.getMessage() + " on complete addRoleProjet().");
 			// TODO vérifier le message d'erreur
-			throw new DaoException("Impossible d'ajouter le role projet");
+			throw new HibernateException("Impossible d'ajouter le role projet");
 			}
 		 LOGGER.info("Fin méthode : addRoleProjet");
 		}
@@ -71,7 +71,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 			LOGGER.error("Exception - DataAccessException occurs : " 
 			+ ex.getMessage() + " on complete updateRoleProjet().");
 			// TODO vérifier le message d'erreur
-			throw new DaoException("Impossible de faire un update sur un role projet");
+			throw new HibernateException("Impossible de faire un update sur un role projet");
 		}
 	 LOGGER.info("Fin méthode : updateRoleProjet");
 	}
@@ -98,7 +98,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 			LOGGER.error("Exception - DataAccessException occurs : " 
 			+ ex.getMessage() + " on complete findRoleProjetByID().");
 			// TODO vérifier le message d'erreur
-			throw new DaoException("Impossible de trouver le role projet");
+			throw new HibernateException("Impossible de trouver le role projet");
 		}
 		LOGGER.info("Fin méthode : findRoleProjetByID");
 		
@@ -131,7 +131,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete findRoleProjet().");
 			// TODO vérifier le message d'erreur
-			throw new DaoException("Impossible de retrouver le RoleProjet");
+			throw new HibernateException("Impossible de retrouver le RoleProjet");
 		}
 		LOGGER.info("Fin méthode : findRoleProjet");
 		
@@ -160,7 +160,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 			LOGGER.error("Exception - DataAccessException occurs : " 
 			+ ex.getMessage() + " on complete deleteRoleProjet().");
 			// TODO vérifier le message d'erreur
-			throw new DaoException("Impossible de supprimer le RoleProjet");
+			throw new HibernateException("Impossible de supprimer le RoleProjet");
 		}
 		LOGGER.info("Fin méthode : deleteRoleProjet");
 	}
@@ -188,7 +188,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete findRoleProjetByProjetAndMembre().");
 			// TODO vérifier le message d'erreur
-			throw new DaoException("Impossible de retrouver le RoleProjet d'un membre sur un projet");
+			throw new HibernateException("Impossible de retrouver le RoleProjet d'un membre sur un projet");
 		}
 		LOGGER.info("Fin méthode : findRoleProjetByProjetAndMembre");
 		
@@ -202,7 +202,6 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 	 * {@inheritDoc}
 	 */
 	public List<RoleProjetDO> listeObjects() throws DaoException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

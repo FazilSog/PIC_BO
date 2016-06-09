@@ -75,7 +75,7 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
 				LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete findMembreById().");
-				throw new DaoException("Connexion échoué : Identifiant inconnu");
+				throw new HibernateException("Connexion échoué : Identifiant inconnu");
 			}
 		}
 		
@@ -117,7 +117,7 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 		} catch (HibernateException ex) {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete findMembreByNameAndPass().");
-			throw new DaoException("Connexion échoué : USER/MDP incorrect");
+			throw new HibernateException("Connexion échoué : USER/MDP incorrect");
 		}
 		
 		LOGGER.info("Fin méthode : findMembreByNameAndPass");
@@ -144,7 +144,7 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete setMembre().");
-			throw new DaoException("Connexion échoué : Impossible de mettre à jour le membre");
+			throw new HibernateException("Connexion échoué : Impossible de mettre à jour le membre");
 		}
 		
 		LOGGER.info("Fin méthode : setMembre");
@@ -179,7 +179,7 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 				// Critical errors : database unreachable, etc.
 				LOGGER.error("Exception - DataAccessException occurs : " 
 						+ ex.getMessage() + " on complete addMembre().");
-				throw new DaoException("Connexion échoué : Impossible de créer le membre");
+				throw new HibernateException("Connexion échoué : Impossible de créer le membre");
 			}				
 		}
 		LOGGER.info("Fin méthode : addMembre");
@@ -203,7 +203,7 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete updateMembre().");
-			throw new DaoException("connexion échoué : Impossible de mettre à jour le membre");
+			throw new HibernateException("connexion échoué : Impossible de mettre à jour le membre");
 		}
 			
 		LOGGER.info("Fin méthode : updateMembre");
@@ -227,7 +227,7 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete deleteMembre().");
-			throw new DaoException("Connexion échoué : Impossible de supprimer le membre");
+			throw new HibernateException("Connexion échoué : Impossible de supprimer le membre");
 		}
 		
 		LOGGER.info("Fin méthode : deleteMembre");
@@ -258,7 +258,7 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete listerMembres().");
-			throw new DaoException("Connexion échoué : Impossible de récupérer la liste des membres");
+			throw new HibernateException("Connexion échoué : Impossible de récupérer la liste des membres");
 		}
 		
 		LOGGER.info("Fin méthode : listerMembres");
@@ -290,7 +290,7 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete listerMembres().");
-			throw new DaoException("Connexion échoué : Impossible de récupérer la liste des membres");
+			throw new HibernateException("Connexion échoué : Impossible de récupérer la liste des membres");
 		}
 		
 		LOGGER.info("Fin méthode : listerMembres");

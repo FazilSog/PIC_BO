@@ -55,7 +55,7 @@ public class ClientDAOImpl extends GenericDAO<ClientDO> implements IClientDAO {
 				// Critical errors : database unreachable, etc.
 				LOGGER.error("Exception - DataAccessException occurs : " 
 				+ ex.getMessage() + " on complete findClientById().");
-				throw new DaoException("Connexion échoué : Identifiant inconnu");
+				throw new HibernateException("Connexion échoué : Identifiant inconnu");
 			}
 		}
 		
@@ -71,28 +71,24 @@ public class ClientDAOImpl extends GenericDAO<ClientDO> implements IClientDAO {
 	 * {@inheritDoc}
 	 */
 	public void create(final ClientDO pClient) throws DaoException {
-		// TODO à faire si besoin du projet
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	public void update(final ClientDO pClient) throws DaoException {
-		// TODO à faire si besoin du projet
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	public void delete(final ClientDO pClient) throws DaoException {
-		// TODO à faire si besoin du projet
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	public void delete(final int pIdClient) throws DaoException {
-		// TODO à faire si besoin du projet
 	}
 	
 	/**

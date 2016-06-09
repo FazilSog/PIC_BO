@@ -58,7 +58,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
 				LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete findProjet().");
-				throw new DaoException("Connexion échoué : Projet inconnu");
+				throw new HibernateException("Connexion échoué : Projet inconnu");
 			}
 		}
 		LOGGER.info("Fin méthode : findProjet");
@@ -91,7 +91,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 			} catch (HibernateException ex) {
 				// Critical errors : database unreachable, etc.
 				LOGGER.error("Exception - DataAccessException occurs : " + ex.getMessage() + " on complete findProjetById().");
-				throw new DaoException("Connexion échoué : Identifiant inconnu");
+				throw new HibernateException("Connexion échoué : Identifiant inconnu");
 			}
 		}
 		// on vérifie si le projetDO existe ou pas.
@@ -127,7 +127,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 				// Critical errors : database unreachable, etc.
 				LOGGER.error("Exception - DataAccessException occurs : " 
 						+ ex.getMessage() + " on complete addProjet().");
-				throw new DaoException("Connexion échoué : Impossible de créer le projet");
+				throw new HibernateException("Connexion échoué : Impossible de créer le projet");
 
 			}
 			LOGGER.info("Fin méthode : addProjet");
@@ -153,7 +153,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete updateProjet().");
-			throw new DaoException("connexion échoué : Impossible de mettre à jour le projet");
+			throw new HibernateException("connexion échoué : Impossible de mettre à jour le projet");
 		}
 			
 		LOGGER.info("Fin méthode : updateProjet");
@@ -176,7 +176,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete deleteMembre().");
-			throw new DaoException("Connexion échoué : Impossible de supprimer le projet");
+			throw new HibernateException("Connexion échoué : Impossible de supprimer le projet");
 		}
 		
 		LOGGER.info("Fin méthode : deleteProjet");
@@ -205,7 +205,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete listerProjets().");
-			throw new DaoException("Connexion échoué : Impossible de récupérer la liste des projets");
+			throw new HibernateException("Connexion échoué : Impossible de récupérer la liste des projets");
 		}
 		
 		LOGGER.info("Fin méthode : listerProjets");
@@ -235,7 +235,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
 					+ ex.getMessage() + " on complete listerProjets().");
-			throw new DaoException("Connexion échoué : Impossible de récupérer la liste des projets");
+			throw new HibernateException("Connexion échoué : Impossible de récupérer la liste des projets");
 		}
 		
 		LOGGER.info("Fin méthode : listerProjets");
