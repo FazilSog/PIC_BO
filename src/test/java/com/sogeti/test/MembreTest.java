@@ -31,7 +31,7 @@ import com.sogeti.model.RoleDO;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/dispatcher-servlet.xml")
+@ContextConfiguration(locations = "file:WebContent/WEB-INF/dispatcher-servlet.xml" )
 @WebAppConfiguration
 @Transactional
 @Rollback(value=true)
@@ -66,7 +66,7 @@ public class MembreTest {
 		//On instancie la methode MembreDAOImpl
 		MembreDAOImpl membreDAO = new MembreDAOImpl();
 		//On set les infos du membre dans l'objet DTO
-		membreDTO.setUsername("ddddddeddd");
+		membreDTO.setUsername("lenovo");
 		membreDTO.setIdClient(1);
 		membreDTO.setIdRole(1);
 		membreDTO.setPassword("1234");
@@ -74,15 +74,14 @@ public class MembreTest {
 		
 		try {
 			
-			 membreDO = membreDAO.findMembreByNameAndPass("ddddddeddd", "1234");
+			 membreDO = membreDAO.findMembreByNameAndPass("lenovo", "1234");
 			
 			if (membreDO != null){
-				LOGGER.warn("MembreDO "+membreDO +" existe donc ne sera pas créé");
-				fail("Le Membre n'est pas connu.");
+				fail("Création échoué : Le Membre existe déjà.");
 			} else {
 				try {
 					membreBO.create(membreDTO);
-					membreDO = membreDAO.findMembreByNameAndPass("ddddddeddd", "1234");
+					membreDO = membreDAO.findMembreByNameAndPass("lenovo", "1234");
 					idMembre = membreDO.getIdMembre();
 					
 						if (idMembre == 0 ){
@@ -94,11 +93,11 @@ public class MembreTest {
 							//On recuepre le usernale du membre
 							String username = membreDO.getUsername();
 							//On verifie l'egaliter du username
-							assertEquals("ddddddeddd",username);
+							assertEquals("lenovo",username);
 						}
 					
 				  }catch(DaoException ex){
-					    assert(ex.getMessage().contains("Le Membre n'est pas connu."));
+					    assert(ex.getMessage().contains("Création échoué : Le Membre existe déjà."));
 					    assert(ex.getMessage().contains("L'identifiant est obligatoire. Valeur zéro est interdit."));
 				  }
 			}
@@ -116,8 +115,6 @@ public class MembreTest {
 		int idRole = 1;
 		int idMembre = 23;
 	
-		//On instancie la methode MembreDAOImpl
-		MembreDAOImpl membreDAO = new MembreDAOImpl();
 
 		try {
 			//On recupere le membre
@@ -193,7 +190,7 @@ public class MembreTest {
 			 size ++;
 			
 		}
-			assertEquals(20, size);
+			assertEquals(21, size);
 			
 			LOGGER.info("Fin méthode  : testListeMembre");
 	}

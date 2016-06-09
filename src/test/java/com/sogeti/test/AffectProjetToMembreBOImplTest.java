@@ -23,7 +23,7 @@ import com.sogeti.model.RoleProjetDO;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/dispatcher-servlet.xml")
+@ContextConfiguration(locations = "file:WebContent/WEB-INF/dispatcher-servlet.xml" )
 @WebAppConfiguration
 @Transactional
 @Rollback(value=true)
@@ -79,7 +79,7 @@ public class AffectProjetToMembreBOImplTest {
 		
 		//logger
 		LOGGER.info("Début méthode  : testUpdateRoleProjet");
-		int idProjet = 19;
+		int idProjet = 14;
 		int idMembre = 1;
 		int idRole = 1;
 		
@@ -109,7 +109,7 @@ public class AffectProjetToMembreBOImplTest {
 		
 		//logger
 		LOGGER.info("Début méthode  : testDeleteRoleProjet");
-		int idProjet = 19;
+		int idProjet = 14;
 		int idMembre = 1;
 		
 		//On recupeper le Projet via son Id

@@ -33,7 +33,7 @@ import com.sogeti.model.RoleProjetDO;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/dispatcher-servlet.xml")
+@ContextConfiguration(locations = "file:WebContent/WEB-INF/dispatcher-servlet.xml" )
 @WebAppConfiguration
 @Transactional
 @Rollback(value=true)
@@ -126,18 +126,20 @@ public class ProjetTest {
 		LOGGER.info("Début méthode  : testCreateProjet");
 		int idClient = 1;
 		int idProjet = 2;
+	
 		//On instancie de le ProjetDAOImpl
 		ProjetDAOImpl projetDAO = new ProjetDAOImpl();
 		//On instancie l'objet DO
 		ProjetDO projetDO = new ProjetDO();
 				
 		try {
-			//On recupere le projet via le nom, url, branche
-			 projetDO = projetDAO.findProjet("nomProjet", "url", "brancheA");
+			//On recupere le projet via id
+			 projetDO = projetDAO.find(idProjet);
+			 
 			
 			 if (projetDO != null){
-					LOGGER.warn("projetDO "+projetDO +" existe donc ne sera pas créé");
-					fail("Création échoué : Le projet existe déjà.");
+					LOGGER.warn("projetDO "+projetDO +"Connexion échoué : Projet inconnu");
+					fail("Connexion échoué : Projet inconnu");
 				} else {
 					//On recupere l'objet ClientDO via son id
 					ClientDO clientDO = clientDAO.find(idClient);
@@ -159,14 +161,14 @@ public class ProjetTest {
 					//On interoge le service update
 					projetDAO.update(projetDO);
 					//On recupere le username du membre
-					String nomProjet = projetDO.getNomProjet();
+					 String nomProjet = projetDO.getNomProjet();
 					//On verifie l'egaliter du username
 					assertEquals("nomProjetAZ",nomProjet);
 				
 				}
-		}catch(DaoException ex){
-		    assert(ex.getMessage().contains("Création échoué : Le projet existe déjà."));
-		}
+		  }catch(DaoException ex){
+			    assert(ex.getMessage().contains("Le projet n'existe pas."));
+	      }
 		 LOGGER.info("Fin méthode  : testUpdateProjet");
 	}
 	@Rollback(value = true)
@@ -233,7 +235,7 @@ public class ProjetTest {
 			 size ++;
 			
 		}
-			assertEquals(2, size);
+			assertEquals(3, size);
 			
 			LOGGER.info("Fin méthode  : testListeObjectByMembres");
 	}

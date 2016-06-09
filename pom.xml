@@ -9,7 +9,7 @@
 	<url>http://maven.apache.org</url>
 	
 	<properties>
-	 	<org.springframework.version>4.2.5.RELEASE</org.springframework.version> 
+	 	<org.springframework.version>4.2.6.RELEASE</org.springframework.version> 
 	</properties>
 	  
 	<dependencies>
@@ -30,6 +30,19 @@
 	        <artifactId>spring-test</artifactId>
 	        <version>${org.springframework.version}</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context</artifactId>
+		    <version>4.2.6.RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-beans</artifactId>
+		    <version>4.2.6.RELEASE</version>
+		</dependency>
+		
+		
+		
 		
 		<!-- Hibernate -->
 		<dependency>
@@ -104,8 +117,8 @@
 		<!-- Logging -->
 		<dependency>
 			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			 <artifactId>junit</artifactId>
+			 <version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -120,17 +133,17 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-		<dependency>
+		 <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
-			<scope>compile</scope>
 		</dependency>
-	 	<dependency>
-	    	<groupId>javax.servlet</groupId>
-	    	<artifactId>javax.servlet-api</artifactId>
-	    	<version>3.1.0</version>
-	    </dependency>
+		<dependency>
+		    <groupId>javax</groupId>
+		    <artifactId>javaee-web-api</artifactId>
+		    <version>7.0</version>
+		</dependency>
+
 				
  		<!-- Apache Commons DBCP -->
  	     <dependency>
@@ -176,11 +189,7 @@
 		</dependency>
 		
 		<!-- http://mvnrepository.com/artifact/org.testng/testng -->
-		<dependency>
-		    <groupId>org.testng</groupId>
-		    <artifactId>testng</artifactId>
-		    <version>6.9.10</version>
-		</dependency>
+		
 		<dependency>
 	    <groupId>org.dbunit</groupId>
 		    <artifactId>dbunit</artifactId>
@@ -206,7 +215,7 @@
 
 	</dependencies>
 	  <build>
-	    <sourceDirectory>src</sourceDirectory>
+	     <!--  <sourceDirectory>src</sourceDirectory>  -->
 	    <plugins>
 	      <plugin>
 	        <artifactId>maven-war-plugin</artifactId>

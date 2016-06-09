@@ -19,7 +19,8 @@ import com.sogeti.dto.AuthentificationDTO;
 import com.sogeti.exception.DaoException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/dispatcher-servlet.xml")
+//@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/dispatcher-servlet.xml")
+@ContextConfiguration(locations = "file:WebContent/WEB-INF/dispatcher-servlet.xml" )
 @WebAppConfiguration
 @Transactional
 @Rollback(value=false)
