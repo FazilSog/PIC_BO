@@ -34,7 +34,7 @@
 
    	
    	<context:property-placeholder location="classpath:/database.properties" ignore-unresolvable="true"/>
-   	<context:property-placeholder location="classpath:applicationPIC.properties"  ignore-unresolvable="true"/>
+   	<context:property-placeholder location="classpath:/applicationPIC.properties"  ignore-unresolvable="true"/>
 
     <!-- Declaration de la dataSource : Informations de connexion a la BDD de notre projet : -->
 	<!-- springWebbdd correspond au nom de notre BDD -->
