@@ -183,7 +183,7 @@ public class AffectProjetToMembreBOImpl extends GenericBO<ProjetDTO> implements 
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void delete(int pId) throws DaoException {
+	public void delete(final int pId) throws DaoException {
 		throw new DaoException("La méthode delete via l'Id n'est pas implementée");
 		
 	}

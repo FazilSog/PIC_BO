@@ -70,8 +70,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public ProjetDO find(int pIdProjet) throws DaoException {
-		
+	public ProjetDO find(final int pIdProjet) throws DaoException {
 		
 		//initialaisation du logger
 		LOGGER.info("Début méthode : findProjetById");
@@ -109,7 +108,6 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 	 */
 	public void create(final ProjetDO pProjetDO) throws DaoException {
 		
-		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : addProjet");
 		
@@ -140,7 +138,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public void update(final ProjetDO pProjetDO) throws DaoException{
+	public void update(final ProjetDO pProjetDO) throws DaoException {
 		
 		
 		//On initialise le LOGGER
@@ -165,7 +163,7 @@ public class ProjetDAOImpl extends GenericDAO<ProjetDO> implements IProjetDAO {
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public void delete (final ProjetDO pProjetDO) throws DaoException {
+	public void delete(final ProjetDO pProjetDO) throws DaoException {
 		
 		
 		//On initialise le LOGGER

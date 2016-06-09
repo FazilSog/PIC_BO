@@ -21,6 +21,11 @@ import com.sogeti.model.ProjetDO;
 import com.sogeti.model.RoleDO;
 import com.sogeti.model.RoleProjetDO;
 
+/**
+ * 
+ * @author Syahiaou
+ *
+ */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "file:WebContent/WEB-INF/dispatcher-servlet.xml" )

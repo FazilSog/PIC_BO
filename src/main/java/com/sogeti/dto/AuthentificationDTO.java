@@ -28,15 +28,15 @@ public class AuthentificationDTO extends GenericDTO<AuthentificationDTO> {
 	}
 
 	/**
-	 * contructeur AuthentificationDTO
+	 * contructeur AuthentificationDTO.
 	 * @param tokenMembre le token du membre
 	 */
-	public AuthentificationDTO(String tokenMembre) {
+	public AuthentificationDTO(final String tokenMembre) {
 		this.tokenMembre = tokenMembre;
 	}
 
 	/**
-	 * Constructeur par défaut
+	 * Constructeur par défaut.
 	 */
 	public AuthentificationDTO() {
 			

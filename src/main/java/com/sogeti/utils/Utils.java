@@ -10,7 +10,9 @@ import java.security.NoSuchAlgorithmException;
  */
 public class Utils {
 
-	
+	/**
+	 * {@inheritDoc}.
+	 */
 	public static String encryptMdp(final String pMdp) throws NoSuchAlgorithmException {
 		
 		final int radix = 16;
@@ -27,8 +29,7 @@ public class Utils {
             md.update(pMdp.getBytes());
             //Get the hash's bytes 
             byte[] bytes = md.digest();
-            for(int i=0; i< bytes.length ;i++)
-            {
+            for (int i = 0; i < bytes.length; i++) {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, radix).substring(1));
             }
             //Get complete hashed password in hex format

@@ -31,10 +31,10 @@ import com.sogeti.model.RoleDO;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:WebContent/WEB-INF/dispatcher-servlet.xml" )
+@ContextConfiguration(locations = "file:WebContent/WEB-INF/dispatcher-servlet.xml")
 @WebAppConfiguration
 @Transactional
-@Rollback(value=true)
+@Rollback(value = true)
 public class MembreTest {
 	
 	@Autowired
@@ -52,9 +52,9 @@ public class MembreTest {
 	// Initialisation du LOGGER
 	private static final Logger LOGGER = Logger.getLogger(MembreTest.class);
 	
-	@Rollback(value=true)
+	@Rollback(value = true)
 	@Test
-	public void testCreateMembre() throws DaoException{
+	public void testCreateMembre() throws DaoException {
 		
 		//logger
 		LOGGER.info("Début méthode  : testSaveMembre");
@@ -63,8 +63,6 @@ public class MembreTest {
 		MembreDO membreDO = new MembreDO();
 		//On instancie l'objet DTO
 		MembreDTO membreDTO = new MembreDTO();
-		//On instancie la methode MembreDAOImpl
-		MembreDAOImpl membreDAO = new MembreDAOImpl();
 		//On set les infos du membre dans l'objet DTO
 		membreDTO.setUsername("lenovo");
 		membreDTO.setIdClient(1);
@@ -76,7 +74,7 @@ public class MembreTest {
 			
 			 membreDO = membreDAO.findMembreByNameAndPass("lenovo", "1234");
 			
-			if (membreDO != null){
+			if (membreDO != null) {
 				fail("Création échoué : Le Membre existe déjà.");
 			} else {
 				try {
@@ -84,8 +82,8 @@ public class MembreTest {
 					membreDO = membreDAO.findMembreByNameAndPass("lenovo", "1234");
 					idMembre = membreDO.getIdMembre();
 					
-						if (idMembre == 0 ){
-							LOGGER.warn("idMembre "+idMembre +"L'identifiant est obligatoire. ");
+						if (idMembre == 0) {
+							LOGGER.warn("idMembre " + idMembre  + "L'identifiant est obligatoire. ");
 							fail("L'identifiant est obligatoire. Valeur zéro est interdit.");
 						} else {
 							//On recuepre le membre via son Id
@@ -93,12 +91,12 @@ public class MembreTest {
 							//On recuepre le usernale du membre
 							String username = membreDO.getUsername();
 							//On verifie l'egaliter du username
-							assertEquals("lenovo",username);
+							assertEquals("lenovo", username);
 						}
 					
-				  }catch(DaoException ex){
-					    assert(ex.getMessage().contains("Création échoué : Le Membre existe déjà."));
-					    assert(ex.getMessage().contains("L'identifiant est obligatoire. Valeur zéro est interdit."));
+				  } catch (DaoException ex) {
+					    assert (ex.getMessage().contains("Création échoué : Le Membre existe déjà."));
+					    assert (ex.getMessage().contains("L'identifiant est obligatoire. Valeur zéro est interdit."));
 				  }
 			}
 		 } finally {
@@ -107,7 +105,7 @@ public class MembreTest {
 	}
 	@Rollback(value=true)
 	@Test
-	public void testUpdateMembre() throws DaoException{
+	public void testUpdateMembre() throws DaoException {
 
 		//logger
 		LOGGER.info("Début méthode  : testUpdateMembre");
@@ -120,8 +118,8 @@ public class MembreTest {
 			//On recupere le membre
 			MembreDO membreDO = membreDAO.find(idMembre);
 			
-			if (membreDO == null){
-				LOGGER.warn("MembreDO "+membreDO +" Le membre n'existe pas");
+			if (membreDO == null) {
+				LOGGER.warn("MembreDO " + membreDO  + " Le membre n'existe pas");
 				fail("Modification échoué : Le membre n'existe pas.");
 			} else {
 					// on recupere l'objet RoleDO via son id
@@ -142,11 +140,11 @@ public class MembreTest {
 					//On recupere le username du membre
 					String username = membreDO.getUsername();
 					//On verifie l'egaliter du username
-					assertEquals("lenew",username);
+					assertEquals("lenew", username);
 				
 			}
-		}catch(DaoException ex){
-		    assert(ex.getMessage().contains("Modification échoué : Le membre n'existe pas."));
+		} catch (DaoException ex) {
+		    assert (ex.getMessage().contains("Modification échoué : Le membre n'existe pas."));
 		}
 		 LOGGER.info("Fin méthode  : testUpdateMembre");
 	}
@@ -168,16 +166,16 @@ public class MembreTest {
 			 @SuppressWarnings("unused")
 			MembreDO membreDOs = membreDAO.find(idMembre);
 			    fail("Devrait leve une expetion vu que le membre n'existe pas");
-		  }catch(DaoException ex){
-			    assert(ex.getMessage().contains("Le Membre n'est pas connu."));
+		  } catch (DaoException ex) {
+			    assert (ex.getMessage().contains("Le Membre n'est pas connu."));
 	      }
 		 LOGGER.info("Fin méthode  : deleteListeMembre");
 	}
 	
-	@Rollback(value=true)
+	@Rollback(value = true)
 	@SuppressWarnings("unused")
 	@Test
-	public void testListeObjectMembre() throws DaoException{
+	public void testListeObjectMembre() throws DaoException {
 		
 		//logger
 		LOGGER.info("Début méthode  : testListeMembre");
@@ -187,7 +185,7 @@ public class MembreTest {
 	
 		int size = 0;
 		 for (MembreDTO membreDTO2 : membreDTO) {
-			 size ++;
+			 size++;
 			
 		}
 			assertEquals(21, size);

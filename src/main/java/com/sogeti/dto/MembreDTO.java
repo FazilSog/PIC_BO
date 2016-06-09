@@ -103,8 +103,8 @@ public class MembreDTO extends GenericDTO<MembreDTO> {
 	 * @param idClient l'id client
 	 * @param idRole l'id Role
 	 */
-	public MembreDTO(int idMembre, String username, String password,
-			boolean status, int idClient, int idRole) {
+	public MembreDTO(final int idMembre, final String username, final String password,
+			final boolean status, final int idClient, final int idRole) {
 		this.idMembre = idMembre;
 		this.username = username;
 		this.password = password;
@@ -115,7 +115,7 @@ public class MembreDTO extends GenericDTO<MembreDTO> {
 	
 	
 	/**
-	 * Construteur MembreDTO par défaut
+	 * Construteur MembreDTO par défaut.
 	 */
 	public MembreDTO() {
 	}

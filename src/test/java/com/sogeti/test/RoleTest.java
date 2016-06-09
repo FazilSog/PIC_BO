@@ -17,12 +17,17 @@ import com.sogeti.dao.IRoleDAO;
 import com.sogeti.exception.DaoException;
 import com.sogeti.model.RoleDO;
 
+/**
+ * 
+ * @author Syahiaou
+ *
+ */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:WebContent/WEB-INF/dispatcher-servlet.xml" )
+@ContextConfiguration(locations = "file:WebContent/WEB-INF/dispatcher-servlet.xml")
 @WebAppConfiguration
 @Transactional
-@Rollback(value=true)
+@Rollback(value = true)
 public class RoleTest {
 	
 	@Autowired
@@ -31,10 +36,10 @@ public class RoleTest {
 	// Initialisation du LOGGER
 	private static final Logger LOGGER = Logger.getLogger(ProjetTest.class);
 	
-	@Rollback(value=true)
+	@Rollback(value = true)
 	@SuppressWarnings("unused")
 	@Test
-	public void testListeRole() throws DaoException{
+	public void testListeRole() throws DaoException {
 		
 		//logger
 		LOGGER.info("Début méthode  : testListeRole");
@@ -43,8 +48,8 @@ public class RoleTest {
 		Iterable<RoleDO> roleDO = roleDAO.listeObjects();
 		
 		int size = 0;
-		for (RoleDO roleDO2 : roleDO ) {
-			 size ++;
+		for (RoleDO roleDO2 : roleDO) {
+			 size++;
 			
 		}
 			assertEquals(3, size);

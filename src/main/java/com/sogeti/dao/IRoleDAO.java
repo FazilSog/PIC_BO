@@ -14,7 +14,7 @@ import com.sogeti.model.RoleDO;
 public interface IRoleDAO {
 	
 	/**
-	 * Elle permet de recuperer le role via son Id
+	 * Elle permet de recuperer le role via son Id.
 	 * @param pIdRole l'id role
 	 * @return Objet de type RoleDO 
 	 * @throws DaoException exception
@@ -22,7 +22,7 @@ public interface IRoleDAO {
 	public RoleDO find(final int pIdRole) throws DaoException;
 	
 	/**
-	 *  Elle permet de recuperer le role via son codeRole
+	 *  Elle permet de recuperer le role via son codeRole.
 	 * @param pCodeRole le code du role
 	 * @return Objet de type RoleDO 
 	 * @throws DaoException exception
@@ -30,28 +30,28 @@ public interface IRoleDAO {
 	public RoleDO findRoleByCodeRole(final String pCodeRole) throws DaoException;
 	
 	/**
-	 * Elle permet de récuperer la liste des roles
+	 * Elle permet de récuperer la liste des roles.
 	 * @return la liste des roles
 	 * @throws DaoException exception
 	 */
 	public List<RoleDO> listeObjects() throws DaoException;
 	
 	/**
-	 * Permet de créer un role
+	 * Permet de créer un role.
 	 * @param pRoleDO le roleDO
 	 * @throws DaoException exception
 	 */
 	public void create(final RoleDO pRoleDO) throws DaoException;
 	
 	/**
-	 * Permet de modifier un role
+	 * Permet de modifier un role.
 	 * @param pRoleDO le roleDO
 	 * @throws DaoException exception
 	 */
 	public void update(final RoleDO pRoleDO) throws DaoException;
 	
 	/**
-	 * Permet de supprimer un role
+	 * Permet de supprimer un role.
 	 * @param pRoleDO le roleDO
 	 * @throws DaoException exception
 	 */

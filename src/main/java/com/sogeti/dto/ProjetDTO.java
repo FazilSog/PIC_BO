@@ -195,7 +195,7 @@ public class ProjetDTO extends GenericDTO<ProjetDTO> {
 	
 
 	/**
-	 * Constructeur par défaut
+	 * Constructeur par défaut.
 	 */
 	public ProjetDTO() {
 	}
@@ -214,10 +214,10 @@ public class ProjetDTO extends GenericDTO<ProjetDTO> {
 	 * @param idMembre
 	 * @param idRole
 	 */
-	public ProjetDTO(int idProjet, String nomProjet, String credential,
-			String frequence, String branche, String description, char status,
-			boolean actif, String url, int idClient,
-			int idMembre, int idRole) {
+	public ProjetDTO(final int idProjet, final String nomProjet, final String credential,
+			final String frequence, final String branche, final String description, final char status,
+			final boolean actif, final String url, final int idClient,
+			final int idMembre, final int idRole) {
 		super();
 		this.idProjet = idProjet;
 		this.nomProjet = nomProjet;

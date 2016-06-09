@@ -14,28 +14,28 @@ import com.sogeti.exception.DaoException;
 public interface IAffectProjetToMembreBO {
 	
 	/**
-	 * Elle permet d'ajouter l'affectation d'un membre sur un projet
+	 * Elle permet d'ajouter l'affectation d'un membre sur un projet.
 	 * @param pProjetDTO l'objet ProjetDTO
 	 * @throws DaoException exception
 	 */
 	public void create(final ProjetDTO pProjetDTO) throws DaoException;
 	
 	/**
-	 * Elle permet de modifier l'affectation d'un membre sur un projet
+	 * Elle permet de modifier l'affectation d'un membre sur un projet.
 	 * @param pProjetDTO l'objet ProjetDTO
 	 * @throws DaoException excetpion
 	 */
 	public void update(final ProjetDTO pProjetDTO) throws DaoException;
 	
 	/**
-	 * Elle permet de supprimer l'affectation d'un membre sur un projet
+	 * Elle permet de supprimer l'affectation d'un membre sur un projet.
 	 * @param pProjetDTO l'objet ProjetDTO
 	 * @throws DaoException exception
 	 */
 	public void delete(final ProjetDTO pProjetDTO) throws DaoException;
 	
 	/**
-	 * Elle n'est pas implementée
+	 * Elle n'est pas implementée.
 	 * @param pId
 	 * @return
 	 * @throws DaoException exeption
@@ -43,7 +43,7 @@ public interface IAffectProjetToMembreBO {
 	public void delete(int pId) throws DaoException;
 	
 	/**
-	 * Elle n'est pas implementée
+	 * Elle n'est pas implementée.
 	 * @return
 	 * @throws DaoException exeption
 	 */

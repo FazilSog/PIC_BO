@@ -14,28 +14,28 @@ import com.sogeti.exception.DaoException;
 public abstract class GenericBO<T> {
 	
 	/**
-	 * Elle permet de créer un objet
-	 * @param object l'objet à créer
+	 * Elle permet de créer un objet.
+	 * @param pObject l'objet à créer
 	 * @throws DaoException exception
 	 */
-	public abstract void create(T pObject) throws DaoException;
+	public abstract void create(final T pObject) throws DaoException;
 	
 	/**
-	 * Elle permet de modifier un objet
-	 * @param object l'objet à modifier
+	 * Elle permet de modifier un objet.
+	 * @param pObject l'objet à modifier
 	 * @throws DaoException exception
 	 */
-	public abstract void update(T pObject) throws DaoException;
+	public abstract void update(final T pObject) throws DaoException;
 	
 	/**
-	 * Elle permet de supprimer un objet
-	 * @param object l'objet à supprimer
+	 * Elle permet de supprimer un objet.
+	 * @param pId id à supprimer
 	 * @throws DaoException exception
 	 */
-	public abstract void delete(int pId) throws DaoException;
+	public abstract void delete(final int pId) throws DaoException;
 	
 	/**
-	 * Elle permet de récuperer une liste des objects
+	 * Elle permet de récuperer une liste des objects.
 	 * @return la liste des objets
 	 * @throws DaoException exception
 	 */

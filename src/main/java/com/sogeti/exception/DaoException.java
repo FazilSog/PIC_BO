@@ -9,13 +9,13 @@ public class DaoException extends Exception {
 
 	
 	/**
-	 * serialVersionUID
+	 * serialVersionUID.
 	 */
 	private static final long serialVersionUID = 1L;
 	
 
 	/**
-	 * Crée une nouvelle instance d'DaoException
+	 * Crée une nouvelle instance d'DaoException.
 	 */
 	public DaoException() {
 		super();		
@@ -23,28 +23,28 @@ public class DaoException extends Exception {
 	
 
 	/**
-	 * Crée une nouvelle instance d'DaoException
+	 * Crée une nouvelle instance d'DaoException.
 	 * @param message le message détaillant l'exception
 	 */
-	public DaoException(String message) {
+	public DaoException(final String message) {
 		super(message);		
 	}
 	
 	
 	/**
-	 * Crée une nouvelle instance d'DaoException
+	 * Crée une nouvelle instance d'DaoException.
 	 * @param cause l'exception à l'origine de cette exception
 	 */
-	public DaoException(Throwable cause) {
+	public DaoException(final Throwable cause) {
 		super(cause);		
 	}
 	
 	/**
-	 * Crée une nouvelle instance d'DaoException
+	 * Crée une nouvelle instance d'DaoException.
 	 * @param message le message détaillant l'exception
 	 * @param cause l'exception à l'origine de cette exception
 	 */
-	public DaoException(String message, Throwable cause) {
+	public DaoException(final String message, final Throwable cause) {
 		super(message, cause);		
 	}
 	

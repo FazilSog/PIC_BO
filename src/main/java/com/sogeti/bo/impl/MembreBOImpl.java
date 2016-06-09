@@ -69,7 +69,7 @@ public class MembreBOImpl extends GenericBO<MembreDTO> implements IMembreBO {
 	}
 
 	/**
-	 * Getter membreDAO
+	 * Getter membreDAO.
 	 * @return
 	 */
 	public IMembreDAO getMembreDAO() {
@@ -77,7 +77,7 @@ public class MembreBOImpl extends GenericBO<MembreDTO> implements IMembreBO {
 	}
 
 	/**
-	 * setter le membreDAO
+	 * setter le membreDAO.
 	 * @param membreDAO
 	 */
 	public void setMembreDAO(IMembreDAO membreDAO) {
@@ -110,8 +110,7 @@ public class MembreBOImpl extends GenericBO<MembreDTO> implements IMembreBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void create (final MembreDTO pMembreDTO) throws DaoException
-	{
+	public void create(final MembreDTO pMembreDTO) throws DaoException {
 		// on instancie l'objet MembreDTO
 		final MembreDTO membreDTO = pMembreDTO;
 		
@@ -137,8 +136,7 @@ public class MembreBOImpl extends GenericBO<MembreDTO> implements IMembreBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void update (final MembreDTO pMembreDTO) throws DaoException
-	{
+	public void update(final MembreDTO pMembreDTO) throws DaoException {
 		// on recupere l'objet ClientDO via son id
 		final ClientDO clientDO = getClientDAO().find(pMembreDTO.getIdClient());
 		// on recupere l'objet RoleDO via son id
@@ -161,8 +159,7 @@ public class MembreBOImpl extends GenericBO<MembreDTO> implements IMembreBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void delete (final int pIdMembre) throws DaoException
-	{
+	public void delete(final int pIdMembre) throws DaoException {
 		// On recupere le membre via son Id pour vérifier s'il existe
 		final MembreDO membreDO = getMembreDAO().find(pIdMembre);
 				
@@ -173,8 +170,7 @@ public class MembreBOImpl extends GenericBO<MembreDTO> implements IMembreBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public List<MembreDTO> listeObjects() throws DaoException
-	{
+	public List<MembreDTO> listeObjects() throws DaoException {
 		// on instance la liste des membres DTO
 		final List<MembreDTO> lListeMembresDTOs = new ArrayList<MembreDTO>();
 		

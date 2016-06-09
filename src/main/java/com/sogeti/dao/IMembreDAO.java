@@ -16,7 +16,7 @@ public interface IMembreDAO {
 	
 
 	/**
-	 * Elle permet de vérifier si le membre existe dans la base 
+	 * Elle permet de vérifier si le membre existe dans la base.
 	 * et générer le token
 	 * @param pUsername le username d'un membre
 	 * @param pPassword le password d'un membre
@@ -26,7 +26,7 @@ public interface IMembreDAO {
 	public MembreDO authentifierMembre(final String pUsername, final String pPassword) throws DaoException;
 	
 	/**
-	 * Elle permet de recupèrer le membre à partir de son identifiant
+	 * Elle permet de recupèrer le membre à partir de son identifiant.
 	 * @param pIdMembre l'identifiant d'un membre
 	 * @return le membre DO
 	 * @throws DaoException exception
@@ -34,7 +34,7 @@ public interface IMembreDAO {
 	public MembreDO find(final int pIdMembre) throws DaoException; 
 	
 	/**
-	 * Elle permet de recupèrer le membre à partir de son username et password
+	 * Elle permet de recupèrer le membre à partir de son username et password.
 	 * @param pUsername le username d'un membre
 	 * @param pPassword le password d'un membre
 	 * @return le membreDO
@@ -43,7 +43,7 @@ public interface IMembreDAO {
 	public MembreDO findMembreByNameAndPass(final String pUsername, final String pPassword) throws DaoException; 
 	
 	/**
-	 * Elle permet de mettre à jour le membre dans la base de données
+	 * Elle permet de mettre à jour le membre dans la base de données.
 	 * @param pMembreDO le membreDO
 	 * @return le membreDO mise à jour avec le token
 	 * @throws DaoException exception
@@ -81,14 +81,14 @@ public interface IMembreDAO {
 	public void delete(final MembreDO pMembreBO) throws DaoException;
 	
 	/**
-	 * Elle permet de récuperer la liste des membres
+	 * Elle permet de récuperer la liste des membres.
 	 * @return la liste
 	 * @throws DaoException exception
 	 */
 	public List<MembreDO> listeObjects() throws DaoException;
 	
 	/**
-	 * Elle permet de récuperer la liste des membres d'un client
+	 * Elle permet de récuperer la liste des membres d'un client.
 	 * @param pClientDO le clientDO
 	 * @return la liste
 	 * @throws DaoException exception

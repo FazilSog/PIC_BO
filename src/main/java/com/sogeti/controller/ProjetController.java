@@ -30,7 +30,7 @@ import com.sogeti.utils.Token;
 
 @Controller
 @RequestMapping("PIC_BO/projet")
-public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
+public class ProjetController extends GenericController<ProjetDTO, HttpHeaders> {
 	
 	//Initialisation du logger
 	private static final Logger LOGGER = Logger.getLogger(ProjetController.class);
@@ -53,7 +53,7 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	}
 	
 	/**
-	 * Constructeur par défaut
+	 * Constructeur par défaut.
 	 */
 	public ProjetController() {
 		
@@ -61,15 +61,16 @@ public class ProjetController extends GenericController<ProjetDTO,HttpHeaders> {
 	}
 	
 	/**
-	 * Elle permet de créer le projet
+	 * Elle permet de créer le projet.
 	 * @param pProjetDTO l'objet projetDTO json envoyé par le front
 	 * @param pHttpHeaders le http headers
-	 * @return un responseEntity qui contient (soit un objet projetDTO (avec id seulement) avec le code status 201,
+	 * @return un responseEntity qui contient :
+	 * (soit un objet projetDTO (avec id seulement) avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
-	@CrossOrigin(origins="*",methods = RequestMethod.POST)
-	@RequestMapping(value="/projet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> create( @RequestBody ProjetDTO pProjetDTO, @RequestHeader HttpHeaders pHttpHeaders) {  
+	@CrossOrigin(origins = "*", methods = RequestMethod.POST)
+	@RequestMapping(value = "/projet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public final ResponseEntity<Object> create(@RequestBody final ProjetDTO pProjetDTO, @RequestHeader final HttpHeaders pHttpHeaders) {  
 		
 		//Logger
 		final ProjetDTO  projetDTO = pProjetDTO;

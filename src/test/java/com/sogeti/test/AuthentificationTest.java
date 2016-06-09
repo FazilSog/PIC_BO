@@ -18,12 +18,17 @@ import com.sogeti.dao.IMembreDAO;
 import com.sogeti.dto.AuthentificationDTO;
 import com.sogeti.exception.DaoException;
 
+/**
+ * 
+ * @author Syahiaou
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/dispatcher-servlet.xml")
-@ContextConfiguration(locations = "file:WebContent/WEB-INF/dispatcher-servlet.xml" )
+@ContextConfiguration(locations = "file:WebContent/WEB-INF/dispatcher-servlet.xml")
 @WebAppConfiguration
 @Transactional
-@Rollback(value=false)
+@Rollback(value = false)
 public class AuthentificationTest {
 	
 	@Autowired
@@ -37,9 +42,14 @@ public class AuthentificationTest {
 		
 		//On cree une instance de l'objet DTO
 		AuthentificationDTO tokenGenerate = new AuthentificationDTO();
-		
-		String username = "sogeti";
-		String password = "1234";
+		/**
+		 * username nom.
+		 */
+		private String username = "sogeti";
+		/**
+		 * password pwd.
+		 */
+		private String password = "1234";
 		
 	
 	@Test(expected = DaoException.class)
@@ -56,7 +66,7 @@ public class AuthentificationTest {
 	}
 
 	@Test(expected = DaoException.class)
-	public final void testAuthenticateUsernameException() throws DaoException{
+	public final void testAuthenticateUsernameException() throws DaoException {
 		
 		//Logger
 		LOGGER.info("Début méthode  : testAuthenticateUsernameException");

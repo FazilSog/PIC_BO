@@ -179,7 +179,7 @@ public class ProjetBOImpl extends GenericBO<ProjetDTO> implements IProjetBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public List<ProjetDTO> listeObjects() throws DaoException{
+	public List<ProjetDTO> listeObjects() throws DaoException {
 		
 		//On declate la liste projet DTO
 		final List<ProjetDTO> lListeProjetDTOs = new ArrayList<ProjetDTO>();
@@ -225,7 +225,7 @@ public class ProjetBOImpl extends GenericBO<ProjetDTO> implements IProjetBO {
 		final List<ProjetDO> listeProjetDO = getProjetDAO().listeObjects(clientDO);
 		
 		// on convertit la liste<ProjetDO> vers la liste<ProjetDTO>
-		for(ProjetDO projetDO : listeProjetDO){
+		for (ProjetDO projetDO : listeProjetDO) {
 			// on instancie le projetDTO
 			final ProjetDTO projetDTO = new ProjetDTO();
 			
@@ -251,7 +251,7 @@ public class ProjetBOImpl extends GenericBO<ProjetDTO> implements IProjetBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public List<ProjetDTO> listerProjetsByMembre(int pIdMembre) throws DaoException {
+	public List<ProjetDTO> listerProjetsByMembre(final int pIdMembre) throws DaoException {
 		
 		// on instance la liste des projets
 		final List<ProjetDTO> lListeProjetDTO = new ArrayList<ProjetDTO>();

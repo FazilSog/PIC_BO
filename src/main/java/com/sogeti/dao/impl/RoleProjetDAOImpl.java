@@ -80,7 +80,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public RoleProjetDO find (final int pIdRoleProjet) throws DaoException {
+	public RoleProjetDO find(final int pIdRoleProjet) throws DaoException {
 		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : findRoleProjetByID");
@@ -90,7 +90,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 		try {
 			//On verifie l'egalité du role recu avec clui qu'on n'a en base
 			final Criteria criteria = HibernateSessionFactory.getSession().createCriteria(RoleProjetDO.class);
-			criteria.add(Restrictions.eq("idRoleProjet",pIdRoleProjet));
+			criteria.add(Restrictions.eq("idRoleProjet", pIdRoleProjet));
 			roleProjet = (RoleProjetDO) criteria.uniqueResult();
 			
 		} catch (HibernateException ex) {
@@ -102,8 +102,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 		}
 		LOGGER.info("Fin méthode : findRoleProjetByID");
 		
-		if (roleProjet == null)
-		{
+		if (roleProjet == null) {
 			throw new DaoException("Le role projet n'est pas connu!");
 		}
 		
@@ -114,7 +113,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 	 * {@inheritDoc}
 	 * @throws DaoException 
 	 */
-	public RoleProjetDO findRoleProjet (final ProjetDO pProjetDO) throws DaoException {
+	public RoleProjetDO findRoleProjet(final ProjetDO pProjetDO) throws DaoException {
 		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : findRoleProjet");
@@ -136,8 +135,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 		}
 		LOGGER.info("Fin méthode : findRoleProjet");
 		
-		if (roleProjet == null)
-		{
+		if (roleProjet == null) {
 			throw new DaoException("Le role projet n'est pas connu !");
 		}
 		return roleProjet;
@@ -170,7 +168,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 	/**
 	 * {@inheritDoc}
 	 */
-	public RoleProjetDO findRoleProjetByProjetAndMembre (final ProjetDO pProjetDO, final MembreDO pMembreDO) throws DaoException {
+	public RoleProjetDO findRoleProjetByProjetAndMembre(final ProjetDO pProjetDO, final MembreDO pMembreDO) throws DaoException {
 		
 		//On initialise le LOGGER
 		LOGGER.info("Début méthode : findRoleProjetByProjetAndMembre");
@@ -194,8 +192,7 @@ public class RoleProjetDAOImpl extends GenericDAO<RoleProjetDO> implements IRole
 		}
 		LOGGER.info("Fin méthode : findRoleProjetByProjetAndMembre");
 		
-		if (roleProjet == null)
-		{
+		if (roleProjet == null) {
 			throw new DaoException("Le role projet n'est pas connu !");
 		}
 		return roleProjet;

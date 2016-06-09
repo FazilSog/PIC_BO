@@ -24,10 +24,10 @@ import com.sogeti.fwk.GenericController;
  */
 @Controller
 @RequestMapping("PIC_BO/role")
-public class RoleController extends GenericController<RoleDTO,HttpHeaders> {
+public class RoleController extends GenericController<RoleDTO, HttpHeaders> {
 
 	//Initialisation du logger
-	private static final Logger lOGGER = Logger.getLogger(ProjetController.class);
+	private static final Logger LOGGER = Logger.getLogger(RoleController.class);
 	
 	@Autowired
 	private IRoleBO roleBO;
@@ -48,25 +48,25 @@ public class RoleController extends GenericController<RoleDTO,HttpHeaders> {
 	}
 	
 	/**
-	 * Constructeur par défaut
+	 * Constructeur par défaut.
 	 */
 	public RoleController() {
 		
-		lOGGER.info("init RoleController");
+		LOGGER.info("init RoleController");
 	}
 
 	/**
-	 * Elle permet de récuperer la liste des roles
-	 * 
-	 * @return un responseEntity qui contient (soit liste des membres avec le code status 201,
+	 * Elle permet de récuperer la liste des roles.
+	 * @return un responseEntity qui contient :
+	 * (soit liste des membres avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
-	@CrossOrigin(origins="*",methods = RequestMethod.GET)
-	@RequestMapping(value="/roles", method = RequestMethod.GET)
-	public ResponseEntity<Object> listeObjects() {  
+	@CrossOrigin(origins = "*", methods = RequestMethod.GET)
+	@RequestMapping(value = "/roles", method = RequestMethod.GET)
+	public final ResponseEntity<Object> listeObjects() {  
 		
 		//Logger
-		lOGGER.info("Début méthode listerRoles dans le controlleur : RoleController");
+		LOGGER.info("Début méthode listerRoles dans le controlleur : RoleController");
 		
 		try {
 			final List<RoleDTO> lListeRolesDTO = getRoleBO().listeObjects();
@@ -80,7 +80,7 @@ public class RoleController extends GenericController<RoleDTO,HttpHeaders> {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public ResponseEntity<Object> create(RoleDTO pObject, HttpHeaders pObjet2)
+	public final ResponseEntity<Object> create(final RoleDTO pObject, final HttpHeaders pObjet2)
 			throws DaoException {
 		throw new DaoException("La méthode create n'est pas implementée!");
 		
@@ -89,14 +89,14 @@ public class RoleController extends GenericController<RoleDTO,HttpHeaders> {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public ResponseEntity<Object> update(RoleDTO pObject) throws DaoException {
+	public final ResponseEntity<Object> update(final RoleDTO pObject) throws DaoException {
 		throw new DaoException("La méthode update n'est pas implementée!");
 	}
 
 	/**
 	 * {@inheritDoc} 
 	 */
-	public ResponseEntity<Object> delete(int pId) throws DaoException {
+	public final ResponseEntity<Object> delete(final int pId) throws DaoException {
 		throw new DaoException("La méthode delete n'est pas implementée!!");
 	}
 	

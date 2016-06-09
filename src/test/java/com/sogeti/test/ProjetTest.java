@@ -33,10 +33,10 @@ import com.sogeti.model.RoleProjetDO;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:WebContent/WEB-INF/dispatcher-servlet.xml" )
+@ContextConfiguration(locations = "file:WebContent/WEB-INF/dispatcher-servlet.xml")
 @WebAppConfiguration
 @Transactional
-@Rollback(value=true)
+@Rollback(value = true)
 public class ProjetTest {
 
 	
@@ -55,9 +55,9 @@ public class ProjetTest {
 	// Initialisation du LOGGER
 	private static final Logger LOGGER = Logger.getLogger(ProjetTest.class);
 	
-	@Rollback(value=true)
+	@Rollback(value = true)
 	@Test
-	public void testCreateProjet() throws DaoException{
+	public void testCreateProjet() throws DaoException {
 		
 		//logger
 		LOGGER.info("Début méthode  : testCreateProjet");
@@ -84,8 +84,8 @@ public class ProjetTest {
 			//On recupere le projet
 			 projetDO = projetDAO.findProjet("nomProjet", "url", "brancheA");
 			
-			 if (projetDO != null){
-					LOGGER.warn("projetDO "+projetDO +" existe donc ne sera pas créé");
+			 if (projetDO != null) {
+					LOGGER.warn("projetDO "  +projetDO + " existe donc ne sera pas créé");
 					fail("Création échoué : Le projet existe déjà.");
 				} else {
 					try {
@@ -96,8 +96,8 @@ public class ProjetTest {
 						//On recupere l'id du projet
 						idProjet = projetDO.getIdProjet();
 						
-							if (idProjet == 0 ){
-								LOGGER.warn("idProjet "+idProjet +"L'identifiant est obligatoire. ");
+							if (idProjet == 0) {
+								LOGGER.warn("idProjet " + idProjet + "L'identifiant est obligatoire. ");
 								fail("L'identifiant est obligatoire. Valeur zéro est interdit.");
 							} else {
 								//On recuepre le projet via son Id
@@ -108,9 +108,9 @@ public class ProjetTest {
 								assertEquals("nomProjet",nomProjet);
 							}
 						
-					  }catch(DaoException ex){
-						    assert(ex.getMessage().contains("Création échoué : Le projet existe déjà."));
-						    assert(ex.getMessage().contains("L'identifiant est obligatoire. Valeur zéro est interdit."));
+					  } catch (DaoException ex) {
+						    assert (ex.getMessage().contains("Création échoué : Le projet existe déjà."));
+						    assert (ex.getMessage().contains("L'identifiant est obligatoire. Valeur zéro est interdit."));
 					  }
 				}
 			 } finally {
@@ -118,9 +118,9 @@ public class ProjetTest {
 			 }
 		}
 	
-	@Rollback(value=true)
+	@Rollback(value = true)
 	@Test
-	public void testUpdateProjet() throws DaoException{
+	public void testUpdateProjet() throws DaoException {
 
 		//logger
 		LOGGER.info("Début méthode  : testCreateProjet");
@@ -137,7 +137,7 @@ public class ProjetTest {
 			 projetDO = projetDAO.find(idProjet);
 			 
 			
-			 if (projetDO != null){
+			 if (projetDO != null) {
 					LOGGER.warn("projetDO "+projetDO +"Connexion échoué : Projet inconnu");
 					fail("Connexion échoué : Projet inconnu");
 				} else {
@@ -163,11 +163,11 @@ public class ProjetTest {
 					//On recupere le username du membre
 					 String nomProjet = projetDO.getNomProjet();
 					//On verifie l'egaliter du username
-					assertEquals("nomProjetAZ",nomProjet);
+					assertEquals("nomProjetAZ", nomProjet);
 				
 				}
-		  }catch(DaoException ex){
-			    assert(ex.getMessage().contains("Le projet n'existe pas."));
+		  } catch (DaoException ex) {
+			    assert (ex.getMessage().contains("Le projet n'existe pas."));
 	      }
 		 LOGGER.info("Fin méthode  : testUpdateProjet");
 	}
@@ -188,16 +188,16 @@ public class ProjetTest {
 			 @SuppressWarnings("unused")
 			 ProjetDO projetDO1 = projetDAO.find(idProjet); 
 		     fail("Le projet n'existe pas.");
-		  }catch(DaoException ex){
-			    assert(ex.getMessage().contains("Le projet n'existe pas."));
+		  } catch (DaoException ex) {
+			    assert (ex.getMessage().contains("Le projet n'existe pas."));
 	      }
 		 LOGGER.info("Fin méthode  : testDeleteProjet");
 	}
 	
-	@Rollback(value=true)
+	@Rollback(value = true)
 	@SuppressWarnings("unused")
 	@Test
-	public void testListeProjet() throws DaoException{
+	public void testListeProjet() throws DaoException {
 		
 		//logger
 		LOGGER.info("Début méthode  : testListeProjet");
@@ -207,7 +207,7 @@ public class ProjetTest {
 	
 		int size = 0;
 		 for (ProjetDO projetDO2 : projetDO) {
-			 size ++;
+			 size++;
 			
 		}
 			assertEquals(6, size);
@@ -216,7 +216,7 @@ public class ProjetTest {
 	}
 	
 	
-	@Rollback(value=true)
+	@Rollback(value = true)
 	@SuppressWarnings("unused")
 	@Test
 	public void testListeObjectByMembres() throws DaoException{
@@ -232,7 +232,7 @@ public class ProjetTest {
 	
 		int size = 0;
 		 for (RoleProjetDO RoleProjetDos : lListeRoleProjet) {
-			 size ++;
+			 size++;
 			
 		}
 			assertEquals(3, size);
@@ -240,10 +240,10 @@ public class ProjetTest {
 			LOGGER.info("Fin méthode  : testListeObjectByMembres");
 	}
 	
-	@Rollback(value=true)
+	@Rollback(value = true)
 	@SuppressWarnings("unused")
 	@Test
-	public void testListeObjectByClients() throws DaoException{
+	public void testListeObjectByClients() throws DaoException {
 		
 		//logger
 		LOGGER.info("Début méthode  : testListeObjectByClients");
@@ -256,7 +256,7 @@ public class ProjetTest {
 	
 		int size = 0;
 		 for (ProjetDO ProjetDos : lListeProjet) {
-			 size ++;
+			 size++;
 			
 		}
 			assertEquals(6, size);

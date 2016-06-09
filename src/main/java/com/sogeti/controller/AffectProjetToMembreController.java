@@ -49,7 +49,7 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 	}
 	
 	/**
-	 * Constructeur par défaut
+	 * Constructeur par défaut.
 	 */
 	public AffectProjetToMembreController() {
 		
@@ -57,14 +57,16 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 	}
 	
 	/**
-	 * Elle permet d'affecter un membre sur un projet
+	 * Elle permet d'affecter un membre sur un projet.
 	 * @param pProjetDTO le projetDTO json envoyé par le front
+	 * @param pHttpHeaders le HttpHeaders  envoyé par le front
 	 * @return un responseEntity qui contient (le code status 201,
 	 * ou soit un message d'erreur avec le code status 403)
 	 */
-	@CrossOrigin(origins="*",methods = RequestMethod.POST)
-	@RequestMapping(value="/addAffectProjet", method = RequestMethod.POST)
-	public ResponseEntity<Object> create(@RequestBody ProjetDTO pProjetDTO, @RequestHeader HttpHeaders pHttpHeaders) {
+
+	@CrossOrigin(origins = "*", methods = RequestMethod.POST)
+	@RequestMapping(value = "/addAffectProjet", method = RequestMethod.POST)
+	public final ResponseEntity<Object> create(@RequestBody final ProjetDTO pProjetDTO, @RequestHeader final HttpHeaders pHttpHeaders) {
 		
 		//Logger
 		PropertyConfigurator.configure("log4j.properties");
@@ -94,14 +96,14 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 	}
 	
 	/**
-	 * Elle permet de modifier l'affectation d'un membre sur un projet
+	 * Elle permet de modifier l'affectation d'un membre sur un projet.
 	 * @param pProjetDTO le projetDTO json envoyé par le front
 	 * @return un responseEntity qui contient (le code status 201,
 	 * ou soit un message d'erreur avec le code status 403)
 	 */
-	@CrossOrigin(origins="*",methods = RequestMethod.PUT)
-	@RequestMapping(value="/updateAffectProjet", method = RequestMethod.PUT)
-	public ResponseEntity<Object> update(@RequestBody ProjetDTO pProjetDTO) {
+	@CrossOrigin(origins = "*", methods = RequestMethod.PUT)
+	@RequestMapping(value = "/updateAffectProjet", method = RequestMethod.PUT)
+	public final ResponseEntity<Object> update(@RequestBody final ProjetDTO pProjetDTO) {
 		
 		//Logger
 		PropertyConfigurator.configure("log4j.properties");
@@ -131,14 +133,14 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 	}
 	
 	/**
-	 * Elle permet d'affecter un membre sur un projet
+	 * Elle permet d'affecter un membre sur un projet.
 	 * @param pProjetDTO le projetDTO json envoyé par le front
 	 * @return un responseEntity qui contient (le code status 201,
 	 * ou soit un message d'erreur avec le code status 403)
 	 */
-	@CrossOrigin(origins="*",methods = RequestMethod.DELETE)
-	@RequestMapping(value="/deleteAffectProjet/{idRoleProjet}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> delete(@RequestBody ProjetDTO pProjetDTO) {
+	@CrossOrigin(origins  = "*", methods = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteAffectProjet/{idRoleProjet}", method = RequestMethod.DELETE)
+	public final ResponseEntity<Object> delete(@RequestBody final ProjetDTO pProjetDTO) {
 		
 		//Logger
 		PropertyConfigurator.configure("log4j.properties");
@@ -167,19 +169,19 @@ public class AffectProjetToMembreController extends GenericController<ProjetDTO,
 
 
 	/**
-	 * Elle n'est pas implemetée 
+	 * Elle n'est pas implemetée.
 	 * {@inheritDoc} 
 	 * @throws DaoException exception
 	 */
-	public ResponseEntity<Object> delete(int pId) throws DaoException {
+	public final  ResponseEntity<Object> delete(final int pId) throws DaoException {
 		throw new DaoException("La méthode delete via l'Id n'est pas implementée!!");
 	}
 
-	/**Elle n'est pas implementée 
+	/**Elle n'est pas implementée. 
 	 * {@inheritDoc} 
 	 * @throws DaoException exception
 	 */
-	public ResponseEntity<Object> listeObjects() throws DaoException {
+	public final ResponseEntity<Object> listeObjects() throws DaoException {
 		throw new DaoException("La méthode listeObjects n'est pas implementée!!");
 	}
 	

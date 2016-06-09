@@ -70,7 +70,7 @@ public class RoleBOImpl extends GenericBO<RoleDTO> implements IRoleBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void create(RoleDTO pObject) throws DaoException {
+	public void create(final RoleDTO pObject) throws DaoException {
 		
 		throw new DaoException("La méthode create n'est pas implementée");
 		
@@ -79,7 +79,7 @@ public class RoleBOImpl extends GenericBO<RoleDTO> implements IRoleBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void update(RoleDTO pObject) throws DaoException {
+	public void update(final RoleDTO pObject) throws DaoException {
 		throw new DaoException("La méthode update n'est pas implementée");
 		
 	}
@@ -87,7 +87,7 @@ public class RoleBOImpl extends GenericBO<RoleDTO> implements IRoleBO {
 	/**
 	 * {@inheritDoc} 
 	 */
-	public void delete(int pId) throws DaoException {
+	public void delete(final int pId) throws DaoException {
 		throw new DaoException("La méthode delete n'est pas implementée");
 		
 	}

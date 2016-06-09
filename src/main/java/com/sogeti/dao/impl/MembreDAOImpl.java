@@ -42,8 +42,7 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 		// on vérifie si le membre existe dans la table
 		final MembreDO membreDO = findMembreByNameAndPass(pUsername, pPassword);
 		// si le membre n'existe pas dans la table
-		if (membreDO == null)
-		{
+		if (membreDO == null) {
 			throw new DaoException("Login / mdp invalide ou user désactivé");
 		}
 		
@@ -238,6 +237,7 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 	/**
 	 * {@inheritDoc}
 	 */
+	
 	@SuppressWarnings("unchecked")
 	public List<MembreDO> listeObjects() throws DaoException {
 		

@@ -95,8 +95,7 @@ public class RoleDAOImpl extends GenericDAO<RoleDO> implements IRoleDAO {
 				// Critical errors : database unreachable, etc.
 				LOGGER.error("Exception - DataAccessException occurs : " 
 				+ ex.getMessage() + " on complete findRoleByCodeRole().");
-				// TODO
-				throw new DaoException("Connexion échoué : XXXX");
+				throw new DaoException("Connexion échoué : Impossible de trouver le role!");
 			}
 		}
 		
@@ -109,24 +108,21 @@ public class RoleDAOImpl extends GenericDAO<RoleDO> implements IRoleDAO {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void create(RoleDO pObject) throws DaoException {
-		// TODO Auto-generated method stub
+	public void create(final RoleDO pObject) throws DaoException {
 		
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void update(RoleDO pObject) throws DaoException {
-		// TODO Auto-generated method stub
+	public void update(final RoleDO pObject) throws DaoException {
 		
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void delete(RoleDO pObject) throws DaoException {
-		// TODO Auto-generated method stub
+	public void delete(final RoleDO pObject) throws DaoException {
 		
 	}
 
@@ -151,8 +147,7 @@ public class RoleDAOImpl extends GenericDAO<RoleDO> implements IRoleDAO {
 			// Critical errors : database unreachable, etc.
 			LOGGER.error("Exception - DataAccessException occurs : " 
 			+ ex.getMessage() + " on complete listerRoles().");
-			// TODO
-			throw new DaoException("Connexion échoué : XXXXXXX");
+			throw new DaoException("Connexion échoué : Impossible de recuperer la liste des roles");
 		}
 		
 		LOGGER.info("Fin méthode : listerRoles");

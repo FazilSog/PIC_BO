@@ -14,37 +14,35 @@ import com.sogeti.exception.DaoException;
 public interface IProjetBO {
 	
 	/**
-	 * Elle permet de créer un projet
+	 * Elle permet de créer un projet.
 	 * @param pProjetDTO le projet DTO
 	 * @throws DaoException exception
 	 */
 	public void create(final ProjetDTO pProjetDTO) throws DaoException;
 	
 	/**
-	 * Elle permet de modifier un projet
+	 * Elle permet de modifier un projet.
 	 * @param pProjetDTO le projet DTO
-	 * @param pIdRole l'id role
-	 * @param pIdMembre l'id membre
 	 * @throws DaoException exception
 	 */
 	public void update(final ProjetDTO pProjetDTO) throws DaoException;
 	
 	/**
-	 * Elle permet de supprimer un projet
+	 * Elle permet de supprimer un projet.
 	 * @param pIdProjet l'id projet
 	 * @throws DaoException exception
 	 */
 	public void delete(final int pIdProjet) throws DaoException;
 	
 	/**
-	 * Elle permet de retourner la liste des projets
+	 * Elle permet de retourner la liste des projets.
 	 * @return la liste des projets
 	 * @throws DaoException exeption 
 	 */
 	public List<ProjetDTO> listeObjects() throws DaoException;
 	
 	/**
-	 * Elle permet de retourner la liste des projets d'un client
+	 * Elle permet de retourner la liste des projets d'un client.
 	 * @param pIdClient l'id client
 	 * @return la liste des projets d'un client
 	 * @throws DaoException exception
@@ -52,7 +50,7 @@ public interface IProjetBO {
 	public List<ProjetDTO> listerProjetsByClient(final int pIdClient) throws DaoException;
 	
 	/**
-	 * Elle permet de retourner la liste des projets d'un membre
+	 * Elle permet de retourner la liste des projets d'un membre.
 	 * @param pIdMembre l'id membre
 	 * @return la liste des projets  d'un membre
 	 * @throws DaoException exception

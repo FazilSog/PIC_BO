@@ -55,14 +55,14 @@ public class RoleDTO extends GenericDTO<RoleDTO> {
 	 * @param codeRole le code du role
 	 * @param libelleRole le libelle du role
 	 */
-	public RoleDTO(int idRole, String codeRole, String libelleRole) {
+	public RoleDTO(final int idRole, final String codeRole, final String libelleRole) {
 		this.idRole = idRole;
 		this.codeRole = codeRole;
 		this.libelleRole = libelleRole;
 	}
 	
 	/**
-	 * constructeur par défaut
+	 * constructeur par défaut.
 	 */
 	public RoleDTO() {
 		

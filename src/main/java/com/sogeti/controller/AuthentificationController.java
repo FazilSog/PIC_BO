@@ -31,13 +31,14 @@ import com.sogeti.utils.Utils;
 @RequestMapping("PIC_BO/authentification")
 public class AuthentificationController {
 	
+	//Initialisation du Logger
 	private static final Logger LOGGER = Logger.getLogger(AuthentificationController.class.getName());
 	
 	@Autowired
 	private IMembreBO membreBO;
 	
-	 /**O
-	 * @return the membreBO
+	 /**
+	 * @return the membreBO.
 	 */
 	public IMembreBO getMembreBO() {
 		return membreBO;
@@ -51,15 +52,15 @@ public class AuthentificationController {
 	}
 
 	/**
-	 * Constructeur par défaut
+	 * Constructeur par défaut.
 	 */
-	public AuthentificationController(){
+	public AuthentificationController() {
 		
 		LOGGER.info("init AuthentificationController");
 	}
 	 
-	@RequestMapping(value="/auth", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> authentifier( @RequestBody MembreDTO pMembreDTO) {  
+	@RequestMapping(value = "/auth", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public final ResponseEntity<Object> authentifier(@RequestBody final MembreDTO pMembreDTO) {  
 		
 		String lUsername = pMembreDTO.getUsername();
 		String lPassword = "";

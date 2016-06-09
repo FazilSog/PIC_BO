@@ -14,7 +14,7 @@ import com.sogeti.exception.DaoException;
 public interface IMembreBO {
 	
 	/**
-	 * Elle permet de vérifier si le membre existe et générer le token
+	 * Elle permet de vérifier si le membre existe et générer le token.
 	 * @param pUsername le username d'un membre
 	 * @param pPassword le password d'un membre
 	 * @return l'objet AuthentificationDTO
@@ -27,14 +27,14 @@ public interface IMembreBO {
 	 * @param pMembreDTO le membreDTO
 	 * @throws DaoException exception
 	 */
-	public void create (final MembreDTO pMembreDTO) throws DaoException;
+	public void create(final MembreDTO pMembreDTO) throws DaoException;
 	
 	/**
 	 * Elle permet de modifier un membre.
 	 * @param pMembreDTO le membre DTO
 	 * @throws DaoException exception
 	 */
-	public void update (final MembreDTO pMembreDTO) throws DaoException;
+	public void update(final MembreDTO pMembreDTO) throws DaoException;
 	
 	
 	/**
@@ -42,12 +42,11 @@ public interface IMembreBO {
 	 * @param pIdMembre l'identifiant d'un membre
 	 * @throws DaoException exception
 	 */
-	public void delete (final int pIdMembre) throws DaoException;
+	public void delete(final int pIdMembre) throws DaoException;
 	
 	
 	/**
 	 * Elle permet de retourner une liste des membres.
-	 * 
 	 * @return la liste des membres
 	 * @throws DaoException exception
 	 */

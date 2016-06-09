@@ -54,22 +54,23 @@ public class MembreController extends GenericController<MembreDTO, HttpHeaders> 
 	}
 
 	/**
-	 * Constructeur par défaut
+	 * Constructeur par défaut.
 	 */
-	public MembreController(){
+	public MembreController() {
 		
 		LOGGER.info("init MembreController");
 	}
 	 
 	/**
-	 * Elle permet de créer le membre
+	 * Elle permet de créer le membre.
 	 * @param pMembreDTO l'objet membreDTO json envoyé par le front
+	 * @param pHttpHeaders l'ogjet HttpHeaders envoyé par le front
 	 * @return un responseEntity qui contient (le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
-	@CrossOrigin(origins="*",methods = RequestMethod.POST)
-	@RequestMapping(value="/membre", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> create( @RequestBody MembreDTO pMembreDTO, @RequestHeader HttpHeaders pHttpHeaders) {  
+	@CrossOrigin(origins = "*", methods = RequestMethod.POST)
+	@RequestMapping(value = "/membre", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public final ResponseEntity<Object> create(@RequestBody final MembreDTO pMembreDTO, @RequestHeader final HttpHeaders pHttpHeaders) {  
 		
 		// on récupère le token via le header
 		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
@@ -116,14 +117,14 @@ public class MembreController extends GenericController<MembreDTO, HttpHeaders> 
 	}
 	
 	/**
-	 * Elle permet de modifier le membre
+	 * Elle permet de modifier le membre.
 	 * @param pMembreDTO l'objet membreDTO json envoyé par le front
 	 * @return un responseEntity qui contient (soit un objet null avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
-	@CrossOrigin(origins="*",methods = RequestMethod.PUT)
-	@RequestMapping(value="/Membre", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> update( @RequestBody MembreDTO pMembreDTO) {  
+	@CrossOrigin(origins = "*", methods = RequestMethod.PUT)
+	@RequestMapping(value = "/Membre", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public final ResponseEntity<Object> update(@RequestBody final MembreDTO pMembreDTO) {  
 		
 		final int idMembre = pMembreDTO.getIdMembre();
 		final String username = pMembreDTO.getUsername();
@@ -152,19 +153,19 @@ public class MembreController extends GenericController<MembreDTO, HttpHeaders> 
 	}
 
 	/**
-	 * Elle permet de supprimer le membre
-	 * @param membreDTO l'objet membreDTO json envoyé par le front
+	 * Elle permet de supprimer le membre.
+	 * @param pIdMembre idMembre envoyé par le front
 	 * @return un responseEntity qui contient (soit un objet null avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
-	@CrossOrigin(origins="*",methods = RequestMethod.DELETE)
-	@RequestMapping(value="/membre/{idMembre}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> delete( @PathVariable("idMembre")  int pIdMembre) {
+	@CrossOrigin(origins = "*", methods = RequestMethod.DELETE)
+	@RequestMapping(value = "/membre/{idMembre}", method = RequestMethod.DELETE)
+	public final ResponseEntity<Object> delete(@PathVariable("idMembre") final int pIdMembre) {
 		
 		LOGGER.info("The id is : " + pIdMembre);
 		
 		// on vérifie si l'id est différent de zéro
-		if (pIdMembre != 0 ) {
+		if (pIdMembre != 0) {
 			try {
 				getMembreBO().delete(pIdMembre);
 				
@@ -179,13 +180,14 @@ public class MembreController extends GenericController<MembreDTO, HttpHeaders> 
 	}
 	
 	/**
-	 * Elle permet de récuperer la liste des Membres
-	 * @return un responseEntity qui contient (soit liste des membres avec le code status 201,
+	 * Elle permet de récuperer la liste des Membres.
+	 * @return un responseEntity qui contient :
+	 * (soit liste des membres avec le code status 201,
 	 * ou un message d'erreur avec le code status 403)
 	 */
-	@CrossOrigin(origins="*",methods = RequestMethod.GET)
-	@RequestMapping(value="/membres", method = RequestMethod.GET)
-	public ResponseEntity<Object> listeObjects() {  
+	@CrossOrigin(origins = "*", methods = RequestMethod.GET)
+	@RequestMapping(value = "/membres", method = RequestMethod.GET)
+	public final ResponseEntity<Object> listeObjects() {  
 		
 		try {
 			List<MembreDTO> lListeMembres = getMembreBO().listeObjects();

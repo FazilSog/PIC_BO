@@ -35,24 +35,24 @@ public interface IProjetDAO {
 	public void update(final ProjetDO pProjetDO) throws DaoException;
 	
 	/**
-	 * Elle permet de supprimer un projet par objet
+	 * Elle permet de supprimer un projet par objet.
 	 * La méthode vérifie déjà si le projet existe dans la table, 
 	 * si oui, on supprime le projet
 	 * si non, on leve une exception
-	 * @param pIdProjet id du projet
+	 * @param pProjetDO l'objet ProjetDO
 	 * @throws DaoException execptionDAO
 	 */
 	public void delete(final ProjetDO pProjetDO) throws DaoException;
 
 	/**
-	 * Elle permet de retourner la liste des projets
+	 * Elle permet de retourner la liste des projets.
 	 * @return liste de projets
 	 * @throws DaoException execptionDAO
 	 */
 	public List<ProjetDO> listeObjects() throws DaoException;
 		
 	/**
-	 * Elle permet de retourner la liste des projets d'un client
+	 * Elle permet de retourner la liste des projets d'un client.
 	 * @param pClientDO l'objet Client
 	 * @return liste de projets
 	 * @throws DaoException execptionDAO
@@ -60,7 +60,7 @@ public interface IProjetDAO {
 	public List<ProjetDO> listeObjects(final ClientDO pClientDO) throws DaoException;
 	
 	/**
-	 * Elle permet de recuperer un projet via son Id
+	 * Elle permet de recuperer un projet via son Id.
 	 * @param pIdProjet id du projet
 	 * @return l'objet Projet
 	 * @throws DaoException execptionDAO
