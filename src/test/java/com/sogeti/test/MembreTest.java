@@ -18,7 +18,6 @@ import com.sogeti.bo.IMembreBO;
 import com.sogeti.dao.IClientDAO;
 import com.sogeti.dao.IMembreDAO;
 import com.sogeti.dao.IRoleDAO;
-import com.sogeti.dao.impl.MembreDAOImpl;
 import com.sogeti.dto.MembreDTO;
 import com.sogeti.exception.DaoException;
 import com.sogeti.model.ClientDO;
@@ -111,7 +110,7 @@ public class MembreTest {
 		LOGGER.info("Début méthode  : testUpdateMembre");
 		int idClient = 1;
 		int idRole = 1;
-		int idMembre = 23;
+		int idMembre = 19;
 	
 
 		try {
@@ -156,7 +155,7 @@ public class MembreTest {
 		//logger
 		 LOGGER.info("Début méthode  : testDeleteMembre");
 		
-		int idMembre = 23;
+		int idMembre = 19;
 		//On recupere le membre via son Id
 		MembreDO membreDO = membreDAO.find(idMembre);
 		//On appel le service delete membre
@@ -188,7 +187,7 @@ public class MembreTest {
 			 size++;
 			
 		}
-			assertEquals(21, size);
+			assertEquals(19, size);
 			
 			LOGGER.info("Fin méthode  : testListeMembre");
 	}
