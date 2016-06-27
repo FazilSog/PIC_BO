@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.sogeti.bo.IMembreBO;
 import com.sogeti.dao.IClientDAO;
 import com.sogeti.dao.IMembreDAO;
+import com.sogeti.dao.IProjetDAO;
 import com.sogeti.dao.IRoleDAO;
 import com.sogeti.dto.AuthentificationDTO;
 import com.sogeti.dto.MembreDTO;
@@ -37,9 +38,28 @@ public class MembreBOImpl extends GenericBO<MembreDTO> implements IMembreBO {
 	@Autowired
 	private IRoleDAO roleDAO;
 	
+	@Autowired
+	private IProjetDAO projetDAO;
+	
+	
+	
 	/*@Value("${com.sogeti.cleToken}")
 	private String cleSignToken;*/
 	
+	/**
+	 * @return the projetDAO
+	 */
+	public IProjetDAO getProjetDAO() {
+		return projetDAO;
+	}
+
+	/**
+	 * @param projetDAO the projetDAO to set
+	 */
+	public void setProjetDAO(IProjetDAO projetDAO) {
+		this.projetDAO = projetDAO;
+	}
+
 	/**
 	 * @return the roleDAO
 	 */
@@ -195,4 +215,5 @@ public class MembreBOImpl extends GenericBO<MembreDTO> implements IMembreBO {
 		
 		return lListeMembresDTOs;
 	}
+	
 }

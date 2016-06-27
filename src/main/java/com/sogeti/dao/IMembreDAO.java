@@ -94,5 +94,14 @@ public interface IMembreDAO {
 	 * @throws DaoException exception
 	 */
 	public List<MembreDO> listeMembreByClient(final ClientDO pClientDO) throws DaoException;
+	
+	/**
+	 * 
+	 * @param membreDO
+	 * @return
+	 * @throws DaoException
+	 */
+
+	public List<MembreDO> listeMemberWithOutProject() throws DaoException;
 
 }

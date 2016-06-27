@@ -51,4 +51,5 @@ public interface IMembreBO {
 	 * @throws DaoException exception
 	 */
 	public List<MembreDTO> listeObjects() throws DaoException;
+	
 }

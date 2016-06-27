@@ -297,5 +297,37 @@ public class MembreDAOImpl extends GenericDAO<MembreDO> implements IMembreDAO {
 		
 		return lListeMembres;
 	}
-}
-	
+	//TODO n'est pas fini 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<MembreDO> listeMemberWithOutProject() throws DaoException {
+		
+		//On initialise le LOGGER
+		LOGGER.info("Début méthode : listerMembres");
+		
+		List<MembreDO> lListeMembres = new ArrayList<MembreDO>();
+		
+		try {
+			// La méthode CreateCriteria permet de créer une instance de la classe MembreDO
+			
+			final Criteria criteria = HibernateSessionFactory.getSession().createCriteria(
+					"from MembreDO as m, "
+					+ "Inner join membre.ClientDO as client, "
+					+ "left outer join membre.client.projetDO as projet, "
+					+ "left join membre.idMembre I with I.projet NOT IN (:projet) ");	
+			// on recupère la lise des objects de type membreDO
+			lListeMembres = criteria.list();
+			
+		} catch (HibernateException ex) {
+			
+			// Critical errors : database unreachable, etc.
+			LOGGER.error("Exception - DataAccessException occurs : " 
+					+ ex.getMessage() + " on complete listerMembres().");
+			throw new DaoException("Connexion échoué : Impossible de récupérer la liste des membres");
+		}
+		
+		LOGGER.info("Fin méthode : listerMembres");
+		
+		return lListeMembres;
+	}
+}	

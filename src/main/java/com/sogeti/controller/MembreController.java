@@ -198,5 +198,20 @@ public class MembreController extends GenericController<MembreDTO, HttpHeaders> 
 		}
 
 	}
+	
+	@CrossOrigin(origins = "*", methods = RequestMethod.GET)
+	@RequestMapping(value = "/membresWith", method = RequestMethod.GET)
+	public final ResponseEntity<Object> listeMembreWithOutProject() {  
+		
+		try {
+			List<MembreDTO> lListeMembres = getMembreBO().listeObjects();
+			
+			return new ResponseEntity<Object>(lListeMembres, HttpStatus.CREATED);
+		} catch (DaoException ex) {
+			return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.FORBIDDEN);
+		}
+
+	}
+
 
 }

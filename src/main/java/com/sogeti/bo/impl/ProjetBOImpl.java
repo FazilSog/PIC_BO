@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sogeti.bo.IProjetBO;
@@ -30,19 +29,19 @@ import com.sogeti.model.RoleProjetDO;
 @Component
 public class ProjetBOImpl extends GenericBO<ProjetDTO> implements IProjetBO {
 	
-	@Autowired
+	//@Autowired
 	private IRoleDAO roleDAO;
 	
-	@Autowired
+	//@Autowired
 	private IRoleProjetDAO roleProjetDAO;
 	
-	@Autowired 
+	//@Autowired 
 	private IMembreDAO membreDAO;
 	
-	@Autowired
+	//@Autowired
 	private IProjetDAO projetDAO;
 	
-	@Autowired
+	//@Autowired
 	private IClientDAO clientDAO;
 	
 	

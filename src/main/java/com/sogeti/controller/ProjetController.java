@@ -247,7 +247,7 @@ public class ProjetController extends GenericController<ProjetDTO, HttpHeaders> 
 	public ResponseEntity<Object> listeProjetsByMembre(@RequestHeader HttpHeaders pHttpHeaders) {  
 		
 		// on récupère le token via le header
-		final String token = Token.obtenirTokenByhttpHeaders(pHttpHeaders);
+		final String token =  Token.obtenirTokenByhttpHeaders(pHttpHeaders);
 		
 		// Décrypter le token pour obtenir l'id Membre
 		final int idMembre = Token.obtenirIdMembre(token);

@@ -1,5 +1,9 @@
 package com.sogeti.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
@@ -55,7 +59,7 @@ public class AffectProjetToMembreBOImplTest {
 		
 		//logger
 		LOGGER.info("Début méthode  : testCreateRoleProjet");
-		int idProjet = 19;
+		int idProjet = 14;
 		int idMembre = 1;
 		int idRole = 1;
 		//On recupere le role via son Id
@@ -74,6 +78,10 @@ public class AffectProjetToMembreBOImplTest {
 		
 		//On appel le service create
 		roleProjetDAO.create(roleProjetDO);
+		assertNotNull(roleProjetDO);
+		assertEquals(roleProjetDO.getMembre().getIdMembre(), 1);
+		assertEquals(roleProjetDO.getProjet().getIdProjet(), 14);
+		assertEquals(roleProjetDO.getRole().getIdRole(), 1);
 		
 		LOGGER.info("Fin méthode  : testCreateRoleProjet");
 	}
@@ -104,6 +112,10 @@ public class AffectProjetToMembreBOImplTest {
 		
 		//On appel le service update 
 		roleProjetDAO.update(roleProjetDO);
+		assertNotNull(roleProjetDO);
+		assertEquals(roleProjetDO.getMembre().getIdMembre(), 1);
+		assertEquals(roleProjetDO.getProjet().getIdProjet(), 14);
+		assertEquals(roleProjetDO.getRole().getIdRole(), 1);
 		
 		LOGGER.info("Fin méthode  : testUpdateRoleProjet");
 	}
@@ -125,7 +137,14 @@ public class AffectProjetToMembreBOImplTest {
 		RoleProjetDO roleProjetDO = roleProjetDAO.findRoleProjetByProjetAndMembre(projetDO, membreDO);
 		//On appel le service update 
 		roleProjetDAO.delete(roleProjetDO);
-		
-		LOGGER.info("Fin méthode  : testDeleteRoleProjet");
+		//Le test passe si l’exception spécifiée dans le try-catch est levée, sinon il échoue à l’exécution de la méthode fail()
+		 try {
+			 @SuppressWarnings("unused")
+			RoleProjetDO roleProjet = roleProjetDAO.findRoleProjetByProjetAndMembre(projetDO, membreDO);
+			    fail("Devrait leve une expetion vu que le RoleProjet n'existe pas");
+		  } catch (DaoException ex) {
+			    assert (ex.getMessage().contains("Le role projet n'est pas connu !"));
+	      }
+		 LOGGER.info("Fin méthode  : testDeleteRoleProjet");
 	}
 }
