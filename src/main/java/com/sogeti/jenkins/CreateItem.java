@@ -10,10 +10,16 @@ import org.apache.commons.httpclient.methods.PostMethod;
 
 
 
-public class CreateJob {
+public class CreateItem {
+	
+	//Adresse de jenkins
+	private static final String ADDRESS_JENKINS = "http://localhost:8083";
 
-	public void CreateItem(String nomProjet) throws FileNotFoundException {
-		String strURL = "http://localhost:8083/createItem?name=${nomProjet}";
+	//public void Create (String nomProjet) throws FileNotFoundException {
+	public static void main(String[] args) throws FileNotFoundException {	
+		
+		String nomProjet = "TEST";
+		String strURL = ADDRESS_JENKINS + "/createItem?name=" + nomProjet;
 		File input = new File("D:/config.xml");
 		PostMethod post = new PostMethod(strURL);
 		post.setRequestEntity(new InputStreamRequestEntity(new FileInputStream(input), input.length()));

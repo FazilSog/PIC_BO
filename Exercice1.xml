@@ -1,55 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<maven2-moduleset plugin="maven-plugin@2.7.1">
-  <actions/>
-  
-  <description>Back du projet PIC</description>
+<maven2-moduleset>
+  <description>Back du projet</description>
   <keepDependencies>false</keepDependencies>
-  <properties/>
-  
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.4">
+  <scm classe="hudson.plugins.git.GitSCM" plugin="git@2.4.4">
     <configVersion>2</configVersion>
-    
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
         <url>https://bitbucket.org/picsogeti/pic_bo.git</url>
         <credentialsId>014023ec-c2b2-4d8b-a56e-ad093a74495d</credentialsId>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
-    
-    <branches>
+    <branche>
       <hudson.plugins.git.BranchSpec>
         <name>*/master</name>
       </hudson.plugins.git.BranchSpec>
-    </branches>
-    
+    </branche>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-    
-    <submoduleCfg class="list"/>
-    
-    <extensions/>
-    
+    <submoduleCfg classe="list" />
+    <extensions />
   </scm>
-  
   <canRoam>true</canRoam>
   <disabled>false</disabled>
-  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
-  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  
+  <blockBuildWhenDownstreamBuilding>true</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>true</blockBuildWhenUpstreamBuilding>
   <triggers>
     <hudson.triggers.SCMTrigger>
-      <spec>* 8-19 * * 1-5 </spec>
+      <spec>* 8-19 * * 1-5</spec>
       <ignorePostCommitHooks>false</ignorePostCommitHooks>
     </hudson.triggers.SCMTrigger>
   </triggers>
-  
   <concurrentBuild>false</concurrentBuild>
-  
   <rootModule>
     <groupId>com.sogeti</groupId>
     <artifactId>PIC_BO</artifactId>
   </rootModule>
-  
   <goals>clean install</goals>
   <aggregatorStyleBuild>true</aggregatorStyleBuild>
   <incrementalBuild>false</incrementalBuild>
@@ -59,52 +43,20 @@
   <fingerprintingDisabled>false</fingerprintingDisabled>
   <resolveDependencies>false</resolveDependencies>
   <processPlugins>false</processPlugins>
-  <mavenValidationLevel>-1</mavenValidationLevel>
+  <mavenValidationLevel>1</mavenValidationLevel>
   <runHeadless>false</runHeadless>
   <disableTriggerDownstreamProjects>false</disableTriggerDownstreamProjects>
   <blockTriggerWhenBuilding>true</blockTriggerWhenBuilding>
-  <settings class="jenkins.mvn.DefaultSettingsProvider"/>
-  <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
-  <reporters/>
-  
+  <settings classe="jenkins.mvn.DefaultSettingsProvider" />
+  <globalSettings classe="jenkins.mvn.DefaultGlobalSettingsProvider" />
+  <reporters />
   <publishers>
     <hudson.plugins.deploy.DeployPublisher plugin="deploy@1.10">
-      <adapters>
-        <hudson.plugins.deploy.tomcat.Tomcat7xAdapter>
-          <userName>tomcat</userName>
-          <passwordScrambled>dG9tY2F0</passwordScrambled>
-          <url>http://localhost:8082/</url>
-        </hudson.plugins.deploy.tomcat.Tomcat7xAdapter>
-      </adapters>
+      <adapters />
       <contextPath>boPIC</contextPath>
       <war>**/*.war</war>
       <onFailure>false</onFailure>
     </hudson.plugins.deploy.DeployPublisher>
   </publishers>
-  
-  <buildWrappers/>
-  
-  <prebuilders>
-    <hudson.plugins.sonar.SonarRunnerBuilder plugin="sonar@2.4.3">
-      <project/>
-      <properties>sonar.projectKey=PIC
-				sonar.projectName=PIC_BO
-				sonar.projectVersion=1.0
-				sonar.language=java
-				sonar.sources=/src/main,/src/test</properties>
-      <javaOpts/>
-      <additionalArguments/>
-      <jdk>(Hérite du job)</jdk>
-      <task/>
-    </hudson.plugins.sonar.SonarRunnerBuilder>
-  </prebuilders>
-  
-  <postbuilders/>
-  
-  <runPostStepsIfResult>
-    <name>FAILURE</name>
-    <ordinal>2</ordinal>
-    <color>RED</color>
-    <completeBuild>true</completeBuild>
-  </runPostStepsIfResult>
 </maven2-moduleset>
+
